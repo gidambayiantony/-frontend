@@ -15,18 +15,71 @@ import {
 } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
 import Link from "next/link";
-import { countries } from "country-flag-icons";
-import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRegisterMutation } from "@slices/usersApiSlice";
+import { setCredentials } from "@slices/authSlice";
+import { redirect } from "next/navigation";
 
 const SignUp = () => {
   // states
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
   const [vegan, setVegan] = useState(false);
+
+  const chakraToast = useToast();
+
+  const dispatch = useDispatch();
+
+  const [register, { isLoading }] = useRegisterMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) return redirect("/");
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await register({
+        firstname,
+        lastname,
+        email,
+        phone,
+        gender,
+        vegan,
+        password,
+      }).unwrap();
+
+      dispatch(setCredentials({ ...res }));
+
+      chakraToast({
+        title: "Logged In",
+        description: `Successfully logged in as ${res?.lastname}`,
+        status: "success",
+        duration: 5000,
+        isClosable: false,
+      });
+      redirect("/");
+    } catch (err) {
+      chakraToast({
+        title: "Error has occured",
+        description: err.data?.message
+          ? err.data?.message
+          : err.data || err.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    }
+  };
 
   return (
     <>
@@ -50,7 +103,7 @@ const SignUp = () => {
           </Box>
           <Flex>
             <Box margin={"auto"} width={"60%"} padding={"1rem"}>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <Grid
                   gridTemplateColumns={{
                     base: "repeat(1, 1fr)",
@@ -61,27 +114,27 @@ const SignUp = () => {
                 >
                   <Box padding={"0.5rem 0"}>
                     <FormControl>
-                      <FormLabel htmlFor="fullname">Fullname</FormLabel>
+                      <FormLabel htmlFor="firstname">Firstname</FormLabel>
                       <Input
                         type="text"
-                        id="fullname"
-                        placeholder="fullname is required"
-                        name="fullname"
-                        value={fullname}
-                        onChange={(e) => setFullname(e.target.value)}
+                        id="firstname"
+                        placeholder="firstname is required"
+                        name="firstname"
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
                       />
                     </FormControl>
                   </Box>
                   <Box padding={"0.5rem 0"}>
                     <FormControl>
-                      <FormLabel htmlFor="username">Username</FormLabel>
+                      <FormLabel htmlFor="lastname">Lastname</FormLabel>
                       <Input
                         type="text"
-                        id="username"
-                        placeholder="username is required"
-                        name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        id="lastname"
+                        placeholder="lastname is required"
+                        name="lastname"
+                        value={lastname}
+                        onChange={(e) => setLastname(e.target.value)}
                       />
                     </FormControl>
                   </Box>

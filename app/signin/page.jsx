@@ -47,9 +47,7 @@ const SignIn = () => {
       dispatch(setCredentials({ ...res }));
       chakraToast({
         title: "Logged In",
-        description: `Successfully logged in as ${
-          res?.firstname + " " + res?.lastname
-        }`,
+        description: `Successfully logged in as ${res?.lastname}`,
         status: "success",
         duration: 5000,
         isClosable: false,
