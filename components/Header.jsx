@@ -26,17 +26,35 @@ import { AiOutlineShoppingCart, AiTwotoneShopping } from "react-icons/ai";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@slices/authSlice";
+import { useLogoutMutation } from "@slices/usersApiSlice";
+import { redirect } from "next/navigation";
+import { useToast } from "@chakra-ui/react";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+
+  const [logoutApiCall, { isLoading }] = useLogoutMutation();
+
+  const chakraToast = useToast();
 
   const dispatch = useDispatch();
 
   const logoutHandler = async () => {
     try {
+      await logoutApiCall().unwrap();
       dispatch(logout());
+      redirect("/");
     } catch (err) {
       console.log({ err });
+      chakraToast({
+        title: "Error has occured",
+        description: err.data?.message
+          ? err.data?.message
+          : err.data || err.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
     }
   };
 
@@ -48,29 +66,29 @@ const Header = () => {
           padding={"0 0 2rem 0"}
           borderBottom={"1.7px solid " + ThemeColors.lightColor}
         >
-          <Box padding={"0 1rem"}>
+          <Box padding={"0.5rem 1rem"}>
             <Link href={"/"}>
               <Flex>
                 <Image
                   src={Images.logo}
-                  style={{ width: "90px", height: "auto" }}
+                  style={{ width: "70px", height: "auto" }}
                 />
                 <Heading
                   as={"h2"}
                   className="secondary-bold-font"
-                  style={{ fontSize: "2rem" }}
+                  style={{ fontSize: "1.5rem" }}
                   margin={"0 0.5rem"}
                   display={"flex"}
                   color={ThemeColors.secondaryColor}
                 >
-                  Ta
+                  Yoo
                   <Heading
                     as={"h2"}
                     className="secondary-bold-font"
-                    style={{ fontSize: "2rem" }}
+                    style={{ fontSize: "1.5rem" }}
                     color={"#000"}
                   >
-                    tli
+                    Katale
                   </Heading>
                 </Heading>
               </Flex>
@@ -161,6 +179,7 @@ const Header = () => {
                     _hover={{
                       border: "none",
                     }}
+                    onClick={logoutHandler}
                   >
                     <FaSignOutAlt
                       size={20}

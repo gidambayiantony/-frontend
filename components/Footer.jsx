@@ -16,7 +16,7 @@ const Footer = () => {
               fontSize="lg"
               textTransform={"uppercase"}
             >
-              tatli
+              yookatale
             </Text>{" "}
             All rights reserved
           </Text>

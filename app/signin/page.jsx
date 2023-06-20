@@ -42,11 +42,8 @@ const SignIn = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log({ e });
-
     try {
       const res = await login({ email, password }).unwrap();
-      console.log({ res });
       dispatch(setCredentials({ ...res }));
       chakraToast({
         title: "Logged In",

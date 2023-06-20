@@ -110,7 +110,7 @@ const page = () => {
                 </Box>
                 <Box padding={"0.5rem 0"}>
                   <Flex>
-                    <Box paddingRight="1rem">
+                    {/* <Box paddingRight="1rem">
                       <Flex
                         borderRadius={"0.3rem"}
                         border={"1.7px solid " + ThemeColors.darkColor}
@@ -139,7 +139,7 @@ const page = () => {
                           <AiOutlineMinus size={25} />
                         </Button>
                       </Flex>
-                    </Box>
+                    </Box> */}
                     <Box padding={"0.3rem 1rem"}>
                       <Button
                         color={ThemeColors.lightColor}

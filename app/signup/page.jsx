@@ -10,11 +10,24 @@ import {
   Input,
   Button,
   Grid,
+  Select,
+  Checkbox,
 } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
 import Link from "next/link";
+import { countries } from "country-flag-icons";
+import { useState } from "react";
 
 const SignUp = () => {
+  // states
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [password, setPassword] = useState("");
+  const [vegan, setVegan] = useState(false);
+
   return (
     <>
       <Box>
@@ -36,7 +49,7 @@ const SignUp = () => {
             </Flex>
           </Box>
           <Flex>
-            <Box margin={"auto"} width={"50%"} padding={"1rem"}>
+            <Box margin={"auto"} width={"60%"} padding={"1rem"}>
               <form>
                 <Grid
                   gridTemplateColumns={{
@@ -54,6 +67,8 @@ const SignUp = () => {
                         id="fullname"
                         placeholder="fullname is required"
                         name="fullname"
+                        value={fullname}
+                        onChange={(e) => setFullname(e.target.value)}
                       />
                     </FormControl>
                   </Box>
@@ -65,7 +80,46 @@ const SignUp = () => {
                         id="username"
                         placeholder="username is required"
                         name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                       />
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid
+                  gridTemplateColumns={{
+                    base: "repeat(1, 1fr)",
+                    md: "repeat(1, 1fr)",
+                    xl: "repeat(2, 1fr)",
+                  }}
+                  gridGap={"1rem"}
+                >
+                  <Box padding={"0.5rem 0"}>
+                    <FormControl>
+                      <FormLabel htmlFor="phone">Phone Number</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="Include country code [+256.....]"
+                        name="phone"
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box padding={"0.5rem 0"}>
+                    <FormControl>
+                      <FormLabel htmlFor="gender">Gender</FormLabel>
+                      <Select
+                        placeholder="Select gender"
+                        name="gender"
+                        id="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                      >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </Select>
                     </FormControl>
                   </Box>
                 </Grid>
@@ -77,6 +131,8 @@ const SignUp = () => {
                       id="email"
                       placeholder="email is required"
                       name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </FormControl>
                 </Box>
@@ -88,6 +144,8 @@ const SignUp = () => {
                       placeholder="password is required"
                       name="password"
                       id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </FormControl>
                 </Box>
@@ -105,7 +163,16 @@ const SignUp = () => {
                     </Link>
                   </Text>
                 </Box>
-                <Box padding={"0"}>
+                <Box padding={"0.5rem 0"}>
+                  <Checkbox
+                    name="vegan"
+                    value={vegan}
+                    onChange={(e) => setVegan(e.target.value)}
+                  >
+                    Are you vegetarian ?
+                  </Checkbox>
+                </Box>
+                <Box padding={"0.5rem 0"}>
                   <Button
                     type="submit"
                     color={ThemeColors.lightColor}
