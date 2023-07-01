@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "@slices/usersApiSlice";
 import { setCredentials } from "@slices/authSlice";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const SignUp = () => {
   // states
@@ -32,6 +32,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [vegan, setVegan] = useState(false);
 
+  const { push } = useRouter();
+
   const chakraToast = useToast();
 
   const dispatch = useDispatch();
@@ -41,7 +43,7 @@ const SignUp = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (userInfo) return redirect("/");
+    if (userInfo) return push("/");
   }, []);
 
   const handleSubmit = async (e) => {
@@ -67,10 +69,10 @@ const SignUp = () => {
         duration: 5000,
         isClosable: false,
       });
-      redirect("/");
+      push("/");
     } catch (err) {
       chakraToast({
-        title: "Error has occured",
+        title: "Error",
         description: err.data?.message
           ? err.data?.message
           : err.data || err.error,

@@ -2,11 +2,13 @@ import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { Providers } from "./providers";
 import "@styles/globals.css";
+import Head from "next/head";
+import { Images } from "@constants/constants";
 // import store from "@store";
 // import { Provider } from "react-redux";
 
 export const metadata = {
-  title: "tatli agri store",
+  title: "yookatale",
   description: "Fresh Food Products Supplier in Kampala and surrounding areas",
 };
 

@@ -20,13 +20,15 @@ import { useLoginMutation } from "@slices/usersApiSlice";
 import { setCredentials } from "@slices/authSlice";
 import { toast } from "react-toastify";
 import { useToast } from "@chakra-ui/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const chakraToast = useToast();
+
+  const { refresh, push } = useRouter();
 
   // const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const SignIn = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (userInfo) return redirect("/");
+    if (userInfo) return push("/");
   }, []);
 
   const submitHandler = async (e) => {
@@ -52,7 +54,7 @@ const SignIn = () => {
         duration: 5000,
         isClosable: false,
       });
-      redirect("/");
+      push("/");
     } catch (err) {
       chakraToast({
         title: "Error has occured",
