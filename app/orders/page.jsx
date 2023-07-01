@@ -23,7 +23,7 @@ const Orders = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  useEffect(async () => {
+  const fetchData = async () => {
     try {
       const res = await fetchOrders(userInfo._id).unwrap();
 
@@ -41,6 +41,10 @@ const Orders = () => {
         isClosable: false,
       });
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (

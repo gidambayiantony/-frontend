@@ -305,6 +305,7 @@ const Cart = () => {
                         height={"100%"}
                       >
                         <Image
+                          alt=""
                           src={`http://localhost:8000/uploads/${
                             cart?.images ? cart.images[0] : ""
                           }`}

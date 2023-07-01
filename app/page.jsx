@@ -63,28 +63,30 @@ const Home = () => {
   // comment section slider navigation
   const [currSliderIndex, setCurrSliderIndex] = useState(0);
 
-  const CommentsArr = [
-    {
-      name: "John Doe",
-      message:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure amet ad animi quidem beatae in dicta eius, et eos repellendus!",
-    },
-    {
-      name: "Peter Doe",
-      message:
-        "Iure amet ad animi quidem beatae in dicta eius, et eos repellendus!",
-    },
-    {
-      name: "Carry Underwood",
-      message:
-        "Iure amet ad animi quidem beatae in dicta eius, et eos repellendus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
-    },
-    {
-      name: "Mary Doe",
-      message:
-        "Mollitia nisi ducimus soluta obcaecati cumque. Tempore incidunt, qui magni eius facilis illo quas officiis officia enim vel adipisci? Iure amet ad animi quidem beatae in dicta eius.",
-    },
-  ];
+  // const CommentsArr = [
+  //   {
+  //     name: "John Doe",
+  //     message:
+  //       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure amet ad animi quidem beatae in dicta eius, et eos repellendus!",
+  //   },
+  //   {
+  //     name: "Peter Doe",
+  //     message:
+  //       "Iure amet ad animi quidem beatae in dicta eius, et eos repellendus!",
+  //   },
+  //   {
+  //     name: "Carry Underwood",
+  //     message:
+  //       "Iure amet ad animi quidem beatae in dicta eius, et eos repellendus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+  //   },
+  //   {
+  //     name: "Mary Doe",
+  //     message:
+  //       "Mollitia nisi ducimus soluta obcaecati cumque. Tempore incidunt, qui magni eius facilis illo quas officiis officia enim vel adipisci? Iure amet ad animi quidem beatae in dicta eius.",
+  //   },
+  // ];
+
+  const CommentsArr = [];
 
   const increaseSliderIndex = () => {
     if (currSliderIndex > CommentsArr.length) {
@@ -340,70 +342,78 @@ const Home = () => {
       )}
       {/* Section three */}
       <Box>
-        <Box
-          padding={"2rem 0 3rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Box padding={"2rem 0"}>
-            <Heading as={"h2"} fontSize={"3xl"} textAlign={"center"}>
-              What our customers say
-            </Heading>
-            <Flex>
-              <Box
-                height={"0.2rem"}
-                width={"10rem"}
-                margin={"1rem auto"}
-                background={ThemeColors.primaryColor}
-              ></Box>
-            </Flex>
-          </Box>
-          <Box position={"relative"}>
-            <Box
-              cursor={"pointer"}
-              position={"absolute"}
-              top={"45%"}
-              left={"15%"}
-            >
-              <AI.AiOutlineArrowLeft size={35} onClick={decreaseSliderIndex} />
-            </Box>
-            <Box
-              cursor={"pointer"}
-              position={"absolute"}
-              top={"45%"}
-              right={"15%"}
-            >
-              <AI.AiOutlineArrowRight size={35} onClick={increaseSliderIndex} />
-            </Box>
-          </Box>
-          <Flex>
-            <Box margin={"auto"} width={"40%"}>
-              <Flex justifyContent={"center"}>
-                {CommentsArr.length > 0
-                  ? CommentsArr.map((comment, index) =>
-                      index === currSliderIndex ? (
-                        <Box>
-                          <Heading as={"h3"} size={"md"} textAlign={"center"}>
-                            {comment.name}
-                          </Heading>
-                          <Box padding={"0.3rem 0"}>
-                            <Text
-                              fontSize={"2xl"}
-                              textAlign={"center"}
-                              className="secondary-light-font"
-                            >
-                              {comment.message}
-                            </Text>
-                          </Box>
-                        </Box>
-                      ) : (
-                        ""
-                      )
-                    )
-                  : ""}
+        {CommentsArr.length > 0 ? (
+          <Box
+            padding={"2rem 0 3rem 0"}
+            borderBottom={"1.7px solid " + ThemeColors.lightColor}
+          >
+            <Box padding={"2rem 0"}>
+              <Heading as={"h2"} fontSize={"3xl"} textAlign={"center"}>
+                What our customers say
+              </Heading>
+              <Flex>
+                <Box
+                  height={"0.2rem"}
+                  width={"10rem"}
+                  margin={"1rem auto"}
+                  background={ThemeColors.primaryColor}
+                ></Box>
               </Flex>
             </Box>
-          </Flex>
-        </Box>
+            <Box position={"relative"}>
+              <Box
+                cursor={"pointer"}
+                position={"absolute"}
+                top={"45%"}
+                left={"15%"}
+              >
+                <AI.AiOutlineArrowLeft
+                  size={35}
+                  onClick={decreaseSliderIndex}
+                />
+              </Box>
+              <Box
+                cursor={"pointer"}
+                position={"absolute"}
+                top={"45%"}
+                right={"15%"}
+              >
+                <AI.AiOutlineArrowRight
+                  size={35}
+                  onClick={increaseSliderIndex}
+                />
+              </Box>
+            </Box>
+            <Flex>
+              <Box margin={"auto"} width={"40%"}>
+                <Flex justifyContent={"center"}>
+                  {CommentsArr.map((comment, index) =>
+                    index === currSliderIndex ? (
+                      <Box>
+                        <Heading as={"h3"} size={"md"} textAlign={"center"}>
+                          {comment.name}
+                        </Heading>
+                        <Box padding={"0.3rem 0"}>
+                          <Text
+                            fontSize={"2xl"}
+                            textAlign={"center"}
+                            className="secondary-light-font"
+                          >
+                            {comment.message}
+                          </Text>
+                        </Box>
+                      </Box>
+                    ) : (
+                      ""
+                    )
+                  )}
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        ) : (
+          ""
+        )}
       </Box>
       {/* Section four */}
       <Box>
