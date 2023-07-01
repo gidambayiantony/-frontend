@@ -131,11 +131,7 @@ const Product = () => {
                     height={"100%"}
                   >
                     <Image
-                      src={
-                        Product?.images
-                          ? `http://localhost:8000/uploads/${Product?.images[0]}`
-                          : ""
-                      }
+                      src={Product?.images ? `${Product?.images[0]}` : ""}
                       style={{
                         width: "auto",
                         height: "100%",
@@ -169,7 +165,7 @@ const Product = () => {
                               border={"1.7px solid " + ThemeColors.lightColor}
                             >
                               <Image
-                                src={`http://localhost:8000/uploads/${image}`}
+                                src={image}
                                 style={{
                                   height: "auto",
                                   width: "100%",

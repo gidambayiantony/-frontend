@@ -89,7 +89,7 @@ const Search = () => {
                           height={"100%"}
                         >
                           <Image
-                            src={`http://localhost:8000/uploads/${product.images[0]}`}
+                            src={`${product.images}`}
                             style={{
                               width: "auto",
                               height: "100%",

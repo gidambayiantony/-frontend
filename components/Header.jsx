@@ -89,7 +89,7 @@ const Header = () => {
             <Link href={"/"}>
               <Flex>
                 <Image
-                  src={Images.logo}
+                  src={Images.logo1}
                   style={{ width: "100px", height: "auto" }}
                 />
                 <Heading
