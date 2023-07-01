@@ -389,7 +389,7 @@ const Home = () => {
                 <Flex justifyContent={"center"}>
                   {CommentsArr.map((comment, index) =>
                     index === currSliderIndex ? (
-                      <Box>
+                      <Box key={index}>
                         <Heading as={"h3"} size={"md"} textAlign={"center"}>
                           {comment.name}
                         </Heading>

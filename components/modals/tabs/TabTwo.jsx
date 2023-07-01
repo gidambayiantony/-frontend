@@ -51,6 +51,7 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
           {Cart.length > 0
             ? Cart.map((cart, index) => (
                 <Box
+                  key={index}
                   index={"index"}
                   padding={"0.5rem 0"}
                   marginBottom={"0.3rem"}
