@@ -12,6 +12,7 @@ import {
   Text,
   useToast,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import { Images, ThemeColors } from "@constants/constants";
 import * as FA from "react-icons/fa";
