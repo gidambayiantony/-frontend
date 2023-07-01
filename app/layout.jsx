@@ -10,6 +10,9 @@ import { Images } from "@constants/constants";
 export const metadata = {
   title: "yookatale",
   description: "Fresh Food Products Supplier in Kampala and surrounding areas",
+  icons: {
+    icon: Images.logo.src,
+  },
 };
 
 const RootLayout = ({ children }) => {

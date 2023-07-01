@@ -11,6 +11,7 @@ import {
   Select,
   Spacer,
   Textarea,
+  Input,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { useState } from "react";

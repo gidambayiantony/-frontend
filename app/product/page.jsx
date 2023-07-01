@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 const UGX = (value) =>
   currency(value, { symbol: "UGX", precision: 0, separator: "," });
 
-const page = () => {
+const Product = () => {
   // get user information stored in the localstorage
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -318,4 +318,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Product;
