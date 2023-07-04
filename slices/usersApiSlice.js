@@ -5,6 +5,8 @@ import { apiSlice } from "./apiSlice";
 
 const USERS_URL = "https://yookatale-server-app.onrender.com/api";
 
+// const USERS_URL = "http://localhost:8000/api";
+
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -89,6 +91,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    commentsGet: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/users/comments`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -106,4 +114,5 @@ export const {
   useSearchMutation,
   useNewOrderMutation,
   useOrdersMutation,
+  useCommentsGetMutation,
 } = usersApiSlice;

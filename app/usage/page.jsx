@@ -7,7 +7,11 @@ const UsagePolicy = () => {
     <>
       <Box>
         <Flex>
-          <Box padding={"2rem"} margin={"auto"} width={"70%"}>
+          <Box
+            padding={"2rem"}
+            margin={"auto"}
+            width={{ base: "100%", md: "90%", xl: "70%" }}
+          >
             <Box padding={"0.5rem 0 1rem 0"}>
               <Heading fontSize={"2xl"}>Website and App Terms of Use</Heading>
             </Box>

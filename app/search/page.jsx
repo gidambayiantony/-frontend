@@ -48,7 +48,7 @@ const Search = () => {
   return (
     <>
       <Box>
-        <Box padding={"2rem 5rem"}>
+        <Box padding={{ base: "2rem", md: "2rem 3rem", xl: "2rem 5rem" }}>
           <Heading as={"h3"} size={"md"} display={"flex"}>
             Showing results for:
             <Heading
@@ -62,7 +62,7 @@ const Search = () => {
           </Heading>
         </Box>
         <Flex>
-          <Box margin={"auto"} width={"75%"}>
+          <Box margin={"auto"} width={{ base: "100%", md: "100%", xl: "75%" }}>
             {Products.length > 0 ? (
               <Grid
                 gridTemplateColumns={{
@@ -151,7 +151,7 @@ const Search = () => {
               </Grid>
             ) : (
               <Box>
-                <Box padding={"3rem 0"}>
+                <Box padding={{ base: "2rem", md: "2rem", xl: "3rem 0" }}>
                   <Text fontSize={"3xl"}>No products currently</Text>
                 </Box>
               </Box>
