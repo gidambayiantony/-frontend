@@ -73,7 +73,9 @@ const Header = () => {
       console.log("and here");
       push("/");
     } catch (err) {
-      console.log({ err });
+      // set loading to be false
+      setLoading({ ...isLoading, operation: "", status: false });
+
       chakraToast({
         title: "Error has occured",
         description: err.data?.message
@@ -563,7 +565,10 @@ fontSize={"lg"}}}
                   _hover={{
                     border: "none",
                   }}
-                  onClick={() => logoutHandler()}
+                  onClick={() => {
+                    logoutHandler();
+                    setMobileNavOpen((prevState) => (prevState ? false : true));
+                  }}
                 >
                   {isLoading.status && isLoading.operation === "logout" ? (
                     <Spinner />
