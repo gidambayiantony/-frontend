@@ -113,17 +113,26 @@ const Header = () => {
 
   return (
     <>
-      <Box padding={"2rem 0 1rem 0"}>
+      <Box padding={{ base: "0", md: "0", xl: "2rem 0 1rem 0" }}>
         <Flex
-          padding={""}
+          padding={"1rem 0"}
           justifyContent={"center"}
           display={{ base: "flex", md: "flex", xl: "none" }}
+          background={"#000"}
         >
           <Box padding={"0 0.5rem"}>
-            <Text display={"flex"} textAlign={"center"}>
+            <Text
+              display={"flex"}
+              textAlign={"center"}
+              color={ThemeColors.lightColor}
+            >
               For support call us on{" "}
             </Text>
-            <Text className="primary-bold-font" textAlign={"center"}>
+            <Text
+              className="primary-bold-font"
+              textAlign={"center"}
+              color={ThemeColors.lightColor}
+            >
               {" "}
               +256 754615840
             </Text>
@@ -157,28 +166,21 @@ const Header = () => {
         >
           <Box padding={"0.5rem 1rem"}>
             <Link href={"/"}>
-              <Flex>
+              <Flex justifyContent={"center"}>
                 <Image
                   src={Images.logo1}
                   style={{ width: "100px", height: "auto" }}
                 />
+              </Flex>
+              <Flex justifyContent={"center"}>
                 <Heading
                   as={"h2"}
                   className="secondary-bold-font"
-                  style={{ fontSize: "1.5rem" }}
-                  margin={"2rem 0.5rem 0 0.5rem"}
-                  display={"none"}
-                  color={ThemeColors.secondaryColor}
+                  size={"sm"}
+                  margin={"0.3rem 0"}
+                  display={"flex"}
                 >
-                  Yoo
-                  <Heading
-                    as={"h2"}
-                    className="secondary-bold-font"
-                    style={{ fontSize: "1.5rem" }}
-                    color={"#000"}
-                  >
-                    Katale
-                  </Heading>
+                  Here For you
                 </Heading>
               </Flex>
             </Link>
@@ -226,6 +228,17 @@ const Header = () => {
                 </Link>
               </Box>
               <Box margin={"0.3rem 0.5rem"}>
+                <Link href={"/subscription"}>
+                  <Text
+                    color={"#000"}
+                    fontSize={"lg"}
+                    _hover={{ color: ThemeColors.darkColor }}
+                  >
+                    Get Card
+                  </Text>
+                </Link>
+              </Box>
+              <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/contact"}>
                   <Text
                     color={"#000"}
@@ -236,17 +249,17 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
-              {/* <Box margin={"0.3rem 0.5rem"}>
+              <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/about"}>
                   <Text
-                  color={"#000"}
-fontSize={"lg"}}}
+                    color={"#000"}
+                    fontSize={"lg"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     About
                   </Text>
                 </Link>
-              </Box> */}
+              </Box>
               {userInfo ? (
                 <Box margin={"0.3rem 0.5rem"}>
                   <Link href={"/orders"}>
@@ -446,7 +459,28 @@ fontSize={"lg"}}}
               </Link>
             </Box>
             <Box margin={"0.5rem 0"}>
-              <Link href={"/contact"}>
+              <Link
+                href={"/subscription"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
+                <Text
+                  color={ThemeColors.lightColor}
+                  fontSize={"lg"}
+                  _hover={{ color: ThemeColors.darkColor }}
+                >
+                  Get Card
+                </Text>
+              </Link>
+            </Box>
+            <Box margin={"0.5rem 0"}>
+              <Link
+                href={"/contact"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
                 <Text
                   color={ThemeColors.lightColor}
                   fontSize={"lg"}
@@ -456,19 +490,22 @@ fontSize={"lg"}}}
                 </Text>
               </Link>
             </Box>
-            {/* <Box margin={"0.5rem 0"}>
-                <Link href={"/about"} onClick={() =>
-            setMobileNavOpen((prevState) => (prevState ? false : true))
-          }>
-                  <Text
+            <Box margin={"0.5rem 0"}>
+              <Link
+                href={"/about"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
+                <Text
                   color={ThemeColors.lightColor}
-fontSize={"lg"}}}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    About
-                  </Text>
-                </Link>
-              </Box> */}
+                  fontSize={"lg"}
+                  _hover={{ color: ThemeColors.darkColor }}
+                >
+                  About
+                </Text>
+              </Link>
+            </Box>
             {userInfo ? (
               <Box margin={"0.5rem 0"}>
                 <Link

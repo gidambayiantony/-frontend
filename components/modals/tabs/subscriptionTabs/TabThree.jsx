@@ -15,14 +15,42 @@ import {
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { ThemeColors } from "@constants/constants";
+import { useSubscriptionCardPostMutation } from "@slices/usersApiSlice";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { v4 as uniqueString } from "uuid";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 
-const TabThree = ({ updateTabIndex, completeOrder }) => {
+const TabThree = ({ updateTabIndex, data }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
+
+  const [createSubscription] = useSubscriptionCardPostMutation();
+
+  const router = useRouter();
 
   const chakraToast = useToast();
 
-  const handleTabThree = () => {
+  const flwConfig = {
+    public_key: "FLWPUBK_TEST-07d1b505448d1358e34d597736dd6b8a-X",
+    tx_ref: Date.now(),
+    amount: data?.total,
+    currency: "UGX",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      email: `${data?.personalInfo?.email}`,
+      phone_number: `${data?.personalInfo?.phone}`,
+      name: `${data?.personalInfo?.firstname} ${data?.personalInfo?.lastname}`,
+    },
+    customizations: {
+      title: "YooCard Purchase",
+      description: `You are purchasing a ${data?.selectedSubscriptionCard?.type} ${data?.selectedSubscriptionCard?.name} YooCard`,
+      logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(flwConfig);
+
+  const handleTabThree = async () => {
     if (paymentMethod == "")
       return chakraToast({
         title: "Error",
@@ -32,16 +60,37 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
         isClosable: false,
       });
 
-    if (paymentMethod !== "cash")
-      return chakraToast({
+    chakraToast({
+      title: "Error",
+      description: "Feature not yet available",
+      status: "error",
+      duration: 5000,
+      isClosable: false,
+    });
+
+    try {
+      // data.paymentMethod = paymentMethod;
+      // const res = await createSubscription({ data }).unwrap();
+      // if (res.status == "Succecss") {
+      //   if (res.data?.redirectURL?.redirect) {
+      //     router.push(res.data?.redirectURL?.redirect);
+      //   }
+      // }
+      // console.log({ res });
+    } catch (err) {
+      console.log(err);
+      chakraToast({
         title: "Error",
-        description: "Payment option not available",
+        description: err.error
+          ? err.error
+          : err.message
+          ? err.message
+          : "Unexpected error",
         status: "error",
         duration: 5000,
         isClosable: false,
       });
-
-    completeOrder(paymentMethod);
+    }
   };
 
   return (
@@ -54,17 +103,21 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
         </Box>
         <Box padding={"1rem 0"}>
           <Flex>
-            <Box width={"100%"} margin={"auto"}>
+            <Box width={{ base: "100%", md: "90%", xl: "80%" }} margin={"auto"}>
               <Grid
                 gridTemplateColumns={{
-                  base: "repeat(1, 1fr)",
-                  md: "repeat(1, 1fr)",
+                  base: "repeat(3, 1fr)",
+                  md: "repeat(3, 1fr)",
                   xl: "repeat(3, 1fr)",
                 }}
                 gridGap={"1rem"}
               >
                 <Box
-                  padding={"3rem 1rem"}
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "2rem 1rem",
+                    xl: "2rem 1rem",
+                  }}
                   cursor={"pointer"}
                   background={
                     paymentMethod === "cash"
@@ -80,8 +133,9 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
                   onClick={() => setPaymentMethod("cash")}
                 >
                   <Text
-                    fontSize={"2xl"}
+                    fontSize={{ base: "sm", md: "lg", xl: "2xl" }}
                     textAlign={"center"}
+                    alignItems={"center"}
                     color={
                       paymentMethod === "cash"
                         ? ThemeColors.lightColor
@@ -92,7 +146,11 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
                   </Text>
                 </Box>
                 <Box
-                  padding={"3rem 1rem"}
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "2rem 1rem",
+                    xl: "2rem 1rem",
+                  }}
                   cursor={"pointer"}
                   background={
                     paymentMethod === "mobileMoney"
@@ -108,8 +166,9 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
                   onClick={() => setPaymentMethod("mobileMoney")}
                 >
                   <Text
-                    fontSize={"2xl"}
+                    fontSize={{ base: "sm", md: "lg", xl: "2xl" }}
                     textAlign={"center"}
+                    alignItems={"center"}
                     color={
                       paymentMethod === "mobileMoney"
                         ? ThemeColors.lightColor
@@ -120,7 +179,11 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
                   </Text>
                 </Box>
                 <Box
-                  padding={"3rem 1rem"}
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "2rem 1rem",
+                    xl: "2rem 1rem",
+                  }}
                   cursor={"pointer"}
                   background={
                     paymentMethod === "card"
@@ -136,8 +199,9 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
                   onClick={() => setPaymentMethod("card")}
                 >
                   <Text
-                    fontSize={"2xl"}
+                    fontSize={{ base: "sm", md: "lg", xl: "2xl" }}
                     textAlign={"center"}
+                    alignItems={"center"}
                     color={
                       paymentMethod === "card"
                         ? ThemeColors.lightColor
@@ -157,7 +221,21 @@ const TabThree = ({ updateTabIndex, completeOrder }) => {
               <ButtonComponent type={"button"} text={"Back"} />
             </Box>
             <Spacer />
-            <Box onClick={() => handleTabThree()}>
+            <Box
+              // onClick={() =>
+              //   handleFlutterPayment({
+              //     callback: (response) => {
+              //       if (response.status == "successful") {
+              //       }
+              //       closePaymentModal();
+              //     },
+              //     onClose: () => {
+              //       console.log("closed");
+              //     },
+              //   })
+              //}
+              onClick={() => handleTabThree()}
+            >
               <ButtonComponent type={"button"} text={"Complete Checkout"} />
             </Box>
           </Flex>

@@ -92,78 +92,98 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
               ))
             : ""}
         </Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
+        <Grid
+          gridTemplateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(1, 1fr)",
+            xl: "repeat(2, 1fr)",
+          }}
+          gridGap={"1rem"}
         >
-          <Box padding={"0.5rem 0"}>
-            <Heading as={"h3"} size={"sm"}>
-              Delivery Addresses
-            </Heading>
-          </Box>
-          <Grid
-            gridTemplateColumns={{
-              base: "repeat(2, 1fr)",
-              md: "repeat(2, 1fr)",
-              xl: "repeat(3, 1fr)",
-            }}
-            gridGap={"1rem"}
+          <Box
+            padding={"1rem 0"}
+            borderBottom={"1.7px solid " + ThemeColors.lightColor}
           >
             <Box>
-              <Text fontSize={"md"}>
-                Address 1:{" "}
-                {tabOneData?.deliveryAddress?.address1
-                  ? tabOneData?.deliveryAddress?.address1
-                  : "__"}
-              </Text>
+              <Heading as={"h3"} size={"sm"}>
+                Delivery Addresses
+              </Heading>
             </Box>
             <Box>
-              <Text fontSize={"md"}>
-                Address 2:{" "}
-                {tabOneData?.deliveryAddress?.address2
-                  ? tabOneData?.deliveryAddress?.address2
-                  : "__"}
-              </Text>
+              <Box padding={"0.5rem 0"}>
+                <Text fontSize={"md"}>
+                  Address 1:{" "}
+                  {tabOneData?.deliveryAddress?.address1
+                    ? tabOneData?.deliveryAddress?.address1
+                    : "__"}
+                </Text>
+              </Box>
+              <Box padding={"0.5rem 0"}>
+                <Text fontSize={"md"}>
+                  Address 2:{" "}
+                  {tabOneData?.deliveryAddress?.address2
+                    ? tabOneData?.deliveryAddress?.address2
+                    : "__"}
+                </Text>
+              </Box>
             </Box>
-          </Grid>
-        </Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Box>
-            <Heading as={"h3"} size={"sm"}>
-              Special Requests
-            </Heading>
           </Box>
-          <Box padding={""}>
-            <Box padding={"0.5rem 0"}>
-              <Text fontSize={"md"}>
-                Peel Food:{" "}
-                {tabOneData?.specialRequests?.peeledFood ? "Yes" : "No"}
-              </Text>
+          <Box
+            padding={"1rem 0"}
+            borderBottom={"1.7px solid " + ThemeColors.lightColor}
+          >
+            <Box>
+              <Heading as={"h3"} size={"sm"}>
+                Special Requests
+              </Heading>
             </Box>
-            {tabOneData?.specialRequests?.moreInfo ? (
-              tabOneData?.specialRequests?.moreInfo !== "" ? (
-                <Box padding={"0.5rem 0"}>
-                  <Text fontSize={"md"}>
-                    More Information: {tabOneData?.specialRequests?.moreInfo}
-                  </Text>
-                </Box>
+            <Box padding={""}>
+              <Box padding={"0.5rem 0"}>
+                <Text fontSize={"md"}>
+                  Peel Food:{" "}
+                  {tabOneData?.specialRequests?.peeledFood ? "Yes" : "No"}
+                </Text>
+              </Box>
+              {tabOneData?.specialRequests?.moreInfo ? (
+                tabOneData?.specialRequests?.moreInfo !== "" ? (
+                  <Box padding={"0.5rem 0"}>
+                    <Text fontSize={"md"}>
+                      More Information: {tabOneData?.specialRequests?.moreInfo}
+                    </Text>
+                  </Box>
+                ) : (
+                  ""
+                )
               ) : (
-                "None"
-              )
-            ) : (
-              "Oh no"
-            )}
+                ""
+              )}
+            </Box>
           </Box>
+        </Grid>
+        <Box
+          padding={"1rem 0"}
+          borderBottom={"1.7px solid " + ThemeColors.lightColor}
+        >
+          <Heading as={"h3"} size={"sm"} display={"flex"}>
+            Delivery Cost:{" "}
+            <Text
+              fontSize={"lg"}
+              className="secondary-light-font"
+              margin={"0 0.3rem"}
+            >
+              UGX 1000
+            </Text>
+          </Heading>
         </Box>
         <Box
           padding={"1rem 0"}
           borderBottom={"1.7px solid " + ThemeColors.lightColor}
         >
+          <Text margin={"1rem 0"} fontSize={"lg"}>
+            Cart SubTotal: {UGX(CartTotal).format()}
+          </Text>
           <Heading as={"h3"} size={"md"}>
-            Cart Total: {UGX(CartTotal).format()}
+            Cart Total: {UGX(CartTotal + 1000).format()}
           </Heading>
         </Box>
         <Box padding={"1rem 0"}>

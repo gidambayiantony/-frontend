@@ -83,6 +83,7 @@ const Cart = () => {
           for (let cart of CartItems) {
             TempCart.push({
               ...cart,
+              cartId: cart._id,
               ...CartProductsItems.filter(
                 (product) => product._id === cart.productId
               )[0],
@@ -94,6 +95,7 @@ const Cart = () => {
         for (const cart of TempCart) {
           cart.quantity = 1;
           cart.total = cart?.price * cart?.quantity;
+          // cart.cartId = cart._id;
         }
 
         setCart([...TempCart]);
