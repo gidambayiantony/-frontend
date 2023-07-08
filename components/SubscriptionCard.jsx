@@ -41,8 +41,8 @@ const SubscriptionCard = ({ card, btnClick }) => {
               borderBottom={"1.7px solid " + ThemeColors.lightColor}
             >
               <Stack>
-                {card?.details.map((detail) => (
-                  <Box>
+                {card?.details.map((detail, index) => (
+                  <Box key={index}>
                     <Text>{detail}</Text>
                   </Box>
                 ))}
