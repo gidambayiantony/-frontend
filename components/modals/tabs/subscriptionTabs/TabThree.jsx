@@ -51,6 +51,7 @@ const TabThree = ({ updateTabIndex, data }) => {
   const handleFlutterPayment = useFlutterwave(flwConfig);
 
   const handleTabThree = async () => {
+    console.log("clicked");
     if (paymentMethod == "")
       return chakraToast({
         title: "Error",
@@ -60,25 +61,54 @@ const TabThree = ({ updateTabIndex, data }) => {
         isClosable: false,
       });
 
-    chakraToast({
-      title: "Error",
-      description: "Feature not yet available",
-      status: "error",
-      duration: 5000,
-      isClosable: false,
-    });
+    if (paymentMethod !== "cash") {
+      handleFlutterPayment({
+        callback: async (response) => {
+          if (response.status == "successful") {
+            data.paymentMethod = paymentMethod;
+            const res = await createSubscription({ data }).unwrap();
+            if (res.status == "Succecss") {
+              chakraToast({
+                title: "Success",
+                description: `${res?.data?.message}. Your card(s) will be delivered soon.`,
+                status: "success",
+                duration: 5000,
+                isClosable: false,
+              });
+              router.push("/");
+            }
+          } else {
+            chakraToast({
+              title: "Error",
+              description: "Unexpected error",
+              status: "error",
+              duration: 5000,
+              isClosable: false,
+            });
+          }
+          closePaymentModal();
+        },
+        onClose: () => {
+          console.log("closed");
+        },
+      });
+    }
 
     try {
-      // data.paymentMethod = paymentMethod;
-      // const res = await createSubscription({ data }).unwrap();
-      // if (res.status == "Succecss") {
-      //   if (res.data?.redirectURL?.redirect) {
-      //     router.push(res.data?.redirectURL?.redirect);
-      //   }
-      // }
-      // console.log({ res });
+      data.paymentMethod = paymentMethod;
+      const res = await createSubscription({ data }).unwrap();
+      if (res.status == "Success") {
+        chakraToast({
+          title: "Success",
+          description: `${res?.data?.message}. Your card(s) will be delivered soon.`,
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+
+        router.push("/");
+      }
     } catch (err) {
-      console.log(err);
       chakraToast({
         title: "Error",
         description: err.error
@@ -221,21 +251,7 @@ const TabThree = ({ updateTabIndex, data }) => {
               <ButtonComponent type={"button"} text={"Back"} />
             </Box>
             <Spacer />
-            <Box
-              // onClick={() =>
-              //   handleFlutterPayment({
-              //     callback: (response) => {
-              //       if (response.status == "successful") {
-              //       }
-              //       closePaymentModal();
-              //     },
-              //     onClose: () => {
-              //       console.log("closed");
-              //     },
-              //   })
-              //}
-              onClick={() => handleTabThree()}
-            >
+            <Box onClick={handleTabThree}>
               <ButtonComponent type={"button"} text={"Complete Checkout"} />
             </Box>
           </Flex>

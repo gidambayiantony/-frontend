@@ -35,6 +35,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    productCreate: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/product/new`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     productGet: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/product/${data}`,
@@ -130,4 +137,5 @@ export const {
   useCommentsGetMutation,
   useSubscriptionCardGetMutation,
   useSubscriptionCardPostMutation,
+  useProductCreateMutation,
 } = usersApiSlice;
