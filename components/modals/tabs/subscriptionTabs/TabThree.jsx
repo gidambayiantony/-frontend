@@ -9,6 +9,7 @@ import {
   Grid,
   Heading,
   Spacer,
+  Spinner,
   Text,
   Textarea,
   useToast,
@@ -23,7 +24,7 @@ import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 
 const TabThree = ({ updateTabIndex, data }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
-
+  const [isLoading, setLoading] = useState(false);
   const [createSubscription] = useSubscriptionCardPostMutation();
 
   const router = useRouter();
@@ -51,8 +52,13 @@ const TabThree = ({ updateTabIndex, data }) => {
   const handleFlutterPayment = useFlutterwave(flwConfig);
 
   const handleTabThree = async () => {
-    console.log("clicked");
-    if (paymentMethod == "")
+    // set loading to be true
+    setLoading((prevState) => (prevState ? false : true));
+
+    if (paymentMethod == "") {
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+
       return chakraToast({
         title: "Error",
         description: "Please choose a payment option",
@@ -60,12 +66,20 @@ const TabThree = ({ updateTabIndex, data }) => {
         duration: 5000,
         isClosable: false,
       });
+    }
 
+    // if user chooses pay with mobile money or credit/debit card
     if (paymentMethod !== "cash") {
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+
       handleFlutterPayment({
         callback: async (response) => {
-          if (response.status == "successful") {
+          console.log({ response });
+          if (response?.status == "successful") {
             data.paymentMethod = paymentMethod;
+            data.paymentId = response?.transaction_id;
+
             const res = await createSubscription({ data }).unwrap();
             if (res.status == "Succecss") {
               chakraToast({
@@ -89,12 +103,24 @@ const TabThree = ({ updateTabIndex, data }) => {
           closePaymentModal();
         },
         onClose: () => {
-          console.log("closed");
+          chakraToast({
+            title: "Error",
+            description: "Payment cancelled",
+            status: "error",
+            duration: 5000,
+            isClosable: false,
+          });
         },
       });
+
+      return;
     }
 
+    // if user chooses pay with cash
     try {
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+
       data.paymentMethod = paymentMethod;
       const res = await createSubscription({ data }).unwrap();
       if (res.status == "Success") {
@@ -109,6 +135,9 @@ const TabThree = ({ updateTabIndex, data }) => {
         router.push("/");
       }
     } catch (err) {
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+
       chakraToast({
         title: "Error",
         description: err.error
@@ -252,7 +281,11 @@ const TabThree = ({ updateTabIndex, data }) => {
             </Box>
             <Spacer />
             <Box onClick={handleTabThree}>
-              <ButtonComponent type={"button"} text={"Complete Checkout"} />
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <ButtonComponent type={"button"} text={"Complete Checkout"} />
+              )}
             </Box>
           </Flex>
         </Box>

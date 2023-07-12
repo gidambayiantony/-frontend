@@ -94,8 +94,8 @@ const Orders = () => {
                           <Box>
                             <Text fontSize={"lg"}>
                               Payment Method:{" "}
-                              {order?.paymentMethod
-                                ? order?.paymentMethod
+                              {order?.payment.paymentMethod
+                                ? order?.payment.paymentMethod
                                 : "__"}
                             </Text>
                           </Box>
