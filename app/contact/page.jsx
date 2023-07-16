@@ -10,9 +10,11 @@ import {
   Input,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { ThemeColors } from "@constants/constants";
+import { useMessagePostMutation } from "@slices/usersApiSlice";
 import { useState } from "react";
 
 // import React from 'react'
@@ -21,6 +23,42 @@ const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const [sendMessage] = useMessagePostMutation();
+
+  const chakraToast = useToast();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await sendMessage({ name, email, message }).unwrap();
+
+      if (res.status == "Success") {
+        setName("");
+        setEmail("");
+        setMessage("");
+
+        chakraToast({
+          title: "Success",
+          description: res?.data?.message,
+          status: "success",
+          duration: 4000,
+          isClosable: false,
+        });
+      }
+    } catch (err) {
+      chakraToast({
+        title: "Error",
+        description: err.data?.message
+          ? err.data?.message
+          : err.data || err.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    }
+  };
 
   return (
     <>
@@ -67,7 +105,7 @@ const Contact = () => {
                   border={"1.7px solid " + ThemeColors.lightColor}
                   borderRadius={"md"}
                 >
-                  <form action={"mailto:info@yookatale.com"}>
+                  <form onSubmit={handleSubmit}>
                     <Grid
                       gridTemplateColumns={{
                         base: "repeat(1, 1fr)",

@@ -41,7 +41,7 @@ const SpecialProducts = ({ Products, UGX, userInfo }) => {
                 product={product}
                 userInfo={userInfo}
                 UGX={UGX}
-                width={{ base: "270px", md: "290px", xl: "300px" }}
+                width={{ base: "240px", md: "250px", xl: "280px" }}
               />
             ))}
           </Flex>

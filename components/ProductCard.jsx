@@ -17,7 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartCreateMutation } from "@slices/usersApiSlice";
 
-const ProductCard = ({ product, UGX, userInfo, width }) => {
+const ProductCard = ({ product, UGX, userInfo, width, height }) => {
   const [addCartApi] = useCartCreateMutation();
   const [isLoading, setLoading] = useState(false);
 
@@ -97,11 +97,9 @@ const ProductCard = ({ product, UGX, userInfo, width }) => {
           }}
           width={!width ? "auto" : width}
           margin={!width ? "none" : "0 1rem 0 0"}
+          height={height ? height : "auto"}
         >
-          <Box
-            height={{ base: "150px", md: "180px", xl: "200px" }}
-            padding="0.5rem"
-          >
+          <Box height="150px" padding="0.5rem">
             <Link href={`/product?id=${product._id}`}>
               <Flex
                 alignContent={"center"}
@@ -133,7 +131,7 @@ const ProductCard = ({ product, UGX, userInfo, width }) => {
               margin={"0.5rem 0"}
               textAlign={"center"}
               className="secondary-extra-bold"
-              fontSize={"2xl"}
+              fontSize={"lg"}
               color={ThemeColors.darkColor}
             >
               {UGX(product.price).format()}
@@ -145,9 +143,9 @@ const ProductCard = ({ product, UGX, userInfo, width }) => {
                   background={ThemeColors.darkColor}
                   border={"1.7px solid " + ThemeColors.darkColor}
                   borderRadius={"0.3rem"}
-                  padding={"1.5rem"}
+                  padding={"1rem"}
                   className="secondary-light-font"
-                  fontSize={"lg"}
+                  fontSize={"md"}
                   _hover={{
                     border: "1.7px solid " + ThemeColors.lightColor,
                   }}
