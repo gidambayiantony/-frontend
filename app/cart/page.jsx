@@ -297,7 +297,7 @@ const Cart = () => {
               <Box
                 padding={"0.5rem 0"}
                 borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                maxHeight={{ base: "400px", md: "450px" }}
+                maxHeight={{ base: "550px", md: "500px" }}
                 overflowY={{ base: "auto", md: "auto", xl: "hidden" }}
               >
                 {Cart.length > 0 ? (
@@ -310,7 +310,7 @@ const Cart = () => {
                       <Box
                         width={{ base: "100%", md: "100%", xl: "15%" }}
                         padding={"0 2rem"}
-                        maxHeight={{ base: "100px", md: "120px", xl: "auto" }}
+                        maxHeight={{ base: "70px", md: "80px", xl: "auto" }}
                       >
                         <Flex
                           alignContent={"center"}
