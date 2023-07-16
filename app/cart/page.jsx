@@ -310,7 +310,7 @@ const Cart = () => {
                       <Box
                         width={{ base: "100%", md: "100%", xl: "15%" }}
                         padding={"0 2rem"}
-                        height={{ base: "70px", md: "80px", xl: "auto" }}
+                        height={{ base: "120px", md: "150px", xl: "auto" }}
                       >
                         <Flex
                           alignContent={"center"}
