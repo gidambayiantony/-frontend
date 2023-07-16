@@ -297,6 +297,8 @@ const Cart = () => {
               <Box
                 padding={"0.5rem 0"}
                 borderBottom={"1.7px solid " + ThemeColors.lightColor}
+                maxHeight={{ base: "400px", md: "450px" }}
+                overflowY={{ base: "auto", md: "auto", xl: "hidden" }}
               >
                 {Cart.length > 0 ? (
                   Cart.map((cart, index) => (
@@ -304,12 +306,11 @@ const Cart = () => {
                       key={cart?.cartId ? cart?.cartId : index}
                       flexShrink={1}
                       display={{ base: "block", md: "block", xl: "flex" }}
-                      maxHeight={{ base: "350px", md: "400px" }}
-                      overflowY={{ base: "auto", md: "auto", xl: "hidden" }}
                     >
                       <Box
                         width={{ base: "100%", md: "100%", xl: "15%" }}
                         padding={"0 2rem"}
+                        maxHeight={{ base: "100px", md: "120px", xl: "auto" }}
                       >
                         <Flex
                           alignContent={"center"}
