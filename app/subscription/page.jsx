@@ -4,152 +4,311 @@
 import {
   Box,
   Flex,
+  FormControl,
+  FormLabel,
   Grid,
   Heading,
+  Input,
   Modal,
   ModalCloseButton,
   ModalContent,
+  Select,
   Stack,
   Text,
+  Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+import ButtonComponent from "@components/Button";
 import SubscriptionCard from "@components/SubscriptionCard";
 import TabOne from "@components/modals/tabs/subscriptionTabs/TabOne";
-import TabThree from "@components/modals/tabs/subscriptionTabs/TabThree";
 import TabTwo from "@components/modals/tabs/subscriptionTabs/TabTwo";
 import { ThemeColors } from "@constants/constants";
 import { useSubscriptionCardGetMutation } from "@slices/usersApiSlice";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Subscription = () => {
-  const [SubscriptionCards, setSubscriptionCards] = useState([]);
-  const [selectedSubscriptionCard, setSelectedSubscriptionCard] = useState({});
   const [tabIndex, setTabIndex] = useState(0);
-  const [tabOneData, setTabOneData] = useState("");
+  const [moreInfo, setMoreInfo] = useState("");
+
+  const [personalInfo, setPersonalInfo] = useState({
+    firstname: "",
+    lastname: "",
+    phone: "",
+    email: "",
+    gender: "",
+  });
+
+  const [deliveryAddress, setDeliveryAddress] = useState({
+    address1: "",
+    address2: "",
+  });
+
+  const [numberOfCards, setNumberOfCards] = useState(1);
+
+  const searchParam = useSearchParams();
+
+  const chakraToast = useToast();
+
+  const cardType = searchParam.get("card");
+  const cardPrice = searchParam.get("price");
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [fetchSubscriptionCards] = useSubscriptionCardGetMutation();
   const { onClose, onOpen, isOpen } = useDisclosure();
 
-  const handleSuscriptionCardSelect = (card) => {
+  const handleSubscriptionCardSelect = (card) => {
     setSelectedSubscriptionCard(card);
     onOpen();
   };
 
-  const handleSubscriptionCardsFetch = async () => {
-    try {
-      const res = await fetchSubscriptionCards().unwrap();
-
-      if (res?.status == "Success") {
-        setSubscriptionCards(res?.data);
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   useEffect(() => {
-    handleSubscriptionCardsFetch();
+    if (userInfo) setPersonalInfo({ ...personalInfo, ...userInfo });
   }, []);
+
+  const handleSubmitForm = () => {
+    if (deliveryAddress?.address1 == "" && deliveryAddress?.address2 == "")
+      return chakraToast({
+        title: "Error",
+        description: "Please enter an address",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+    onOpen();
+  };
 
   return (
     <>
       <Box>
-        <Box padding={"1rem 0 3rem 0"}>
+        <Box padding={"2rem 0 3rem 0"}>
+          <Box
+            paddingBottom={"1rem"}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <Text textAlign={"center"} fontSize={"4xl"} display={"flex"}>
+              YooCard{" "}
+              <Text
+                textAlign={"center"}
+                fontWeight={"bold"}
+                color={ThemeColors.darkColor}
+                textTransform={"capitalize"}
+                fontSize={"4xl"}
+              >
+                {cardType}
+              </Text>
+            </Text>
+          </Box>
           <Flex>
             <Box margin={"auto"} width={{ base: "90%", md: "80%", xl: "70%" }}>
-              <Flex direction={{ base: "column", md: "column", xl: "row" }}>
-                <Box
-                  width={{ base: "100%", md: "90%", xl: "60%" }}
-                  padding={{ base: "1rem 0", md: "2rem 0", xl: "5rem 0" }}
-                >
-                  <Box>
-                    <Heading textAlign={"center"}>
-                      <span style={{ color: ThemeColors.darkColor }}>
-                        YooCard
-                      </span>{" "}
-                      - Here for you
-                    </Heading>
+              <Box padding={"1rem 0"}>
+                <Text textAlign={"center"} fontSize={"2xl"}>
+                  Fill the form to continue
+                </Text>
+              </Box>
+              <Box
+                border={"1.7px solid " + ThemeColors.lightColor}
+                borderRadius={"md"}
+                padding={"1rem"}
+              >
+                <form>
+                  <Grid
+                    gridTemplateColumns={{
+                      base: "repeat(2, 1fr)",
+                      md: "repeat(3, 1fr)",
+                      xl: "repeat(3, 1fr)",
+                    }}
+                    gridGap={"1rem"}
+                    display={userInfo ? "none" : "grid"}
+                  >
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="firstname">Firstname</FormLabel>
+                        <Input
+                          type="text"
+                          id="firstname"
+                          placeholder="firstname is required"
+                          name="firstname"
+                          value={personalInfo.firstname}
+                          onChange={(e) =>
+                            setPersonalInfo({
+                              ...personalInfo,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="lastname">Lastname</FormLabel>
+                        <Input
+                          type="text"
+                          id="lastname"
+                          placeholder="lastname is required"
+                          name="lastname"
+                          value={personalInfo.lastname}
+                          onChange={(e) =>
+                            setPersonalInfo({
+                              ...personalInfo,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="phone">Phone Number</FormLabel>
+                        <Input
+                          type="text"
+                          placeholder="Include country code [+256.....]"
+                          name="phone"
+                          id="phone"
+                          value={personalInfo.phone}
+                          onChange={(e) =>
+                            setPersonalInfo({
+                              ...personalInfo,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="gender">Gender</FormLabel>
+                        <Select
+                          placeholder="Select gender"
+                          name="gender"
+                          id="gender"
+                          value={personalInfo.gender}
+                          onChange={(e) =>
+                            setPersonalInfo({
+                              ...personalInfo,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Rather not say</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="email">Email</FormLabel>
+                        <Input
+                          type="text"
+                          id="email"
+                          placeholder="email is required"
+                          name="email"
+                          value={personalInfo.email}
+                          onChange={(e) =>
+                            setPersonalInfo({
+                              ...personalInfo,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                  <Box padding="0">
+                    <Text fontSize={"lg"} fontWeight={"bold"}>
+                      Delivery Address
+                    </Text>
+                  </Box>
+                  <Grid
+                    gridTemplateColumns={{
+                      base: "repeat(2, 1fr)",
+                      md: "repeat(3, 1fr)",
+                      xl: "repeat(3, 1fr)",
+                    }}
+                    gridGap={"1rem"}
+                  >
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="address1">Address 1</FormLabel>
+                        <Input
+                          type="text"
+                          id="address1"
+                          placeholder="address1 is required"
+                          name="address1"
+                          value={deliveryAddress.address1}
+                          onChange={(e) =>
+                            setDeliveryAddress({
+                              ...deliveryAddress,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="address2">Address 2</FormLabel>
+                        <Input
+                          type="text"
+                          id="address2"
+                          placeholder="address2 is required"
+                          name="address2"
+                          value={deliveryAddress.address2}
+                          onChange={(e) =>
+                            setDeliveryAddress({
+                              ...deliveryAddress,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </Box>
+                    <Box padding={"0.5rem 0"}>
+                      <FormControl>
+                        <FormLabel htmlFor="cardNos">Number of Cards</FormLabel>
+                        <Input
+                          type="number"
+                          id="cardNos"
+                          placeholder="Number of cards is required"
+                          name="cardNos"
+                          value={numberOfCards}
+                          onChange={(e) => setNumberOfCards(e.target.value)}
+                        />
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                  <Box padding={"0.5rem 0"}>
+                    <FormControl>
+                      <FormLabel htmlFor="moreInfo">
+                        Additional Information
+                      </FormLabel>
+                      <Textarea
+                        placeholder="Any additional information"
+                        name="moreInfo"
+                        onChange={(e) => setMoreInfo(e.target.value)}
+                        value={moreInfo}
+                      ></Textarea>
+                    </FormControl>
                   </Box>
                   <Box padding={"1rem 0"}>
-                    <Text textAlign={"center"} fontSize={"3xl"}>
-                      Celebrate life, live healthly
-                    </Text>
-                    <Text textAlign={"center"} fontSize={"3xl"}>
-                      Food on Demand, Anytime, anywhere
+                    <Text>
+                      Card Price:{" "}
+                      {cardPrice ? `UGX ${cardPrice}` : "Contact for price"}
                     </Text>
                   </Box>
-                </Box>
-                <Box width={{ base: "100%", md: "90%", xl: "40%" }}>
-                  <Box
-                    padding={{
-                      base: "1rem 0",
-                      md: "1rem 0",
-                      xl: "2rem 0 1rem 0",
-                    }}
-                  >
-                    <Stack
-                      border={"1.7px solid " + ThemeColors.lightColor}
-                      padding={"0.5rem 1rem"}
-                      borderRadius={"md"}
-                    >
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - Say no to bad feeding habits
-                        </Text>
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - You can now enjoy a variety of foods
-                        </Text>
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - You don't need cash to eat
-                        </Text>
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - You don't need to go to the market
-                        </Text>
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - You don't have to peel, just order
-                        </Text>
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text fontSize={"lg"}>
-                          - No more problems food going bad
-                        </Text>
-                      </Box>
-                    </Stack>
+                  <Box onClick={handleSubmitForm}>
+                    <ButtonComponent type={"button"} text={"Submit"} />
                   </Box>
-                </Box>
-              </Flex>
+                </form>
+              </Box>
             </Box>
           </Flex>
-          <Box padding={"2rem 0"}>
-            <Flex>
-              <Box margin={"auto"} width={"75%"}>
-                <Grid
-                  gridTemplateColumns={{
-                    base: "repeat(1, 1fr)",
-                    md: "repeat(2, 1fr)",
-                    xl: "repeat(3, 1fr)",
-                  }}
-                  gridGap={"1rem"}
-                >
-                  {SubscriptionCards.map((Card, index) => (
-                    <SubscriptionCard
-                      key={index}
-                      card={Card}
-                      btnClick={handleSuscriptionCardSelect}
-                    />
-                  ))}
-                </Grid>
-              </Box>
-            </Flex>
-          </Box>
         </Box>
       </Box>
 
@@ -163,19 +322,37 @@ const Subscription = () => {
           <Box padding={"1rem 0"}>
             {tabIndex === 0 ? (
               <TabOne
-                updateTabIndex={setTabIndex}
-                fetchData={setTabOneData}
-                card={selectedSubscriptionCard}
-              />
-            ) : tabIndex === 1 ? (
-              <TabTwo
-                data={{ ...tabOneData, selectedSubscriptionCard }}
+                data={{
+                  ...personalInfo,
+                  ...deliveryAddress,
+                  moreInfo,
+                  card: {
+                    type: cardType,
+                    price: cardPrice ? cardPrice : "",
+                    total: cardPrice
+                      ? parseInt(cardPrice) * numberOfCards
+                      : "Contact for price",
+                    quantity: numberOfCards,
+                  },
+                }}
                 updateTabIndex={setTabIndex}
               />
             ) : (
-              <TabThree
+              <TabTwo
                 updateTabIndex={setTabIndex}
-                data={{ ...tabOneData, selectedSubscriptionCard }}
+                data={{
+                  ...personalInfo,
+                  ...deliveryAddress,
+                  moreInfo,
+                  card: {
+                    type: cardType,
+                    price: cardPrice ? cardPrice : "",
+                    total: cardPrice
+                      ? parseInt(cardPrice) * numberOfCards
+                      : "Contact for price",
+                    quantity: numberOfCards,
+                  },
+                }}
               />
             )}
           </Box>

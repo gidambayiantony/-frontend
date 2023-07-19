@@ -2,13 +2,17 @@ import { Box, Flex, Grid, Text, Heading, Stack } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
 import React from "react";
 import ButtonComponent from "./Button";
+import currency from "currency.js";
+import Link from "next/link";
 
-const SubscriptionCard = ({ card, btnClick }) => {
+const SubscriptionCard = ({ card }) => {
+  const UGX = (value) =>
+    currency(value, { symbol: "UGX", precision: 0, separator: "," });
   return (
     <>
       <Box
         width={"auto"}
-        height={"350px"}
+        maxHeight={"400px"}
         borderRadius={"md"}
         border={"1.7px solid " + ThemeColors.darkColor}
         className={"card__design"}
@@ -48,13 +52,40 @@ const SubscriptionCard = ({ card, btnClick }) => {
                 ))}
               </Stack>
             </Box>
-            <Box padding={"2rem 0"}>
-              <Box
-                position={"absolute"}
-                top={"80%"}
-                onClick={btnClick ? () => btnClick(card) : () => {}}
-              >
-                <ButtonComponent type={"button"} text={"Subscribe"} />
+            <Box paddingTop={"2rem"}>
+              <Box padding={"0.5rem 0"}>
+                {card?.currPrice ? (
+                  <Flex>
+                    <Text
+                      fontSize={"md"}
+                      marginTop={"0.2rem"}
+                      fontWeight={"light"}
+                      textDecoration={"line-through"}
+                    >
+                      {UGX(card?.prevPrice).format()} -
+                    </Text>
+                    <Text
+                      fontSize={"lg"}
+                      margin={"0 0 0 0.3rem"}
+                      fontWeight={"bold"}
+                    >
+                      {UGX(card?.currPrice).format()}
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Text fontSize={"lg"} fontWeight={"bold"}>
+                    Contact for price
+                  </Text>
+                )}
+              </Box>
+              <Box>
+                <Link
+                  href={`/subscription?card=${card?.type}${
+                    card?.currPrice ? `&price=${card?.currPrice}` : ""
+                  }`}
+                >
+                  <ButtonComponent type={"button"} text={`Get ${card?.type}`} />
+                </Link>
               </Box>
             </Box>
           </Box>

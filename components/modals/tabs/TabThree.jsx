@@ -211,6 +211,7 @@ const TabThree = ({ updateTabIndex, data }) => {
                       : ThemeColors.darkColor
                   }
                   onClick={() => setPaymentMethod("mobileMoney")}
+                  hidden
                 >
                   <Text
                     fontSize={"2xl"}
@@ -239,6 +240,7 @@ const TabThree = ({ updateTabIndex, data }) => {
                       : ThemeColors.darkColor
                   }
                   onClick={() => setPaymentMethod("card")}
+                  hidden
                 >
                   <Text
                     fontSize={"2xl"}

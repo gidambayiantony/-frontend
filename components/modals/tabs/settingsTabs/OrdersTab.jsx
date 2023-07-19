@@ -14,7 +14,7 @@ const UGX = (value) =>
 
 // import React from 'react'
 
-const Orders = () => {
+const OrdersTab = () => {
   const [fetchOrders, { isLoading }] = useOrdersMutation();
 
   const [Orders, setOrders] = useState({ CompletedOrders: [], AllOrders: [] });
@@ -50,7 +50,7 @@ const Orders = () => {
   return (
     <>
       <Box>
-        <Box padding={"2rem 3rem"}>
+        <Box padding={"0.5rem 1rem"}>
           {/* active orders ----------------- */}
           <Box>
             <Box padding={"0.5rem 0 1rem 0"}>
@@ -63,7 +63,7 @@ const Orders = () => {
                 gridTemplateColumns={{
                   base: "repeat(1, 1fr)",
                   md: "repeat(1, 1fr)",
-                  xl: "repeat(3, 1fr)",
+                  xl: "repeat(2, 1fr)",
                 }}
                 gridGap={"1rem"}
               >
@@ -94,8 +94,8 @@ const Orders = () => {
                           <Box>
                             <Text fontSize={"lg"}>
                               Payment Method:{" "}
-                              {order?.payment.paymentMethod
-                                ? order?.payment.paymentMethod
+                              {order?.payment?.paymentMethod
+                                ? order?.payment?.paymentMethod
                                 : "__"}
                             </Text>
                           </Box>
@@ -343,4 +343,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default OrdersTab;
