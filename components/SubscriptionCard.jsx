@@ -5,7 +5,7 @@ import ButtonComponent from "./Button";
 import currency from "currency.js";
 import Link from "next/link";
 
-const SubscriptionCard = ({ card }) => {
+const SubscriptionCard = ({ card, selectedCard }) => {
   const UGX = (value) =>
     currency(value, { symbol: "UGX", precision: 0, separator: "," });
   return (
@@ -54,7 +54,7 @@ const SubscriptionCard = ({ card }) => {
             </Box>
             <Box paddingTop={"2rem"}>
               <Box padding={"0.5rem 0"}>
-                {card?.currPrice ? (
+                {card?.price ? (
                   <Flex>
                     <Text
                       fontSize={"md"}
@@ -62,14 +62,14 @@ const SubscriptionCard = ({ card }) => {
                       fontWeight={"light"}
                       textDecoration={"line-through"}
                     >
-                      {UGX(card?.prevPrice).format()} -
+                      {UGX(card?.previousPrice).format()} -
                     </Text>
                     <Text
                       fontSize={"lg"}
                       margin={"0 0 0 0.3rem"}
                       fontWeight={"bold"}
                     >
-                      {UGX(card?.currPrice).format()}
+                      {UGX(card?.price).format()}
                     </Text>
                   </Flex>
                 ) : (
@@ -78,14 +78,8 @@ const SubscriptionCard = ({ card }) => {
                   </Text>
                 )}
               </Box>
-              <Box>
-                <Link
-                  href={`/subscription?card=${card?.type}${
-                    card?.currPrice ? `&price=${card?.currPrice}` : ""
-                  }`}
-                >
-                  <ButtonComponent type={"button"} text={`Get ${card?.type}`} />
-                </Link>
+              <Box onClick={() => selectedCard(card?.type)}>
+                <ButtonComponent type={"button"} text={`Get ${card?.type}`} />
               </Box>
             </Box>
           </Box>

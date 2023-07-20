@@ -2,245 +2,131 @@
 
 import {
   Box,
-  Checkbox,
-  Flex,
-  Grid,
-  Heading,
-  Spacer,
   Text,
-  useToast,
+  Grid,
+  FormControl,
+  FormLabel,
+  Input,
+  Flex,
+  Textarea,
+  Spacer,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
-import { Images, ThemeColors } from "@constants/constants";
-import currency from "currency.js";
+import { ThemeColors } from "@constants/constants";
+import React, { useState } from "react";
 
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
+const TabOne = ({ updateTabIndex, setTabOneData }) => {
+  const [moreInfo, setMoreInfo] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState({
+    address1: "",
+    address2: "",
+  });
 
-const TabOne = ({ data, updateTabIndex }) => {
-  const chakraToast = useToast();
+  const [numberOfCards, setNumberOfCards] = useState(1);
 
-  const handleProcessPayment = async () => {
-    // check is user has confirmed information
-    const confirmInfoBtn = document.querySelector("input#confirmInfoBtn");
-
-    if (!confirmInfoBtn.checked)
-      return chakraToast({
-        title: "Error",
-        description: "Please confirm the information displayed",
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-
-    updateTabIndex(2);
+  const handleSettingData = () => {
+    setTabOneData({ ...deliveryAddress, moreInfo, quantity: numberOfCards });
+    updateTabIndex(1);
   };
+
   return (
     <>
       <Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Box>
-            <Heading as={"h3"} size={"md"}>
-              Personal Information
-            </Heading>
-          </Box>
-          <Box padding={"1rem 0"}>
-            <Grid
-              gridTemplateColumns={{
-                base: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                xl: "repeat(5, 1fr)",
-              }}
-              gridGap={"1rem"}
-            >
-              <Box>
-                <Text fontSize={"md"}>firstname</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>{data?.firstname}</span>
-                </Text>
-              </Box>
-              <Box>
-                <Text fontSize={"md"}>lastname</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>{data?.lastname}</span>
-                </Text>
-              </Box>
-              <Box>
-                <Text fontSize={"md"}>email</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>{data?.email}</span>
-                </Text>
-              </Box>
-              <Box>
-                <Text fontSize={"md"}>gender</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>{data?.gender}</span>
-                </Text>
-              </Box>
-              <Box>
-                <Text fontSize={"md"}>Phone Number</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>{data?.phone}</span>
-                </Text>
-              </Box>
-            </Grid>
-          </Box>
-        </Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Grid
-            gridTemplateColumns={{
-              base: "repeat(1, 1fr)",
-              md: "repeat(2, 1fr)",
-              xl: "repeat(2, 1fr)",
-            }}
-            gridGap={"1rem"}
-          >
-            <Box>
-              <Box>
-                <Heading as={"h3"} size={"md"}>
-                  Delivery Address
-                </Heading>
-              </Box>
-              <Box padding={"1rem 0"}>
-                <Grid
-                  gridTemplateColumns={{
-                    base: "repeat(2, 1fr)",
-                    md: "repeat(3, 1fr)",
-                    xl: "repeat(5, 1fr)",
-                  }}
-                  gridGap={"1rem"}
-                >
-                  {data?.address1 ? (
-                    <Box>
-                      <Text fontSize={"md"}>Address 1</Text>
-                      <Text>
-                        <span style={{ fontWeight: "bold" }}>
-                          {data?.address1}
-                        </span>
-                      </Text>
-                    </Box>
-                  ) : (
-                    ""
-                  )}
-                  {data?.address2 ? (
-                    <Box>
-                      <Text fontSize={"md"}>Address 2</Text>
-                      <Text>
-                        <span style={{ fontWeight: "bold" }}>
-                          {data?.address2}
-                        </span>
-                      </Text>
-                    </Box>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-              </Box>
-            </Box>
-            {data?.moreInfo !== "" ? (
-              <Box>
-                <Box>
-                  <Heading as={"h3"} size={"md"}>
-                    Additional Information
-                  </Heading>
-                </Box>
-                <Box padding={"1rem 0"}>
-                  <Text>
-                    <span style={{ fontWeight: "bold" }}>{data?.moreInfo}</span>
-                  </Text>
-                </Box>
-              </Box>
-            ) : (
-              ""
-            )}
-          </Grid>
-        </Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Box>
-            <Heading as={"h3"} size={"md"}>
-              Card Details
-            </Heading>
-          </Box>
-          <Box padding={"1rem 0"}>
-            <Grid
-              gridTemplateColumns={{
-                base: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                xl: "repeat(4, 1fr)",
-              }}
-              gridGap={"1rem"}
-            >
-              <Box>
-                <Text fontSize={"md"}>Card</Text>
-                <Text>
-                  <span
-                    style={{ fontWeight: "bold", textTransform: "capitalize" }}
-                  >
-                    YooCard {data?.card?.type}
-                  </span>{" "}
-                  <span
-                    style={{ fontWeight: "bold", textTransform: "capitalize" }}
-                  >
-                    {data?.card?.name}
-                  </span>
-                </Text>
-              </Box>
-              <Box>
-                <Text fontSize={"md"}>Quantity</Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>
-                    {data?.card?.quantity}{" "}
-                    {`${
-                      parseInt(data?.card?.quantity) !== 1 ? "cards" : "card"
-                    }`}
-                  </span>
-                </Text>
-              </Box>
-            </Grid>
-          </Box>
-        </Box>
-        <Box
-          padding={"1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Box padding={"1rem 0"}>
-            <Box>
-              <Text fontSize={"md"}>Order Total</Text>
-              <Text fontSize={"lg"}>
-                <span style={{ fontWeight: "bold" }}>
-                  {data?.card?.total === "Contact for price"
-                    ? data?.card?.total
-                    : UGX(data?.card?.total).format()}
-                </span>
+        <Flex>
+          <Box margin={"auto"} width={"90%"}>
+            <Box padding={"1rem 0"}>
+              <Text textAlign={"center"} fontSize={"2xl"}>
+                Fill the form to continue
               </Text>
             </Box>
+            <Box
+              border={"1.7px solid " + ThemeColors.lightColor}
+              borderRadius={"md"}
+              padding={"1rem"}
+            >
+              <Grid
+                gridTemplateColumns={{
+                  base: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
+                  xl: "repeat(3, 1fr)",
+                }}
+                gridGap={"1rem"}
+              >
+                <Box padding={"0.5rem 0"}>
+                  <FormControl>
+                    <FormLabel htmlFor="cardNos">Number of Cards</FormLabel>
+                    <Input
+                      type="number"
+                      id="cardNos"
+                      placeholder="Number of cards is required"
+                      name="cardNos"
+                      value={numberOfCards}
+                      onChange={(e) => setNumberOfCards(e.target.value)}
+                    />
+                  </FormControl>
+                </Box>
+                <Box padding={"0.5rem 0"}>
+                  <FormControl>
+                    <FormLabel htmlFor="address1">Delivery Address 1</FormLabel>
+                    <Input
+                      type="text"
+                      id="address1"
+                      placeholder="address1 is required"
+                      name="address1"
+                      value={deliveryAddress.address1}
+                      onChange={(e) =>
+                        setDeliveryAddress({
+                          ...deliveryAddress,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                    />
+                  </FormControl>
+                </Box>
+                <Box padding={"0.5rem 0"}>
+                  <FormControl>
+                    <FormLabel htmlFor="address2">Delivery Address 2</FormLabel>
+                    <Input
+                      type="text"
+                      id="address2"
+                      placeholder="address2 is required"
+                      name="address2"
+                      value={deliveryAddress.address2}
+                      onChange={(e) =>
+                        setDeliveryAddress({
+                          ...deliveryAddress,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                    />
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Box padding={"0.5rem 0"}>
+                <FormControl>
+                  <FormLabel htmlFor="moreInfo">
+                    Additional Information
+                  </FormLabel>
+                  <Textarea
+                    placeholder="Any additional information"
+                    name="moreInfo"
+                    onChange={(e) => setMoreInfo(e.target.value)}
+                    value={moreInfo}
+                  ></Textarea>
+                </FormControl>
+              </Box>
+            </Box>
+            <Box padding={"1rem 0"}>
+              <Flex>
+                <Box></Box>
+                <Spacer />
+                <Box onClick={handleSettingData}>
+                  <ButtonComponent type={"button"} text={"Continue"} />
+                </Box>
+              </Flex>
+            </Box>
           </Box>
-        </Box>
-        <Box padding={"1rem 0"}>
-          <Checkbox name="confirm" id="confirmInfoBtn">
-            I confirm that the above information is correct
-          </Checkbox>
-        </Box>
-        <Box padding={"1rem 0"}>
-          <Flex>
-            <Box onClick={() => updateTabIndex(0)}>
-              <ButtonComponent type={"button"} text={"Back"} />
-            </Box>
-            <Spacer />
-            <Box onClick={() => handleProcessPayment()}>
-              <ButtonComponent type={"button"} text={"Choose Payment Method"} />
-            </Box>
-          </Flex>
-        </Box>
+        </Flex>
       </Box>
     </>
   );
