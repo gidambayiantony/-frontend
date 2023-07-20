@@ -180,7 +180,7 @@ const Home = () => {
           borderBottom={"1.7px solid " + ThemeColors.lightColor}
         >
           <Flex>
-            <Box margin={"auto"} width={{ base: "80%", md: "90%", xl: "90%" }}>
+            <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
               <Box padding={"2rem 0"}>
                 <Heading as={"h2"} fontSize={"3xl"} textAlign={"center"}>
                   Recommended Products
@@ -212,7 +212,7 @@ const Home = () => {
           borderBottom={"1.7px solid " + ThemeColors.lightColor}
         >
           <Flex>
-            <Box margin={"auto"} width={{ base: "80%", md: "90%", xl: "90%" }}>
+            <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
               <Box padding={"2rem 0"}>
                 <Heading as={"h2"} fontSize={"3xl"} textAlign={"center"}>
                   Popular Products

@@ -272,11 +272,11 @@ const TabTwo = ({ updateTabIndex, data }) => {
             <Box
               width={{ base: "45%", md: "40%", xl: "30%" }}
               margin={"auto"}
-              padding={"2rem 0"}
+              padding={{ base: "3rem 0", md: "3rem 0", xl: "2rem 0" }}
             >
               <Box
                 padding={{
-                  base: "1rem 0.5rem",
+                  base: "2rem 1rem",
                   md: "2rem 1rem",
                   xl: "2rem 1rem",
                 }}
@@ -295,7 +295,7 @@ const TabTwo = ({ updateTabIndex, data }) => {
                 onClick={() => setPaymentMethod("cash")}
               >
                 <Text
-                  fontSize={{ base: "sm", md: "lg", xl: "2xl" }}
+                  fontSize={{ base: "md", md: "lg", xl: "2xl" }}
                   textAlign={"center"}
                   alignItems={"center"}
                   color={
