@@ -126,7 +126,7 @@ const ProductCard = ({ product, UGX, userInfo, width, height }) => {
             <Text
               textAlign={"center"}
               className="secondary-light-font"
-              fontSize={"2xl"}
+              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
             >
               {product.name}
             </Text>
@@ -135,7 +135,7 @@ const ProductCard = ({ product, UGX, userInfo, width, height }) => {
               margin={"0.5rem 0"}
               textAlign={"center"}
               className="secondary-extra-bold"
-              fontSize={"lg"}
+              fontSize={{ base: "md", md: "lg", xl: "lg" }}
               color={ThemeColors.darkColor}
             >
               {UGX(product.price).format()}
