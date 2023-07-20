@@ -268,7 +268,7 @@ const Products = () => {
             <Box
               width={{ base: "100%", md: "100%", xl: "75%" }}
               padding={{
-                base: "2rem 0.5rem 1rem 0.5rem",
+                base: "2rem 0 1rem 0",
                 md: "2rem 0.5rem 1rem 0.5rem",
                 xl: "0 0.5rem 1rem 0.5rem",
               }}

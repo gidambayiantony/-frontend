@@ -96,10 +96,14 @@ const ProductCard = ({ product, UGX, userInfo, width, height }) => {
             boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           }}
           width={!width ? "auto" : width}
+          maxHeight={{ base: "300px", md: "400px", xl: "500px" }}
           margin={!width ? "none" : "0 1rem 0 0"}
           height={height ? height : "auto"}
         >
-          <Box height="150px" padding="0.5rem">
+          <Box
+            height={{ base: "100px", md: "120px", xl: "150px" }}
+            padding="0.5rem"
+          >
             <Link href={`/product?id=${product._id}`}>
               <Flex
                 alignContent={"center"}
