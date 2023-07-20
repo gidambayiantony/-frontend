@@ -89,14 +89,14 @@ const ProductCard = ({ product, UGX, userInfo, width, height }) => {
     <>
       <Box>
         <Box
-          padding={"1rem"}
+          padding={{ base: "0.5rem 1rem", md: "1rem", xl: "1rem" }}
           background={"#fff"}
           borderRadius={"md"}
           _hover={{
             boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           }}
           width={!width ? "auto" : width}
-          maxHeight={{ base: "300px", md: "400px", xl: "500px" }}
+          maxHeight={{ base: "270px", md: "400px", xl: "500px" }}
           margin={!width ? "none" : "0 1rem 0 0"}
           height={height ? height : "auto"}
         >
