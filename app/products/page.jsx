@@ -163,7 +163,7 @@ const Products = () => {
   return (
     <>
       <Box>
-        <Box padding={"2rem"}>
+        <Box padding={{ base: "2rem 1rem", md: "2rem", xl: "2rem" }}>
           <Flex direction={{ base: "column", md: "column", xl: "row" }}>
             <Box
               width={{ base: "100%", md: "100%", xl: "25%" }}
