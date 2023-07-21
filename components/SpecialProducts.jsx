@@ -5,10 +5,12 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
-const SpecialProducts = ({ Products, UGX, userInfo }) => {
+const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
   // handle scrolling to right
   const handleRightScroll = () => {
-    const SliderDiv = document.getElementById("container__hide__scrollbar");
+    const SliderDiv = document.getElementById(
+      `${category}__container__scrollbar`
+    );
 
     if (SliderDiv.scrollBy) {
       SliderDiv.scrollBy(300, 0);
@@ -17,7 +19,9 @@ const SpecialProducts = ({ Products, UGX, userInfo }) => {
 
   // handle scrolling to right
   const handleLeftScroll = () => {
-    const SliderDiv = document.getElementById("container__hide__scrollbar");
+    const SliderDiv = document.getElementById(
+      `${category}__container__scrollbar`
+    );
 
     if (SliderDiv.scrollBy) {
       SliderDiv.scrollBy(-300, 0);
@@ -33,7 +37,8 @@ const SpecialProducts = ({ Products, UGX, userInfo }) => {
             // overflowX={{ base: "hidden", md: "hidden", xl: "auto" }}
             direction={"row"}
             // direction={{ base: "column", md: "column", xl: "row" }}
-            id="container__hide__scrollbar"
+            id={`${category}__container__scrollbar`}
+            className="container__hide__scrollbar"
           >
             {Products.map((product, index) => (
               <ProductCard

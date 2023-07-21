@@ -109,8 +109,6 @@ const Home = () => {
     handleFetchProductsData();
   }, []);
 
-  console.log(Products);
-
   return (
     <>
       <Head>
@@ -295,6 +293,7 @@ const Home = () => {
                       </Box>
                       <SpecialProducts
                         Products={product?.products}
+                        category={product?.category}
                         UGX={UGX}
                         userInfo={userInfo}
                       />
