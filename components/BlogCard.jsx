@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 
 const BlogCard = ({ blog }) => {
+  console.log(blog);
   return (
     <>
       <Link href={`/blog?id=${blog?._id}`}>
