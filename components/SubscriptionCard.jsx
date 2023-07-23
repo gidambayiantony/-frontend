@@ -54,7 +54,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
             </Box>
             <Box paddingTop={"2rem"}>
               <Box padding={"0.5rem 0"}>
-                {card?.price ? (
+                {card?.price == 0 ? (
                   <Flex>
                     <Text
                       fontSize={"md"}
