@@ -54,6 +54,8 @@ const Blog = () => {
     handleBlogFetch();
   }, []);
 
+  console.log(BlogPost);
+
   return (
     <>
       <Box padding={"2rem 0"}>
