@@ -63,6 +63,7 @@ const Blog = () => {
               <Image
                 src={BlogPost ? (BlogPost?.image ? BlogPost?.image : "") : ""}
                 alt="newsblog image"
+                width={"70%"}
               />
             </Box>
             <Box padding={"0.5rem 0"}>
