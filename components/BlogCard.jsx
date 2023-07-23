@@ -7,7 +7,6 @@ import Link from "next/link";
 import React from "react";
 
 const BlogCard = ({ blog }) => {
-  console.log(blog);
   return (
     <>
       <Link href={`/blog?id=${blog?._id}`}>
@@ -18,7 +17,7 @@ const BlogCard = ({ blog }) => {
           <Box borderRadius={"md"}>
             <Image
               width={"100%"}
-              src={blog?.image.src}
+              src={blog?.image}
               objectFit={"cover"}
               borderTopRightRadius={"md"}
               borderTopRLeftRadius={"md"}
