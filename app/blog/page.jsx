@@ -121,7 +121,7 @@ const Blog = () => {
 
     setTimeout(() => {
       setNewsletterPrompt((prev) => (prev ? false : true));
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
@@ -326,6 +326,7 @@ const Blog = () => {
             </Box>
             <Box padding={"2rem 0"}>
               <Box
+                className="__blog-content"
                 dangerouslySetInnerHTML={{
                   __html: BlogPost
                     ? BlogPost?.blog
