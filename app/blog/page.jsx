@@ -267,6 +267,7 @@ const Blog = () => {
                   padding={"0.3rem 0.5rem"}
                   position={"relative"}
                   overflow={socialShareModal ? "visible" : "hidden"}
+                  display={"none"}
                 >
                   <FaShareAlt
                     style={{ cursor: "pointer" }}
