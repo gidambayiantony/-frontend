@@ -156,6 +156,7 @@ const Blog = () => {
         padding={"1rem"}
         background={ThemeColors.lightColor}
         borderRadius={"md"}
+        zIndex={10}
         width={{ base: "90%", md: "60%", xl: "40%" }}
         visibility={newsletterPrompt ? "visible" : "hidden"}
         transform={
@@ -281,6 +282,7 @@ const Blog = () => {
                     padding={"0.5rem"}
                     width={"250px"}
                     background={ThemeColors.lightColor}
+                    zIndex={5}
                     borderRadius={"0.3rem"}
                     visibility={socialShareModal ? "visible" : "hidden"}
                     transform={
