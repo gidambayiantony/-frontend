@@ -8,18 +8,13 @@ import {
   Heading,
   Stack,
   Text,
-  Image,
   Spinner,
   useDisclosure,
-  Modal,
-  ModalContent,
-  ModalCloseButton,
-  Checkbox,
   Input,
 } from "@chakra-ui/react";
 import Hero from "@components/Hero";
 import { Images, ThemeColors } from "@constants/constants";
-// import Image from "next/image";
+import Image from "next/image";
 import {
   FaCartPlus,
   FaMoneyBill,
@@ -29,13 +24,18 @@ import {
   FaEnvelope,
   FaPhone,
   FaPhoneAlt,
+  FaMoneyCheckAlt,
+  FaCreditCard,
+  FaUserShield,
+  FaUserClock,
+  FaRegCreditCard,
+  FaHeadset,
 } from "react-icons/fa";
 import * as HI from "react-icons/hi";
 import * as AI from "react-icons/ai";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import {
-  useCartCreateMutation,
   useCommentsGetMutation,
   useNewsletterPostMutation,
   useProductsCategoryGetMutation,
@@ -45,10 +45,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import ProductCard from "@components/ProductCard";
 import SpecialProducts from "@components/SpecialProducts";
 import ButtonComponent from "@components/Button";
-import SubscriptionCard from "@components/SubscriptionCard";
+import { CgShield } from "react-icons/cg";
 
 const UGX = (value) =>
   currency(value, { symbol: "UGX", precision: 0, separator: "," });
@@ -156,67 +155,88 @@ const Home = () => {
 
   return (
     <>
-      <Head>
-        <link rel="shortcut icon" href="/public/assets/icons/logo1.png" />
-      </Head>
       <Hero />
 
       {/* ------------- section 
       ------------------------------- */}
-      <Box padding={"3rem 0"} hidden>
+      <Box
+        padding={"3rem 0"}
+        borderBottom={"1.7px solid " + ThemeColors.lightColor}
+      >
         <Flex>
-          <Box margin={"auto"} width={{ base: "100%", md: "90%", xl: "70%" }}>
-            <Flex direction={{ base: "column", md: "column", xl: "row" }}>
-              <Box width={{ base: "100%", md: "100%", xl: "50%" }}>
-                <Flex padding={"0 1rem"}>
-                  <Box padding={"1rem "}>
-                    <FaTruckLoading size={80} color={ThemeColors.darkColor} />
-                  </Box>
-                  <Box>
-                    <Heading
-                      as={"h3"}
-                      className="secondary-font"
-                      size={"lg"}
-                      color={ThemeColors.darkColor}
-                      margin={"0.5rem 0"}
-                    >
-                      Delivery
-                    </Heading>
-                    <Text
-                      className="secondary-light-font"
-                      style={{ fontSize: "1.1rem" }}
-                    >
-                      Fast, timely and affordable delivery any where in the city
+          <Box margin={"auto"} width={{ base: "80%", md: "75%", xl: "70%" }}>
+            <Grid
+              gridTemplateColumns={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                xl: "repeat(4, 1fr)",
+              }}
+              gridGap={"1rem"}
+            >
+              <Box>
+                <Flex
+                  padding={"0 1rem"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <FaCreditCard size={60} color={ThemeColors.darkColor} />
+                  <Box padding={"0.5rem 0"}>
+                    <Text textAlign={"center"} fontSize={"lg"}>
+                      Register for 25% YooCard premium & Gold discount
                     </Text>
                   </Box>
                 </Flex>
               </Box>
-              <Box width={{ base: "100%", md: "100%", xl: "50%" }}>
-                <Flex padding={"0 1rem"}>
-                  <Box padding={"1rem "}>
-                    <FaMoneyCheck size={80} color={ThemeColors.darkColor} />
-                  </Box>
-                  <Box>
-                    <Heading
-                      as={"h3"}
-                      className="secondary-font"
-                      size={"lg"}
-                      color={ThemeColors.darkColor}
-                      margin={"0.5rem 0"}
-                    >
-                      Easy Payments
-                    </Heading>
-                    <Text
-                      className="secondary-light-font"
-                      style={{ fontSize: "1.1rem" }}
-                    >
-                      All payments are processed instantly over a secure payment
-                      protocol
+              <Box>
+                <Flex
+                  padding={"0 1rem"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <FaHeadset size={60} color={ThemeColors.darkColor} />
+                  {/* <Image src={Images.customerServiceIcon} width={60} /> */}
+                  <Box padding={"0.5rem 0"}>
+                    <Text textAlign={"center"} fontSize={"lg"}>
+                      24/7 service support
                     </Text>
                   </Box>
                 </Flex>
               </Box>
-            </Flex>
+              <Box>
+                <Flex
+                  padding={"0 1rem"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <FaTruckLoading size={60} color={ThemeColors.darkColor} />
+                  <Box padding={"0.5rem 0"}>
+                    <Text textAlign={"center"} fontSize={"lg"}>
+                      Delivery offer [21 - 30] <br />
+                      (Register for 9 days free delivery)
+                    </Text>
+                  </Box>
+                </Flex>
+              </Box>
+              <Box>
+                <Flex
+                  padding={"0 1rem"}
+                  flexDirection={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  {/* <CgShield size={60} color={ThemeColors.darkColor} /> */}
+                  <Image src={Images.cardSecureIcon} width={60} />
+                  <Box padding={"0.5rem 0"}>
+                    <Text textAlign={"center"} fontSize={"lg"}>
+                      Safe, instant & secured
+                    </Text>
+                  </Box>
+                </Flex>
+              </Box>
+            </Grid>
           </Box>
         </Flex>
       </Box>
@@ -458,7 +478,6 @@ const Home = () => {
                       }}
                     >
                       <Box padding={"1rem"}>
-                        {/* <FaPhone size={40} color={ThemeColors.darkColor} /> */}
                         <HI.HiOutlinePhoneOutgoing
                           size={30}
                           color={ThemeColors.darkColor}
@@ -581,15 +600,6 @@ const Home = () => {
           </Flex>
         </Box>
       </Box>
-
-      {/* // modal form container -------------------------- */}
-      <Modal isOpen={isOpen} onClose={onClose} size={"4xl"} padding={"1rem 0"}>
-        {/* <ModalOverlay /> */}
-        <ModalContent padding={"2rem 3rem"}>
-          <ModalCloseButton size={"lg"} color={ThemeColors.darkColor} />
-          <Box padding={"1rem 0"}>Modal</Box>
-        </ModalContent>
-      </Modal>
     </>
   );
 };

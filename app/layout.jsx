@@ -4,12 +4,14 @@ import { Providers } from "./providers";
 import "@styles/globals.css";
 import Head from "next/head";
 import { Images } from "@constants/constants";
+import CookiePolicy from "@components/CookiePolicy";
 // import store from "@store";
 // import { Provider } from "react-redux";
 
 export const metadata = {
   title: "yookatale",
-  description: "Fresh Food Products Supplier in Kampala and surrounding areas",
+  description:
+    "Digital Mobile Food Market | Food insights, Health Lifestyle & industry News | Promotions | Discount coupons & Offers. Reliable, convenient home food bank with YooCard. Publishing weekly",
   icons: {
     icon: Images.logo.src,
   },
@@ -24,6 +26,7 @@ const RootLayout = ({ children }) => {
             <Header />
             {children}
             <Footer />
+            <CookiePolicy />
           </Providers>
         </main>
       </body>
