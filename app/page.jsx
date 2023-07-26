@@ -48,6 +48,7 @@ import { useSelector } from "react-redux";
 import SpecialProducts from "@components/SpecialProducts";
 import ButtonComponent from "@components/Button";
 import { CgShield } from "react-icons/cg";
+import Script from "next/script";
 
 const UGX = (value) =>
   currency(value, { symbol: "UGX", precision: 0, separator: "," });

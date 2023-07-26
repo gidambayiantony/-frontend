@@ -5,8 +5,8 @@ import "@styles/globals.css";
 import Head from "next/head";
 import { Images } from "@constants/constants";
 import CookiePolicy from "@components/CookiePolicy";
-import { NextScript } from "next/document";
-import Script from "next/script";
+import ScriptTag from "@components/ScriptTag";
+
 // import store from "@store";
 // import { Provider } from "react-redux";
 
@@ -30,19 +30,8 @@ const RootLayout = ({ children }) => {
             <Footer />
             <CookiePolicy />
           </Providers>
+          <ScriptTag />
         </main>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-0DY63F5P0Q" />
-        <Script id="google-analytics">
-          {`window.dataLayer = window.dataLayer || [];
-
-          const gtag = () => {
-            dataLayer.push(arguments);
-          }
-
-          gtag('js', new Date());
-
-          gtag('config', 'G-0DY63F5P0Q');`}
-        </Script>
       </body>
     </html>
   );
