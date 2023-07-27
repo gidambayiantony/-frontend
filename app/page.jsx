@@ -59,13 +59,10 @@ const Home = () => {
   const [NewsletterEmail, setNewsletterEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const { onOpen, onClose, isOpen } = useDisclosure();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const [fetchProducts] = useProductsCategoryGetMutation();
   const [fetchComments] = useCommentsGetMutation();
-  const [createNewsletter] = useNewsletterPostMutation();
 
   const { push } = useRouter();
 
@@ -108,46 +105,6 @@ const Home = () => {
     }
   };
 
-  // submit email for newsletter
-  const handleNewsletterSubmit = async (e) => {
-    e.preventDefault();
-
-    setLoading((prevState) => (prevState ? false : true));
-
-    try {
-      const res = await createNewsletter({ email: NewsletterEmail }).unwrap();
-
-      if (res.status == "Success") {
-        // set loading to be false
-        setLoading((prevState) => (prevState ? false : true));
-
-        // clear email value
-        setNewsletterEmail("");
-
-        chakraToast({
-          title: "Success",
-          description: "Successfully subscribed to newsletter",
-          status: "success",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
-    } catch (err) {
-      // set loading to be false
-      setLoading((prevState) => (prevState ? false : true));
-
-      chakraToast({
-        title: "Error has occured",
-        description: err.data?.message
-          ? err.data?.message
-          : err.data || err.error,
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-    }
-  };
-
   // fetch product categories
   useEffect(() => {
     handleFetchCommentsData();
@@ -165,10 +122,10 @@ const Home = () => {
         borderBottom={"1.7px solid " + ThemeColors.lightColor}
       >
         <Flex>
-          <Box margin={"auto"} width={{ base: "80%", md: "75%", xl: "70%" }}>
+          <Box margin={"auto"} width={{ base: "100%", md: "75%", xl: "70%" }}>
             <Grid
               gridTemplateColumns={{
-                base: "repeat(1, 1fr)",
+                base: "repeat(2, 1fr)",
                 md: "repeat(2, 1fr)",
                 xl: "repeat(4, 1fr)",
               }}
@@ -176,7 +133,7 @@ const Home = () => {
             >
               <Box>
                 <Flex
-                  padding={"0 1rem"}
+                  padding={{ base: "0 0.5rem", md: "0 0.5rem", xl: "0 1rem" }}
                   flexDirection={"column"}
                   justifyContent={"center"}
                   alignItems={"center"}
@@ -191,7 +148,7 @@ const Home = () => {
               </Box>
               <Box>
                 <Flex
-                  padding={"0 1rem"}
+                  padding={{ base: "0 0.5rem", md: "0 0.5rem", xl: "0 1rem" }}
                   flexDirection={"column"}
                   justifyContent={"center"}
                   alignItems={"center"}
@@ -207,7 +164,7 @@ const Home = () => {
               </Box>
               <Box>
                 <Flex
-                  padding={"0 1rem"}
+                  padding={{ base: "0 0.5rem", md: "0 0.5rem", xl: "0 1rem" }}
                   flexDirection={"column"}
                   justifyContent={"center"}
                   alignItems={"center"}
@@ -223,7 +180,7 @@ const Home = () => {
               </Box>
               <Box>
                 <Flex
-                  padding={"0 1rem"}
+                  padding={{ base: "0 0.5rem", md: "0 0.5rem", xl: "0 1rem" }}
                   flexDirection={"column"}
                   justifyContent={"center"}
                   alignItems={"center"}
@@ -259,21 +216,46 @@ const Home = () => {
                       margin={"auto"}
                       width={{ base: "95%", md: "90%", xl: "90%" }}
                     >
-                      <Box padding={"2rem 0"}>
-                        <Heading
-                          as={"h2"}
-                          fontSize={"3xl"}
-                          textAlign={"center"}
-                        >
-                          Popular Products
-                        </Heading>
-                        <Flex>
-                          <Box
-                            height={"0.2rem"}
-                            width={"10rem"}
-                            margin={"1rem auto"}
-                            background={ThemeColors.primaryColor}
-                          ></Box>
+                      <Box padding={"1rem 0"}>
+                        <Flex justifyContent={"space-between"}>
+                          <Box>
+                            <Heading
+                              as={"h2"}
+                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
+                              textAlign={"center"}
+                            >
+                              Popular Products
+                            </Heading>
+                            <Flex>
+                              <Box
+                                height={"0.15rem"}
+                                width={{
+                                  base: "5rem",
+                                  md: "8rem",
+                                  xl: "10rem",
+                                }}
+                                margin={"0.5rem 0"}
+                                background={ThemeColors.primaryColor}
+                              ></Box>
+                            </Flex>
+                          </Box>
+                          <Box>
+                            <Link href={"/search?q=popular"}>
+                              <Heading
+                                as={"h2"}
+                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
+                                textAlign={"center"}
+                                _hover={{ color: ThemeColors.darkColor }}
+                                color={{
+                                  base: ThemeColors.darkColor,
+                                  md: ThemeColors.darkColor,
+                                  xl: "#000",
+                                }}
+                              >
+                                View More
+                              </Heading>
+                            </Link>
+                          </Box>
                         </Flex>
                       </Box>
                       <SpecialProducts
@@ -292,11 +274,11 @@ const Home = () => {
       ------------------------------- */}
       <Box padding={"3rem 0"} background={"#000"}>
         <Flex>
-          <Box margin={"auto"} width={{ base: "100%", md: "90%", xl: "60%" }}>
+          <Box margin={"auto"} width={{ base: "100%", md: "70%", xl: "50%" }}>
             <Box padding={{ base: "2rem", md: "2rem 1rem", xl: "2rem 0" }}>
               <Text
                 textAlign={"center"}
-                fontSize={{ base: "4xl", md: "4xl", xl: "4xl" }}
+                fontSize={{ base: "2xl", md: "2xl", xl: "3xl" }}
                 className="secondary-light-font"
                 color={ThemeColors.lightColor}
               >
@@ -340,22 +322,47 @@ const Home = () => {
                       margin={"auto"}
                       width={{ base: "95%", md: "90%", xl: "90%" }}
                     >
-                      <Box padding={"2rem 0"}>
-                        <Heading
-                          as={"h2"}
-                          fontSize={"3xl"}
-                          textAlign={"center"}
-                          textTransform={"capitalize"}
-                        >
-                          {product?.category} Products
-                        </Heading>
-                        <Flex>
-                          <Box
-                            height={"0.2rem"}
-                            width={"10rem"}
-                            margin={"1rem auto"}
-                            background={ThemeColors.primaryColor}
-                          ></Box>
+                      <Box padding={"1rem 0"}>
+                        <Flex justifyContent={"space-between"}>
+                          <Box>
+                            <Heading
+                              as={"h2"}
+                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
+                              textAlign={"center"}
+                              textTransform={"capitalize"}
+                            >
+                              {product?.category} Products
+                            </Heading>
+                            <Flex>
+                              <Box
+                                height={"0.15rem"}
+                                width={{
+                                  base: "5rem",
+                                  md: "8rem",
+                                  xl: "10rem",
+                                }}
+                                margin={"0.5rem 0"}
+                                background={ThemeColors.primaryColor}
+                              ></Box>
+                            </Flex>
+                          </Box>
+                          <Box>
+                            <Link href={`/search?q=${product?.category}`}>
+                              <Heading
+                                as={"h2"}
+                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
+                                textAlign={"center"}
+                                _hover={{ color: ThemeColors.darkColor }}
+                                color={{
+                                  base: ThemeColors.darkColor,
+                                  md: ThemeColors.darkColor,
+                                  xl: "#000",
+                                }}
+                              >
+                                View More
+                              </Heading>
+                            </Link>
+                          </Box>
                         </Flex>
                       </Box>
                       <SpecialProducts
@@ -387,7 +394,7 @@ const Home = () => {
               <Flex>
                 <Box
                   height={"0.2rem"}
-                  width={"10rem"}
+                  width={{ base: "6rem", md: "8rem", xl: "10rem" }}
                   margin={"1rem auto"}
                   background={ThemeColors.primaryColor}
                 ></Box>
@@ -454,153 +461,6 @@ const Home = () => {
 
       {/* ------------- section 
       ----------------------------------- */}
-      <Box>
-        <Box padding={"5rem 0"}>
-          <Flex>
-            <Box margin={"auto"} width={{ base: "100%", md: "90%", xl: "70%" }}>
-              <Flex
-                direction={{ base: "column", md: "column", xl: "row" }}
-                justifyContent={{
-                  base: "center",
-                  md: "center",
-                  xl: "space-between",
-                }}
-              >
-                <Stack
-                  width={{ base: "100%", md: "100%", xl: "50%" }}
-                  paddingTop={"2rem"}
-                >
-                  <Box>
-                    <Flex
-                      justifyContent={{
-                        base: "center",
-                        md: "center",
-                        xl: "none",
-                      }}
-                    >
-                      <Box padding={"1rem"}>
-                        <HI.HiOutlinePhoneOutgoing
-                          size={30}
-                          color={ThemeColors.darkColor}
-                        />
-                      </Box>
-                      <Box>
-                        <Heading
-                          as={"h2"}
-                          className="secondary-font"
-                          size={"md"}
-                          color={ThemeColors.darkColor}
-                          margin={"0.3rem 0"}
-                        >
-                          Have a question ?
-                        </Heading>
-                        <Text style={{ fontSize: "1.1rem" }}>
-                          +256 754615840
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Box>
-                  <Box>
-                    <Flex
-                      padding={""}
-                      justifyContent={{
-                        base: "center",
-                        md: "center",
-                        xl: "none",
-                      }}
-                    >
-                      <Box padding={"1rem"}>
-                        {/* <FaEnvelope size={40} color={ThemeColors.darkColor} /> */}
-                        <HI.HiOutlineMail
-                          size={30}
-                          color={ThemeColors.darkColor}
-                        />
-                      </Box>
-                      <Box>
-                        <Heading
-                          as={"h3"}
-                          className="secondary-font"
-                          size={"md"}
-                          color={ThemeColors.darkColor}
-                          margin={"0.3rem 0"}
-                        >
-                          For Support
-                        </Heading>
-                        <Text style={{ fontSize: "1.1rem" }}>
-                          info@yookatale.com
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Box>
-                </Stack>
-
-                <Box
-                  padding={"1rem 0"}
-                  width={{ base: "100%", md: "100%", xl: "50%" }}
-                >
-                  <Flex>
-                    <Box
-                      margin={"auto"}
-                      width={{ base: "90%", md: "90%", xl: "100%" }}
-                    >
-                      <form onSubmit={handleNewsletterSubmit}>
-                        <Box
-                          border={"1.7px solid " + ThemeColors.lightColor}
-                          borderRadius={"0.5rem"}
-                          padding={"0.5rem"}
-                        >
-                          <Box>
-                            <Text
-                              fontSize={"lg"}
-                              fontWeight={"bold"}
-                              textAlign={"center"}
-                            >
-                              Subscribe to our newsletter
-                            </Text>
-                          </Box>
-                          <Box padding={"1rem 0"}>
-                            <Input
-                              type="text"
-                              name={"NewsletterEmail"}
-                              placeholder="Enter your email"
-                              value={NewsletterEmail}
-                              onChange={(e) =>
-                                setNewsletterEmail(e.target.value)
-                              }
-                            />
-                          </Box>
-                          <Box padding={"0.3rem 0"}>
-                            <Text
-                              textAlign={{
-                                base: "center",
-                                md: "center",
-                                xl: "left",
-                              }}
-                            >
-                              By clicking "Subscribe" I agree to receive news,
-                              promotions, information and offers from YooKatale
-                            </Text>
-                          </Box>
-                          <Box padding={"0.5rem 0"}>
-                            {isLoading ? (
-                              <Spinner />
-                            ) : (
-                              <ButtonComponent
-                                type={"submit"}
-                                text={"Subscribe"}
-                              />
-                            )}
-                          </Box>
-                        </Box>
-                      </form>
-                    </Box>
-                  </Flex>
-                </Box>
-              </Flex>
-            </Box>
-          </Flex>
-        </Box>
-      </Box>
     </>
   );
 };
