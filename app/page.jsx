@@ -112,14 +112,16 @@ const Home = () => {
     handleFetchProductsData();
   }, []);
 
+  console.log({ Products });
+
   return (
     <>
       <Hero />
 
-      {/* <Box>
+      <Box display={`${Products?.length > 0 && "none"}`}>
         <Loader />
-      </Box> */}
-      {Products && Products.length && Products.length < 1 && <Loader />}
+      </Box>
+      {/* {Products && Products.length && Products.length < 1 && <Loader />} */}
       {/* ------------- section 
       ------------------------------- */}
       <Box
