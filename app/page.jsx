@@ -49,12 +49,13 @@ import SpecialProducts from "@components/SpecialProducts";
 import ButtonComponent from "@components/Button";
 import { CgShield } from "react-icons/cg";
 import Script from "next/script";
+import Loader from "@components/Loader";
 
 const UGX = (value) =>
   currency(value, { symbol: "UGX", precision: 0, separator: "," });
 
 const Home = () => {
-  const [Products, setProducts] = useState({ recommended: [], popular: [] });
+  const [Products, setProducts] = useState([]);
   const [Comments, setComments] = useState([]);
   const [NewsletterEmail, setNewsletterEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -115,6 +116,10 @@ const Home = () => {
     <>
       <Hero />
 
+      {/* <Box>
+        <Loader />
+      </Box> */}
+      {Products && Products.length && Products.length < 1 && <Loader />}
       {/* ------------- section 
       ------------------------------- */}
       <Box
