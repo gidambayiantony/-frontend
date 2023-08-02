@@ -118,10 +118,10 @@ const Home = () => {
     <>
       <Hero />
 
-      <Box display={`${Products?.length > 0 && "none"}`}>
+      {/* <Box display={`${Products?.length > 0 && "none"}`} hidden>
         <Loader />
-      </Box>
-      {/* {Products && Products.length && Products.length < 1 && <Loader />} */}
+      </Box> */}
+
       {/* ------------- section 
       ------------------------------- */}
       <Box
