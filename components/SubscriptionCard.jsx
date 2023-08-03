@@ -8,6 +8,9 @@ import Link from "next/link";
 const SubscriptionCard = ({ card, selectedCard }) => {
   const UGX = (value) =>
     currency(value, { symbol: "UGX", precision: 0, separator: "," });
+
+  console.log({ card });
+
   return (
     <>
       <Box
@@ -19,7 +22,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
       >
         <Box position={"relative"} height={"100%"}>
           <Box hidden>
-            <Text>YooCard {card.type}</Text>
+            <Text>YooKatale {card.type}</Text>
           </Box>
           <Box padding={"1rem 1.5rem"}>
             <Box
@@ -27,7 +30,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
               borderBottom={"1.7px solid " + ThemeColors.lightColor}
             >
               <Heading as={"h2"} size={"md"} display={"flex"}>
-                YooCard
+                YooKatale
                 <Heading
                   as={"h2"}
                   textTransform={"capitalize"}
@@ -38,7 +41,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
                   {card.type}
                 </Heading>
               </Heading>
-              <Text fontSize={"lg"}>{card.name}</Text>
+              {/* <Text fontSize={"lg"}>{card.name}</Text> */}
             </Box>
             <Box
               padding={"0.5rem 0 0.5rem 1rem"}
@@ -54,7 +57,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
             </Box>
             <Box paddingTop={"2rem"}>
               <Box padding={"0.5rem 0"}>
-                {card?.price == 0 ? (
+                {card?.price !== 0 ? (
                   <Flex>
                     <Text
                       fontSize={"md"}
