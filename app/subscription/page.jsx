@@ -129,14 +129,21 @@ const Subscription = () => {
                       padding={{
                         base: "1rem 0 2rem 0",
                         md: "1rem 0",
-                        xl: "1rem 0",
+                        xl: "1rem 3rem",
                       }}
                     >
-                      <Text textAlign={"center"} fontSize={"2xl"}>
+                      <Text
+                        textAlign={"center"}
+                        fontSize={"2xl"}
+                        className="secondary-light-font"
+                      >
                         Subscribe to our payment plan
                       </Text>
 
-                      <Text textAlign={"center"} fontSize={"2xl"}>
+                      <Text
+                        textAlign={"center"}
+                        fontSize={{ base: "2xl", md: "3xl", xl: "4xl" }}
+                      >
                         Get{" "}
                         <span
                           style={{
