@@ -124,6 +124,77 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
+      {Products.length > 0
+        ? Products.map(
+            (product, index) =>
+              product?.category == "popular" &&
+              product?.products?.length > 0 && (
+                <Box
+                  padding={"3rem 0"}
+                  borderBottom={"1.7px solid " + ThemeColors.lightColor}
+                  key={index}
+                >
+                  <Flex>
+                    <Box
+                      margin={"auto"}
+                      width={{ base: "95%", md: "90%", xl: "90%" }}
+                    >
+                      <Box padding={"1rem 0"}>
+                        <Flex justifyContent={"space-between"}>
+                          <Box>
+                            <Heading
+                              as={"h2"}
+                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
+                              textAlign={"center"}
+                            >
+                              Popular Products
+                            </Heading>
+                            <Flex>
+                              <Box
+                                height={"0.15rem"}
+                                width={{
+                                  base: "5rem",
+                                  md: "8rem",
+                                  xl: "10rem",
+                                }}
+                                margin={"0.5rem 0"}
+                                background={ThemeColors.primaryColor}
+                              ></Box>
+                            </Flex>
+                          </Box>
+                          <Box>
+                            <Link href={"/search?q=popular"}>
+                              <Heading
+                                as={"h2"}
+                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
+                                textAlign={"center"}
+                                _hover={{ color: ThemeColors.darkColor }}
+                                color={{
+                                  base: ThemeColors.darkColor,
+                                  md: ThemeColors.darkColor,
+                                  xl: "#000",
+                                }}
+                              >
+                                View More
+                              </Heading>
+                            </Link>
+                          </Box>
+                        </Flex>
+                      </Box>
+                      <SpecialProducts
+                        Products={product?.products}
+                        UGX={UGX}
+                        userInfo={userInfo}
+                      />
+                    </Box>
+                  </Flex>
+                </Box>
+              )
+          )
+        : ""}
+
+      {/* ------------- section 
+      ------------------------------- */}
       <Box
         padding={"3rem 0"}
         borderBottom={"1.7px solid " + ThemeColors.lightColor}
@@ -205,77 +276,6 @@ const Home = () => {
           </Box>
         </Flex>
       </Box>
-
-      {/* ------------- section 
-      ------------------------------- */}
-      {Products.length > 0
-        ? Products.map(
-            (product, index) =>
-              product?.category == "popular" &&
-              product?.products?.length > 0 && (
-                <Box
-                  padding={"3rem 0"}
-                  borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                  key={index}
-                >
-                  <Flex>
-                    <Box
-                      margin={"auto"}
-                      width={{ base: "95%", md: "90%", xl: "90%" }}
-                    >
-                      <Box padding={"1rem 0"}>
-                        <Flex justifyContent={"space-between"}>
-                          <Box>
-                            <Heading
-                              as={"h2"}
-                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
-                              textAlign={"center"}
-                            >
-                              Popular Products
-                            </Heading>
-                            <Flex>
-                              <Box
-                                height={"0.15rem"}
-                                width={{
-                                  base: "5rem",
-                                  md: "8rem",
-                                  xl: "10rem",
-                                }}
-                                margin={"0.5rem 0"}
-                                background={ThemeColors.primaryColor}
-                              ></Box>
-                            </Flex>
-                          </Box>
-                          <Box>
-                            <Link href={"/search?q=popular"}>
-                              <Heading
-                                as={"h2"}
-                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
-                                textAlign={"center"}
-                                _hover={{ color: ThemeColors.darkColor }}
-                                color={{
-                                  base: ThemeColors.darkColor,
-                                  md: ThemeColors.darkColor,
-                                  xl: "#000",
-                                }}
-                              >
-                                View More
-                              </Heading>
-                            </Link>
-                          </Box>
-                        </Flex>
-                      </Box>
-                      <SpecialProducts
-                        Products={product?.products}
-                        UGX={UGX}
-                        userInfo={userInfo}
-                      />
-                    </Box>
-                  </Flex>
-                </Box>
-              )
-          )
-        : ""}
 
       {/* ------------- section 
       ------------------------------- */}
