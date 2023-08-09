@@ -3,25 +3,20 @@ import {
   Box,
   Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   Heading,
-  Input,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Select,
-  Spacer,
-  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import TabOne from "@components/modals/tabs/scheduleTabs/TabOne";
 import { ThemeColors } from "@constants/constants";
-import { useProductsGetMutation } from "@slices/usersApiSlice";
+import { useProductsGetMutation } from "@slices/productsApiSlice";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // import React from "react";

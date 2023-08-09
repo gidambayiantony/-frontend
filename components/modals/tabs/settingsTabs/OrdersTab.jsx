@@ -10,13 +10,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
-import { useOrdersMutation } from "@slices/usersApiSlice";
-import Head from "next/head";
+import { useOrdersMutation } from "@slices/productsApiSlice";
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import currency from "currency.js";
-import moment from "moment/moment";
-import ButtonComponent from "@components/Button";
+
 import OrderCard from "@components/OrderCard";
 
 // import React from 'react'

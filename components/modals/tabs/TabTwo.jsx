@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Checkbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Grid,
-  Heading,
-  Spacer,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Spacer, Text } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { ThemeColors } from "@constants/constants";
 import { useEffect, useState } from "react";

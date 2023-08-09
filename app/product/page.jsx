@@ -13,13 +13,13 @@ import {
 import { DisplayImages, Images, ThemeColors } from "@constants/constants";
 import React, { useEffect, useState } from "react";
 // import Image from "next/image";
-import { FaCartPlus, FaMinus, FaPlus } from "react-icons/fa";
+import { FaCartPlus } from "react-icons/fa";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import {
   useCartCreateMutation,
   useProductGetMutation,
-} from "@slices/usersApiSlice";
-import { redirect, useSearchParams, useRouter } from "next/navigation";
+} from "@slices/productsApiSlice";
+import { useSearchParams, useRouter } from "next/navigation";
 import currency from "currency.js";
 import { useSelector } from "react-redux";
 

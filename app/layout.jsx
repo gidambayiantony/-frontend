@@ -2,8 +2,6 @@ import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { Providers } from "./providers";
 import "@styles/globals.css";
-import Head from "next/head";
-import { Images } from "@constants/constants";
 import CookiePolicy from "@components/CookiePolicy";
 import ScriptTag from "@components/ScriptTag";
 
@@ -14,9 +12,6 @@ export const metadata = {
   title: "yookatale",
   description:
     "Digital Mobile Food Market | Food insights, Health Lifestyle & industry News | Promotions | Discount coupons & Offers. Reliable, convenient home food bank with YooCard. Publishing weekly",
-  icons: {
-    icon: Images.logo.src,
-  },
 };
 
 const RootLayout = ({ children }) => {

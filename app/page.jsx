@@ -1,73 +1,33 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  Stack,
-  Text,
-  Spinner,
-  useDisclosure,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import Hero from "@components/Hero";
 import { Images, ThemeColors } from "@constants/constants";
 import Image from "next/image";
-import {
-  FaCartPlus,
-  FaMoneyBill,
-  FaMoneyBillAlt,
-  FaMoneyCheck,
-  FaTruckLoading,
-  FaEnvelope,
-  FaPhone,
-  FaPhoneAlt,
-  FaMoneyCheckAlt,
-  FaCreditCard,
-  FaUserShield,
-  FaUserClock,
-  FaRegCreditCard,
-  FaHeadset,
-} from "react-icons/fa";
-import * as HI from "react-icons/hi";
-import * as AI from "react-icons/ai";
-import Head from "next/head";
+import { FaTruckLoading, FaCreditCard, FaHeadset } from "react-icons/fa";
+
 import { useEffect, useState } from "react";
-import {
-  useCommentsGetMutation,
-  useNewsletterPostMutation,
-  useProductsCategoryGetMutation,
-} from "@slices/usersApiSlice";
-import currency from "currency.js";
+import { useProductsCategoryGetMutation } from "@slices/productsApiSlice";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SpecialProducts from "@components/SpecialProducts";
-import ButtonComponent from "@components/Button";
-import { CgShield } from "react-icons/cg";
-import Script from "next/script";
-import Loader from "@components/Loader";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import dynamic from "next/dynamic";
+import { useCommentsGetMutation } from "@slices/usersApiSlice";
 
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
+const DynamicButton = dynamic(() => import("@components/Button"), {
+  loading: () => <p>Loading...</p>,
+});
 
 const Home = () => {
   const [Products, setProducts] = useState([]);
   const [Comments, setComments] = useState([]);
-  const [NewsletterEmail, setNewsletterEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const { userInfo } = useSelector((state) => state.auth);
 
   const [fetchProducts] = useProductsCategoryGetMutation();
   const [fetchComments] = useCommentsGetMutation();
-
-  const { push } = useRouter();
-
-  const chakraToast = useToast();
 
   const handleFetchCommentsData = async () => {
     const res = await fetchComments().unwrap();
@@ -86,6 +46,12 @@ const Home = () => {
       setProducts(res.data);
     }
   };
+
+  // fetch product categories
+  useEffect(() => {
+    handleFetchProductsData();
+    handleFetchCommentsData();
+  }, []);
 
   // comment section slider navigation
   const [currSliderIndex, setCurrSliderIndex] = useState(0);
@@ -106,14 +72,6 @@ const Home = () => {
     }
   };
 
-  // fetch product categories
-  useEffect(() => {
-    handleFetchCommentsData();
-    handleFetchProductsData();
-  }, []);
-
-  console.log({ Products });
-
   return (
     <>
       <Hero />
@@ -124,80 +82,80 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
-      {Products.length > 0
-        ? Products.map(
-            (product, index) =>
-              product?.category == "popular" &&
-              product?.products?.length > 0 && (
-                <Box
-                  padding={"3rem 0"}
-                  borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                  key={index}
-                >
+
+      {/* // product?.category == "popular" && */}
+      <Box
+        padding={"3rem 0"}
+        borderBottom={"1.7px solid " + ThemeColors.lightColor}
+      >
+        <Flex>
+          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
+            <Box padding={"1rem 0"}>
+              <Flex justifyContent={"space-between"}>
+                <Box>
+                  <Heading
+                    as={"h2"}
+                    fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
+                    textAlign={"center"}
+                  >
+                    Popular Products
+                  </Heading>
                   <Flex>
                     <Box
-                      margin={"auto"}
-                      width={{ base: "95%", md: "90%", xl: "90%" }}
-                    >
-                      <Box padding={"1rem 0"}>
-                        <Flex justifyContent={"space-between"}>
-                          <Box>
-                            <Heading
-                              as={"h2"}
-                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
-                              textAlign={"center"}
-                            >
-                              Popular Products
-                            </Heading>
-                            <Flex>
-                              <Box
-                                height={"0.15rem"}
-                                width={{
-                                  base: "5rem",
-                                  md: "8rem",
-                                  xl: "10rem",
-                                }}
-                                margin={"0.5rem 0"}
-                                background={ThemeColors.primaryColor}
-                              ></Box>
-                            </Flex>
-                          </Box>
-                          <Box>
-                            <Link href={"/search?q=popular"}>
-                              <Heading
-                                as={"h2"}
-                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
-                                textAlign={"center"}
-                                _hover={{ color: ThemeColors.darkColor }}
-                                color={{
-                                  base: ThemeColors.darkColor,
-                                  md: ThemeColors.darkColor,
-                                  xl: "#000",
-                                }}
-                              >
-                                View More
-                              </Heading>
-                            </Link>
-                          </Box>
-                        </Flex>
-                      </Box>
-                      <SpecialProducts
-                        Products={product?.products}
-                        UGX={UGX}
-                        userInfo={userInfo}
-                      />
-                    </Box>
+                      height={"0.15rem"}
+                      width={{
+                        base: "5rem",
+                        md: "8rem",
+                        xl: "10rem",
+                      }}
+                      margin={"0.5rem 0"}
+                      background={ThemeColors.primaryColor}
+                    ></Box>
                   </Flex>
                 </Box>
+                <Box>
+                  <Link href={"/search?q=popular"}>
+                    <Heading
+                      as={"h2"}
+                      fontSize={{ base: "md", md: "lg", xl: "lg" }}
+                      textAlign={"center"}
+                      _hover={{ color: ThemeColors.darkColor }}
+                      color={{
+                        base: ThemeColors.darkColor,
+                        md: ThemeColors.darkColor,
+                        xl: "#000",
+                      }}
+                    >
+                      View More
+                    </Heading>
+                  </Link>
+                </Box>
+              </Flex>
+            </Box>
+            {Products?.length > 0 ? (
+              Products.map(
+                (product, index) =>
+                  product.category === "popular" && (
+                    <SpecialProducts
+                      key={index}
+                      Products={product?.products}
+                      userInfo={userInfo}
+                    />
+                  )
               )
-          )
-        : ""}
+            ) : (
+              <SpecialProducts Products={[]} userInfo={{}} />
+            )}
+          </Box>
+        </Flex>
+      </Box>
 
       {/* ------------- section 
       ------------------------------- */}
       <Box
         padding={"3rem 0"}
         borderBottom={"1.7px solid " + ThemeColors.lightColor}
+        display={"none"}
       >
         <Flex>
           <Box margin={"auto"} width={{ base: "100%", md: "75%", xl: "70%" }}>
@@ -292,7 +250,11 @@ const Home = () => {
                 {" "}
                 While
                 <span
-                  style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
+                  style={{
+                    color: ThemeColors.darkColor,
+                    fontWeight: "bold",
+                    margin: "0 0.3rem",
+                  }}
                   className="secondary-font"
                 >
                   YooKatale
@@ -316,7 +278,7 @@ const Home = () => {
               </Text>
               <Flex justifyContent={"center"} padding={"1rem 0"}>
                 <Link href={"/subscription"}>
-                  <ButtonComponent
+                  <DynamicButton
                     type={"button"}
                     text={"Register"}
                     pd={"1.3rem 2rem"}
@@ -391,7 +353,6 @@ const Home = () => {
                       <SpecialProducts
                         Products={product?.products}
                         category={product?.category}
-                        UGX={UGX}
                         userInfo={userInfo}
                       />
                     </Box>
@@ -430,10 +391,7 @@ const Home = () => {
                 top={"50%"}
                 left={{ base: "5%", md: "10%", xl: "15%" }}
               >
-                <AI.AiOutlineArrowLeft
-                  size={35}
-                  onClick={decreaseSliderIndex}
-                />
+                <AiOutlineArrowLeft size={35} onClick={decreaseSliderIndex} />
               </Box>
               <Box
                 cursor={"pointer"}
@@ -441,10 +399,7 @@ const Home = () => {
                 top={"50%"}
                 right={{ base: "5%", md: "10%", xl: "15%" }}
               >
-                <AI.AiOutlineArrowRight
-                  size={35}
-                  onClick={increaseSliderIndex}
-                />
+                <AiOutlineArrowRight size={35} onClick={increaseSliderIndex} />
               </Box>
             </Box>
             <Flex>

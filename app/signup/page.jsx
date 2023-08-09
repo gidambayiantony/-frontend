@@ -52,8 +52,6 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(e.target.terms);
-
     try {
       // set loading to be true
       setLoading((prevState) => (prevState ? false : true));

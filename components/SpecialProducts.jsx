@@ -40,15 +40,28 @@ const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
             id={`${category}__container__scrollbar`}
             className="container__hide__scrollbar"
           >
-            {Products.map((product, index) => (
-              <ProductCard
-                key={index}
-                product={product}
-                userInfo={userInfo}
-                UGX={UGX}
-                width={{ base: "200px", md: "250px", xl: "280px" }}
-              />
-            ))}
+            {Products.length > 0
+              ? Products.map((product, index) => (
+                  <ProductCard
+                    key={index}
+                    product={product}
+                    userInfo={userInfo}
+                    UGX={UGX}
+                    width={{ base: "200px", md: "250px", xl: "280px" }}
+                  />
+                ))
+              : [1, 2, 3, 4, 5].map((item) => (
+                  <Box
+                    key={item}
+                    padding={{ base: "0.5rem 1rem", md: "1rem", xl: "1rem" }}
+                    background={"#fff"}
+                    borderRadius={"md"}
+                    boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+                    width={"200px"}
+                    margin={"0 1rem 0 0"}
+                    height={"250px"}
+                  ></Box>
+                ))}
           </Flex>
 
           {Products.length > 4 && (

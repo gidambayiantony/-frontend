@@ -1,27 +1,14 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
-import { useSearchMutation } from "@slices/usersApiSlice";
-import Link from "next/link";
+import { useSearchMutation } from "@slices/productsApiSlice";
+
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaCartPlus } from "react-icons/fa";
-import currency from "currency.js";
+
 import ProductCard from "@components/ProductCard";
 import { useSelector } from "react-redux";
-
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
 
 const Search = () => {
   // use the useSearchParam hooks from next/navigation to get url params
@@ -85,7 +72,6 @@ const Search = () => {
                 {Products.map((product, index) => (
                   <ProductCard
                     key={index}
-                    UGX={UGX}
                     userInfo={userInfo}
                     width={false}
                     product={product}

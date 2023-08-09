@@ -29,17 +29,18 @@ import { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import currency from "currency.js";
-import {
-  useCartDeleteMutation,
-  useCartMutation,
-  useNewOrderMutation,
-} from "@slices/usersApiSlice";
+
 import { useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { redirect, useRouter } from "next/navigation";
 import TabOne from "@components/modals/tabs/TabOne";
 import TabTwo from "@components/modals/tabs/TabTwo";
 import TabThree from "@components/modals/tabs/TabThree";
+import {
+  useCartDeleteMutation,
+  useCartMutation,
+  useNewOrderMutation,
+} from "@slices/productsApiSlice";
 
 const UGX = (value) =>
   currency(value, { symbol: "UGX", precision: 0, separator: "," });
@@ -50,8 +51,6 @@ const Cart = () => {
   const [count, setCount] = useState(0);
   const [tabIndex, setTabIndex] = useState(0);
   const [tabOneData, setTabOneData] = useState({});
-
-  console.log({ Cart });
 
   const { onOpen, onClose, isOpen } = useDisclosure();
 

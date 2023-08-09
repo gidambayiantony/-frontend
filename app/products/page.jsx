@@ -2,32 +2,24 @@
 
 import {
   Box,
-  Button,
   Checkbox,
   Flex,
   FormLabel,
   Grid,
   Heading,
-  Input,
   Text,
   useToast,
-  Image,
-  Spinner,
 } from "@chakra-ui/react";
-import { CategoriesJson, Images, ThemeColors } from "@constants/constants";
-import * as FA from "react-icons/fa";
-import * as HI from "react-icons/hi";
-// import Image from "next/image";
-import Link from "next/link";
+import { CategoriesJson, ThemeColors } from "@constants/constants";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
-  useCartCreateMutation,
   useProductsFilterGetMutation,
   useProductsGetMutation,
-} from "@slices/usersApiSlice";
-import { useRouter } from "next/navigation";
-import currency from "currency.js";
+} from "@slices/productsApiSlice";
+
 import ProductCard from "@components/ProductCard";
 
 const Products = () => {
@@ -35,17 +27,10 @@ const Products = () => {
   const [Products, setProducts] = useState([]);
   // const [productsFilter, setProductsFilter] = useState([]);
 
-  const UGX = (value) =>
-    currency(value, { symbol: "UGX", precision: 0, separator: "," });
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const [fetchProducts] = useProductsGetMutation();
   const [fetchProductsFilter] = useProductsFilterGetMutation();
-
-  const [addCartApi, { isLoading }] = useCartCreateMutation();
-
-  const { push } = useRouter();
 
   const chakraToast = useToast();
 
@@ -62,54 +47,6 @@ const Products = () => {
   useEffect(() => {
     handleDataFetch();
   }, []);
-
-  // function to handle adding product to cart
-  const handleAddCart = async (ID) => {
-    // check if user has not logged in
-    if (!userInfo) {
-      chakraToast({
-        title: "Sign In is required",
-        description: `You need to sign in to add to cart`,
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-      push("/signin");
-      return;
-    }
-
-    try {
-      const res = await addCartApi({ productId: ID, userId: userInfo?._id });
-
-      if (res.data?.message) {
-        chakraToast({
-          title: "Success",
-          description: res.data?.message,
-          status: "success",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
-
-      if (res.error) {
-        chakraToast({
-          title: "Error",
-          description: res.error.data?.message,
-          status: "error",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
-    } catch (err) {
-      chakraToast({
-        title: "Error",
-        description: err.message.error || err.error,
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-    }
-  };
 
   // filter functions
   const handleFilterFetch = async (param) => {
@@ -187,7 +124,7 @@ const Products = () => {
                       display={"flex"}
                       htmlFor="filterByLowPrice"
                     >
-                      <FA.FaArrowDown style={{ margin: "0 0.3rem" }} />{" "}
+                      <FaArrowDown style={{ margin: "0 0.3rem" }} />{" "}
                       <Text
                         fontSize={"md"}
                         marginBottom={"0.5rem"}
@@ -212,7 +149,7 @@ const Products = () => {
                       display={"flex"}
                       htmlFor="filterByHighPrice"
                     >
-                      <FA.FaArrowUp style={{ margin: "0 0.3rem" }} />{" "}
+                      <FaArrowUp style={{ margin: "0 0.3rem" }} />{" "}
                       <Text
                         fontSize={"md"}
                         marginBottom={"0.5rem"}

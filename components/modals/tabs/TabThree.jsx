@@ -2,23 +2,19 @@
 
 import {
   Box,
-  Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   Heading,
   Input,
   Spacer,
   Spinner,
   Text,
-  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import PaymentCard from "@components/PaymentCard";
 import { ThemeColors } from "@constants/constants";
-import { useNewOrderMutation } from "@slices/usersApiSlice";
+import { useNewOrderMutation } from "@slices/productsApiSlice";
 import { useFlutterwave } from "flutterwave-react-v3";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -142,8 +138,6 @@ const TabThree = ({ updateTabIndex, data }) => {
 
       const res = await placeOrder({ ...data }).unwrap();
 
-      console.log(res);
-
       // set loading to be false
       setLoading((prevState) => (prevState ? false : true));
 
@@ -158,7 +152,6 @@ const TabThree = ({ updateTabIndex, data }) => {
         router.push("/");
       }
     } catch (err) {
-      console.log(err);
       // set loading to be false
       setLoading((prevState) => (prevState ? false : true));
 

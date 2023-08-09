@@ -15,9 +15,13 @@ import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCartCreateMutation } from "@slices/usersApiSlice";
+import { useCartCreateMutation } from "@slices/productsApiSlice";
+import currency from "currency.js";
 
-const ProductCard = ({ product, UGX, userInfo, width, height }) => {
+const UGX = (value) =>
+  currency(value, { symbol: "UGX", precision: 0, separator: "," });
+
+const ProductCard = ({ product, userInfo, width, height }) => {
   const [addCartApi] = useCartCreateMutation();
   const [isLoading, setLoading] = useState(false);
 
