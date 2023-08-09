@@ -2,10 +2,7 @@
 
 import {
   Box,
-  Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   Heading,
   Spacer,
@@ -19,7 +16,7 @@ import { ThemeColors } from "@constants/constants";
 import { useSubscriptionCardPostMutation } from "@slices/usersApiSlice";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { v4 as uniqueString } from "uuid";
+
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 
 const TabThree = ({ updateTabIndex, data }) => {
