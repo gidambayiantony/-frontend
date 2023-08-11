@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "@slices/usersApiSlice";
 import { setCredentials } from "@slices/authSlice";
 import { redirect, useRouter } from "next/navigation";
+import ButtonComponent from "@components/Button";
+import { Loader } from "lucide-react";
 
 const SignUp = () => {
   // states
@@ -269,43 +271,35 @@ const SignUp = () => {
                 </Box>
 
                 <Box padding={"0.5rem 0"}>
-                  <Checkbox
-                    name="vegan"
-                    value={vegan}
-                    onChange={(e) => setVegan(e.target.value)}
-                  >
-                    Are you vegetarian ?
-                  </Checkbox>
+                  <div className="flex">
+                    <input
+                      type="checkbox"
+                      name="vegan"
+                      value={vegan}
+                      onChange={(e) => setVegan(e.target.value)}
+                      className="mr-4"
+                    />
+                    <p className="">Are you vegetarian ?</p>
+                  </div>
                 </Box>
 
                 <Box padding={"0.5rem 0"}>
-                  <Checkbox name="terms">
-                    I agree to the{" "}
-                    <Link href={"/policy"}>
-                      <span style={{ color: ThemeColors.darkColor }}>
-                        terms and conditions
-                      </span>
-                    </Link>
-                  </Checkbox>
+                  <input type="checkbox" name="terms" className="mr-4" />I agree
+                  to the{" "}
+                  <Link href={"/policy"}>
+                    <span style={{ color: ThemeColors.darkColor }}>
+                      terms and conditions
+                    </span>
+                  </Link>
                 </Box>
 
                 <Box padding={"0.5rem 0"}>
-                  <Button
-                    type="submit"
-                    color={ThemeColors.lightColor}
-                    background={ThemeColors.darkColor}
-                    border={"1.7px solid " + ThemeColors.darkColor}
-                    borderRadius={"0.3rem"}
-                    padding={"1rem"}
-                    className="secondary-light-font"
-                    fontSize={"md"}
-                    _hover={{
-                      background: "none",
-                      color: ThemeColors.darkColor,
-                    }}
-                  >
-                    {isLoading ? <Spinner /> : "Sign Up"}
-                  </Button>
+                  <ButtonComponent
+                    type={"submit"}
+                    text={"Sign Up"}
+                    icon={isLoading && <Loader />}
+                    size={"regular"}
+                  />
                 </Box>
               </form>
             </Box>

@@ -28,8 +28,6 @@ const SignIn = ({ redirect, callback }) => {
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  console.log({ redirect });
-
   const chakraToast = useToast();
 
   const { refresh, push } = useRouter();

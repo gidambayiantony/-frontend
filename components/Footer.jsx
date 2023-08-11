@@ -320,23 +320,18 @@ const Footer = () => {
                     </Box>
                     <Box margin={"0.3rem 0"}>
                       <Link href={"https://wa.me/256754615840"}>
-                        <Button
-                          color={ThemeColors.lightColor}
-                          background={"whatsapp.600"}
-                          border={"1.7px solid " + "whatsapp.600"}
-                          borderRadius={"0.3rem"}
-                          padding={"0.3rem 0.5rem"}
-                          _hover={{
-                            border: "none",
-                          }}
-                        >
-                          <FaWhatsapp
-                            size={20}
-                            color={ThemeColors.lightColor}
-                            style={{ margin: "0 0.3rem" }}
-                          />{" "}
-                          Quick Order
-                        </Button>
+                        <ButtonComponent
+                          text={"Quick Order"}
+                          type={"button"}
+                          size={"regular"}
+                          icon={
+                            <FaWhatsapp
+                              size={20}
+                              color={ThemeColors.lightColor}
+                              style={{ margin: "0 0.3rem" }}
+                            />
+                          }
+                        />
                       </Link>
                     </Box>
                   </Stack>
