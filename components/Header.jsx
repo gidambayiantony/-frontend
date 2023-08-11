@@ -44,6 +44,8 @@ import { redirect, useRouter } from "next/navigation";
 import { useToast } from "@chakra-ui/react";
 import { IsAccountValid } from "@middleware/middleware";
 import { HiChevronLeft } from "react-icons/hi";
+import ButtonComponent from "./Button";
+import { LogIn } from "lucide-react";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -353,7 +355,7 @@ fontSize={"lg"}}}
               </Box>
               <Box margin={"0 0.5rem"}>
                 <Link href={"https://wa.me/256754615840"} target="_blank">
-                  <Button
+                  {/* <Button
                     color={ThemeColors.lightColor}
                     background={"whatsapp.600"}
                     border={"1.7px solid " + "whatsapp.600"}
@@ -369,7 +371,15 @@ fontSize={"lg"}}}
                       style={{ margin: "0 0.3rem" }}
                     />{" "}
                     Quick Order
-                  </Button>
+                  </Button> */}
+                  <ButtonComponent
+                    text={"Quick Order"}
+                    size={"regular"}
+                    type={"button"}
+                    icon={
+                      <FaWhatsapp size={20} color={ThemeColors.lightColor} />
+                    }
+                  />
                 </Link>
               </Box>
             </Flex>
@@ -490,7 +500,13 @@ fontSize={"lg"}}}
               ) : (
                 <Box padding={" 0.3rem 0.5rem"}>
                   <Link href={"/signin"}>
-                    <Button
+                    <ButtonComponent
+                      text={"Sign In"}
+                      size={"regular"}
+                      type={"button"}
+                      icon={<LogIn size={20} />}
+                    />
+                    {/* <Button
                       color={ThemeColors.lightColor}
                       background={ThemeColors.darkColor}
                       border={"1.7px solid " + ThemeColors.darkColor}
@@ -506,7 +522,7 @@ fontSize={"lg"}}}
                         style={{ margin: "0 0.3rem" }}
                       />{" "}
                       Sign In
-                    </Button>
+                    </Button> */}
                   </Link>
                 </Box>
               )}
@@ -786,7 +802,19 @@ fontSize={"lg"}}}
                   setMobileNavOpen((prevState) => (prevState ? false : true))
                 }
               >
-                <Button
+                <ButtonComponent
+                  text={"Quick Order"}
+                  size={"regular"}
+                  type={"button"}
+                  icon={
+                    <FaWhatsapp
+                      size={20}
+                      color={ThemeColors.lightColor}
+                      style={{ margin: "0 0.3rem" }}
+                    />
+                  }
+                />
+                {/* <Button
                   color={ThemeColors.lightColor}
                   background={"whatsapp.600"}
                   border={"1.7px solid " + "whatsapp.600"}
@@ -802,7 +830,7 @@ fontSize={"lg"}}}
                     style={{ margin: "0 0.3rem" }}
                   />{" "}
                   Quick Order
-                </Button>
+                </Button> */}
               </Link>
             </Box>
             <Box margin={"1rem 0"}>

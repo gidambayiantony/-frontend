@@ -1,28 +1,23 @@
 "use client";
 
-import {
-  Box,
-  Text,
-  Heading,
-  Flex,
-  Button,
-  Spinner,
-  Image,
-  useToast,
-} from "@chakra-ui/react";
-import { ThemeColors } from "@constants/constants";
+import { useToast } from "@chakra-ui/react";
+
 import React, { useState } from "react";
-import { FaCartPlus } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartCreateMutation } from "@slices/productsApiSlice";
-import currency from "currency.js";
+import { FormatCurr } from "@utils/utils";
+import { Button } from "./ui/button";
+import { LoaderIcon, ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import SignIn from "@app/signin/page";
+import { AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
-
-const ProductCard = ({ product, userInfo, width, height }) => {
+const ProductCard = ({ product, userInfo }) => {
   const [addCartApi] = useCartCreateMutation();
+  const [SignInStateCallback, setSignInStateCallback] = useState(false);
+  const [SignInStateModal, setSignInStateModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -30,7 +25,40 @@ const ProductCard = ({ product, userInfo, width, height }) => {
   const chakraToast = useToast();
 
   // function to handle adding product to cart
-  const handleAddCart = async (ID) => {
+  const handleAddCart = async (ID, user) => {
+    try {
+      // set loading to be true
+      setLoading((prevState) => (prevState ? false : true));
+
+      const res = await addCartApi({
+        productId: ID,
+        userId: user,
+      }).unwrap();
+
+      if (res?.message)
+        return chakraToast({
+          title: "Success",
+          description: res.message,
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+    } catch (err) {
+      chakraToast({
+        description:
+          err.message?.error || err?.data.message || err.error || "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    } finally {
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+    }
+  };
+
+  // function to listen to add to cart button click
+  const handleAddToCartBtnClick = (ID) => {
     // check if user has not logged in
     if (!userInfo) {
       chakraToast({
@@ -40,143 +68,79 @@ const ProductCard = ({ product, userInfo, width, height }) => {
         duration: 5000,
         isClosable: false,
       });
-      router.push("/signin");
-      return;
-    }
 
-    try {
-      // set loading to be true
-      setLoading((prevState) => (prevState ? false : true));
+      setSignInStateModal((prev) => (prev ? false : true));
 
-      const res = await addCartApi({ productId: ID, userId: userInfo?._id });
-
-      if (res.data?.message) {
-        // set loading to be false
-        setLoading((prevState) => (prevState ? false : true));
-
-        chakraToast({
-          title: "Success",
-          description: res.data?.message,
-          status: "success",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
-
-      if (res.error) {
-        // set loading to be false
-        setLoading((prevState) => (prevState ? false : true));
-
-        chakraToast({
-          title: "Error has occured",
-          description: err.data?.message
-            ? err.data?.message
-            : err.data || err.error,
-          status: "error",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
-    } catch (err) {
       // set loading to be false
       setLoading((prevState) => (prevState ? false : true));
 
-      chakraToast({
-        title: "Error",
-        description: err.message.error || err.error,
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
+      return;
+    }
+
+    handleAddCart(ID, userInfo?._id);
+  };
+
+  // function to listen to user successfull login
+  const handleListeningToSignIn = (param) => {
+    if (param.loggedIn) {
+      setSignInStateModal((prev) => (prev ? false : true));
+      handleAddCart(product._id, param?.user);
     }
   };
 
   return (
     <>
-      <Box>
-        <Box
-          padding={{ base: "0.5rem 1rem", md: "1rem", xl: "1rem" }}
-          background={"#fff"}
-          borderRadius={"md"}
-          _hover={{
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-          }}
-          width={"200px"}
-          maxHeight={"auto"}
-          margin={!width ? "none" : "0 1rem 0 0"}
-          height={"auto"}
+      <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0">
+        <div className="h-[120px] p-[0.3rem]">
+          <Link href={`/product?id=${product._id}`}>
+            <div className="flex justify-center items-center h-full relative">
+              <img
+                src={`${product.images[0]}` || `/${product.images[0]}`}
+                className="w-auto object-contain h-full"
+                alt={product.images}
+              />
+            </div>
+          </Link>
+        </div>
+        <div className="p-[0.3rem 0]">
+          <p className="secondary-light-font text-center text-lg">
+            {product.name}
+          </p>
+          <h3 className={`font-bold text-center text-base text-dark my-2`}>
+            {`UGX ${FormatCurr(product.price)}`}
+          </h3>
+          <div className="py-[0.3rem] flex justify-center">
+            <Button
+              className="text-white bg-dark hover:bg-transparent hover:text-dark text-base gap-2 rounded-md border-[1.7px] border-dark"
+              onClick={() => handleAddToCartBtnClick(product._id)}
+            >
+              {isLoading ? (
+                <LoaderIcon size={20} />
+              ) : (
+                <ShoppingCart size={20} />
+              )}{" "}
+              Add To Cart
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* // signin / signup form */}
+      <div
+        className={`fixed top-[10%] lg:left-[30%] left-[5%] lg:right-[30%] right-[5%] bottom-[10%] z-[990] bg-light py-6 rounded-md shadow-md ${
+          SignInStateModal
+            ? "visible translate-y-0"
+            : "invisible translate-y-[150%]"
+        }`}
+      >
+        <div
+          className="absolute top-4 right-4"
+          onClick={() => setSignInStateModal((prev) => (prev ? false : true))}
         >
-          <Box
-            height={{ base: "120px", md: "120px", xl: "120px" }}
-            padding="0.3rem"
-          >
-            <Link href={`/product?id=${product._id}`}>
-              <Flex
-                alignContent={"center"}
-                justifyContent={"center"}
-                height={"100%"}
-              >
-                <Image
-                  src={`${product.images}`}
-                  width={"auto"}
-                  style={{
-                    width: "auto",
-                    height: "100%",
-                    margin: "auto",
-                  }}
-                />
-              </Flex>
-            </Link>
-          </Box>
-          <Box padding={"0.3rem 0"}>
-            <Text
-              textAlign={"center"}
-              className="secondary-light-font"
-              fontSize={{ base: "lg", md: "lg", xl: "lg" }}
-            >
-              {product.name}
-            </Text>
-            <Heading
-              as={"h3"}
-              margin={"0.5rem 0"}
-              textAlign={"center"}
-              className="secondary-extra-bold"
-              fontSize={{ base: "md", md: "md", xl: "md" }}
-              color={ThemeColors.darkColor}
-            >
-              {UGX(product.price).format()}
-            </Heading>
-            <Box padding={"0.3rem 0"}>
-              <Flex justifyContent={"center"}>
-                <Button
-                  color={ThemeColors.lightColor}
-                  background={ThemeColors.darkColor}
-                  border={"1.7px solid " + ThemeColors.darkColor}
-                  borderRadius={"0.3rem"}
-                  padding={"1rem"}
-                  className="secondary-light-font"
-                  fontSize={"sm"}
-                  _hover={{
-                    border: "1.7px solid " + ThemeColors.lightColor,
-                  }}
-                  onClick={() => handleAddCart(product._id)}
-                >
-                  {isLoading ? (
-                    <Spinner />
-                  ) : (
-                    <FaCartPlus
-                      size={20}
-                      style={{ margin: "0 0.5rem 0 0" }}
-                      color={ThemeColors.lightColor}
-                    />
-                  )}
-                  Add To cart
-                </Button>
-              </Flex>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
+          <AiOutlineClose size={30} style={{ cursor: "pointer" }} />
+        </div>
+        <SignIn redirect={null} callback={handleListeningToSignIn} />
+      </div>
     </>
   );
 };

@@ -20,11 +20,15 @@ import { useLoginMutation } from "@slices/usersApiSlice";
 import { setCredentials } from "@slices/authSlice";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import ButtonComponent from "@components/Button";
+import { Loader } from "lucide-react";
 
-const SignIn = () => {
+const SignIn = ({ redirect, callback }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
+
+  console.log({ redirect });
 
   const chakraToast = useToast();
 
@@ -59,6 +63,10 @@ const SignIn = () => {
         duration: 5000,
         isClosable: false,
       });
+
+      if (callback) return callback({ loggedIn: true, user: res?._id });
+
+      if (redirect) return push(redirect);
 
       push("/");
     } catch (err) {
@@ -145,22 +153,12 @@ const SignIn = () => {
                   </Text>
                 </Box>
                 <Box padding={"0"}>
-                  <Button
-                    type="submit"
-                    color={ThemeColors.lightColor}
-                    background={ThemeColors.darkColor}
-                    border={"1.7px solid " + ThemeColors.darkColor}
-                    borderRadius={"0.3rem"}
-                    padding={"1rem"}
-                    className="secondary-light-font"
-                    fontSize={"md"}
-                    _hover={{
-                      background: "none",
-                      color: ThemeColors.darkColor,
-                    }}
-                  >
-                    {isLoading ? <Spinner /> : "Sign In"}
-                  </Button>
+                  <ButtonComponent
+                    size={"regular"}
+                    type={"submit"}
+                    text={"Sign In"}
+                    icon={isLoading && <Loader size={20} />}
+                  />
                 </Box>
               </form>
             </Box>

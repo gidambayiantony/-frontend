@@ -32,13 +32,10 @@ const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
       <Box>
         <Box padding={"1rem"} position={"relative"}>
           <Flex
-            flexShrink={0}
             overflowX={"auto"}
-            // overflowX={{ base: "hidden", md: "hidden", xl: "auto" }}
             direction={"row"}
-            // direction={{ base: "column", md: "column", xl: "row" }}
             id={`${category}__container__scrollbar`}
-            className="container__hide__scrollbar"
+            className="container__hide__scrollbar gap-4"
           >
             {Products.length > 0
               ? Products.map((product, index) => (
@@ -46,8 +43,6 @@ const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
                     key={index}
                     product={product}
                     userInfo={userInfo}
-                    UGX={UGX}
-                    width={{ base: "200px", md: "250px", xl: "280px" }}
                   />
                 ))
               : [1, 2, 3, 4, 5].map((item) => (

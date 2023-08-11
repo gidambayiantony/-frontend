@@ -4,6 +4,7 @@ import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { Images, ThemeColors } from "@constants/constants";
 import Image from "next/image";
 import Link from "next/link";
+import ButtonComponent from "./Button";
 
 const Hero = () => {
   return (
@@ -25,7 +26,7 @@ const Hero = () => {
                   fontSize={{ base: "3xl", md: "3xl", xl: "4xl" }}
                   margin={"0.3rem 0"}
                 >
-                  Campaigning {" "}
+                  Campaigning{" "}
                   <span
                     style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
                     className="secondary-font"
@@ -80,7 +81,7 @@ const Hero = () => {
                 <Box padding={"2rem 0"}>
                   <Flex justifyContent={"center"}>
                     <Link href={"/products"}>
-                      <Button
+                      {/* <Button
                         color={ThemeColors.lightColor}
                         background={ThemeColors.darkColor}
                         border={"1.7px solid " + ThemeColors.darkColor}
@@ -94,7 +95,13 @@ const Hero = () => {
                         }}
                       >
                         View Products
-                      </Button>
+                      </Button> */}
+                      <ButtonComponent
+                        text={"View Products"}
+                        type={"button"}
+                        size={"lg"}
+                        icon={null}
+                      />
                     </Link>
                   </Flex>
                 </Box>
