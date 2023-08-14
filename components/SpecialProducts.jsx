@@ -5,6 +5,7 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Link from "next/link";
+import LoaderSkeleton from "./LoaderSkeleton";
 
 const SpecialProducts = ({ Products, userInfo, category, text }) => {
   // handle scrolling to right
@@ -66,18 +67,7 @@ const SpecialProducts = ({ Products, userInfo, category, text }) => {
                     userInfo={userInfo}
                   />
                 ))
-              : [1, 2, 3, 4, 5].map((item) => (
-                  <Box
-                    key={item}
-                    padding={{ base: "0.5rem 1rem", md: "1rem", xl: "1rem" }}
-                    background={"#fff"}
-                    borderRadius={"md"}
-                    boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-                    width={"200px"}
-                    margin={"0 1rem 0 0"}
-                    height={"250px"}
-                  ></Box>
-                ))}
+              : [1, 2, 3, 4].map((item) => <LoaderSkeleton key={item} />)}
           </Flex>
 
           {Products.length > 4 && (

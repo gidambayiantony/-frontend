@@ -24,8 +24,6 @@ const Home = () => {
   const [Comments, setComments] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  console.log({ Products });
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const [fetchProducts] = useProductsCategoriesGetMutation();
