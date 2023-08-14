@@ -29,6 +29,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    productsCategoriesGet: builder.mutation({
+      query: () => ({
+        url: `${DB_URL}/products/categories`,
+        method: "GET",
+      }),
+    }),
     productsFilterGet: builder.mutation({
       query: (data) => ({
         url: `${DB_URL}/products/filter/${data}`,
@@ -88,4 +94,5 @@ export const {
   useSearchMutation,
   useNewOrderMutation,
   useOrdersMutation,
+  useProductsCategoriesGetMutation,
 } = productsApiSlice;

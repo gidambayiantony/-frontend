@@ -4,8 +4,9 @@ import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import ProductCard from "./ProductCard";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import Link from "next/link";
 
-const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
+const SpecialProducts = ({ Products, userInfo, category, text }) => {
   // handle scrolling to right
   const handleRightScroll = () => {
     const SliderDiv = document.getElementById(
@@ -30,6 +31,26 @@ const SpecialProducts = ({ Products, UGX, userInfo, category }) => {
   return (
     <>
       <Box>
+        <div className="py-4">
+          <div className="flex justify-between">
+            <div>
+              <h3 className="lg:text-2xl text-lg text-center">
+                <span className="capitalize">{text}</span> Products
+              </h3>
+              <div className="flex">
+                <div className="h-[0.15rem] lg:w-[10rem] w-[6rem] my-2 bg-primary"></div>
+              </div>
+            </div>
+            <div>
+              <Link href={`/search?q=${category}`}>
+                <h2 className="lg:text-lg text-base text-center hover:text-dark">
+                  View More
+                </h2>
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <Box padding={"1rem"} position={"relative"}>
           <Flex
             overflowX={"auto"}

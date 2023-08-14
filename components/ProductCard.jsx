@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 
 const ProductCard = ({ product, userInfo }) => {
   const [addCartApi] = useCartCreateMutation();
-  const [SignInStateCallback, setSignInStateCallback] = useState(false);
   const [SignInStateModal, setSignInStateModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
 

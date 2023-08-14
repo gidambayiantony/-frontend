@@ -14,23 +14,30 @@ import { DisplayImages, Images, ThemeColors } from "@constants/constants";
 import React, { useEffect, useState } from "react";
 // import Image from "next/image";
 import { FaCartPlus } from "react-icons/fa";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import {
   useCartCreateMutation,
   useProductGetMutation,
+  useProductsCategoryGetMutation,
 } from "@slices/productsApiSlice";
 import { useSearchParams, useRouter } from "next/navigation";
-import currency from "currency.js";
 import { useSelector } from "react-redux";
-
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
+import ButtonComponent from "@components/Button";
+import { ShoppingCart } from "lucide-react";
+import { FormatCurr } from "@utils/utils";
+import SpecialProducts from "@components/SpecialProducts";
+import SignIn from "@app/signin/page";
 
 const Product = () => {
   // get user information stored in the localstorage
   const { userInfo } = useSelector((state) => state.auth);
 
+  // create state to hold fetched Product information
+  const [Product, setProduct] = useState({});
+  const [SignInStateModal, setSignInStateModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [SimilarProducts, setSimilarProducts] = useState([]);
 
   const chakraToast = useToast();
 
@@ -41,22 +48,32 @@ const Product = () => {
 
   const param = searchParam.get("id");
 
-  // create state to hold fetched Product information
-  const [Product, setProduct] = useState({});
-
   // initialize mutation function to fetch product data from database
   const [fetchProduct] = useProductGetMutation();
-
+  const [fetchProductsCategory] = useProductsCategoryGetMutation();
   const [addCartApi] = useCartCreateMutation();
 
   // function handle fetching data
   const handleDataFetch = async () => {
-    const res = await fetchProduct(param);
+    const res = await fetchProduct(param).unwrap();
 
-    if (res.data?.status && res.data?.status == "Success") {
-      setProduct({ ...res.data?.data });
+    if (res.status && res.status == "Success") {
+      setProduct({ ...res.data });
     }
+
+    handleSimilarProductFetch(res.data.category);
   };
+
+  // function to fetch similar products
+  async function handleSimilarProductFetch(category) {
+    try {
+      const res = await fetchProductsCategory(category).unwrap();
+
+      if (res.status == "Success") {
+        setSimilarProducts(res?.data);
+      }
+    } catch (error) {}
+  }
 
   // fetch product categories
   useEffect(() => {
@@ -123,6 +140,37 @@ const Product = () => {
   //handle reduce quantity
   const handleDecreaseQuantity = () => {
     if (quantity !== 1) setQuantity((prev, curr) => (curr = prev - 1));
+  };
+
+  // function to listen to add to cart button click
+  const handleAddToCartBtnClick = (ID) => {
+    // check if user has not logged in
+    if (!userInfo) {
+      chakraToast({
+        title: "Sign In is required",
+        description: `You need to sign in to add to cart`,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+      setSignInStateModal((prev) => (prev ? false : true));
+
+      // set loading to be false
+      setLoading((prevState) => (prevState ? false : true));
+
+      return;
+    }
+
+    handleAddCart(ID, userInfo?._id);
+  };
+
+  // function to listen to user successfull login
+  const handleListeningToSignIn = (param) => {
+    if (param.loggedIn) {
+      setSignInStateModal((prev) => (prev ? false : true));
+      handleAddCart(Product._id, param?.user);
+    }
   };
 
   return (
@@ -207,7 +255,7 @@ const Product = () => {
                     color={ThemeColors.secondaryColor}
                     fontSize={"2xl"}
                   >
-                    {UGX(Product?.price ? Product?.price : 0).format()}
+                    UGX {FormatCurr(Product?.price ? Product?.price : 0)}
                   </Text>
                   <Text
                     margin={"0.5rem 0"}
@@ -257,76 +305,59 @@ const Product = () => {
                         </Button>
                       </Flex>
                     </Box>
-                    <Box padding={"0.3rem 1rem"}>
-                      <Button
-                        color={ThemeColors.lightColor}
-                        background={ThemeColors.darkColor}
-                        border={"1.7px solid " + ThemeColors.darkColor}
-                        borderRadius={"0.3rem"}
-                        padding={"1rem"}
-                        className="secondary-light-font"
-                        fontSize={"md"}
-                        _hover={{
-                          border: "1.7px solid " + ThemeColors.lightColor,
-                        }}
+
+                    <div className="py-[0.3rem] px-4">
+                      <div
                         onClick={() =>
-                          handleAddCart(Product?._id ? Product?._id : "")
+                          handleAddToCartBtnClick(
+                            Product?._id ? Product?._id : ""
+                          )
                         }
                       >
-                        <FaCartPlus
-                          size={20}
-                          style={{ margin: "0 0.5rem 0 0" }}
-                          color={ThemeColors.lightColor}
+                        <ButtonComponent
+                          text={"Add To Cart"}
+                          type={"button"}
+                          size={"regular"}
+                          icon={<ShoppingCart size={20} />}
                         />
-                        Add To cart
-                      </Button>
-                    </Box>
+                      </div>
+                    </div>
                   </Flex>
                 </Box>
               </Box>
             </Flex>
-            <Box padding={"1rem 0"} hidden>
-              <Box>
-                <Heading as={"h2"} size={"md"}>
-                  Product Description
-                </Heading>
-              </Box>
-              <Box padding={"0.5rem"}>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis
-                  quod voluptate earum at voluptas quo corporis quas eum minima
-                  temporibus ab harum aut fugiat accusantium iusto, placeat
-                  obcaecati sequi? Eum labore libero ex cum? Suscipit velit,
-                  amet est commodi qui ea omnis provident voluptatem fuga rem
-                  vero nobis eum nihil consectetur cum obcaecati perspiciatis
-                  culpa fugiat id ut necessitatibus. Fugit beatae distinctio
-                  iusto reiciendis earum doloremque magnam accusantium, qui illo
-                  illum nostrum hic, quos a, laudantium repellendus est
-                  repellat. Delectus.
-                </Text>
-              </Box>
-            </Box>
-            <Box padding={"1rem 0"} hidden>
-              <Box>
-                <Heading as={"h2"} size={"md"}>
-                  Shipping Details
-                </Heading>
-              </Box>
-              <Box padding={"0.5rem"}>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis
-                  quod voluptate earum at voluptas quo corporis quas eum minima
-                  temporibus ab harum aut fugiat accusantium iusto, placeat
-                  obcaecati sequi? Eum labore libero ex cum? Suscipit velit,
-                  amet est commodi qui ea omnis provident voluptatem fuga rem
-                  vero nobis eum nihil consectetur cum obcaecati perspiciatis
-                  culpa fugiat id ut necessitatibus. Fugit beatae distinctio
-                  iusto reiciendis earum doloremque magnam accusantium, qui illo
-                  illum nostrum hic, quos a, laudantium repellendus est
-                  repellat. Delectus.
-                </Text>
-              </Box>
-            </Box>
+
+            <div className="py-8">
+              <div className="">
+                {SimilarProducts.length > 0 && (
+                  <SpecialProducts
+                    Products={SimilarProducts}
+                    userInfo={userInfo}
+                    text="Similar"
+                    category={Product?.category}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* // signin / signup form */}
+            <div
+              className={`fixed top-[10%] lg:left-[30%] left-[5%] lg:right-[30%] right-[5%] bottom-[10%] z-[990] bg-light py-6 rounded-md shadow-md ${
+                SignInStateModal
+                  ? "visible translate-y-0"
+                  : "invisible translate-y-[150%]"
+              }`}
+            >
+              <div
+                className="absolute top-4 right-4"
+                onClick={() =>
+                  setSignInStateModal((prev) => (prev ? false : true))
+                }
+              >
+                <AiOutlineClose size={30} style={{ cursor: "pointer" }} />
+              </div>
+              <SignIn redirect={null} callback={handleListeningToSignIn} />
+            </div>
           </Box>
         </Box>
       </Box>

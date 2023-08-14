@@ -7,7 +7,7 @@ import Image from "next/image";
 import { FaTruckLoading, FaCreditCard, FaHeadset } from "react-icons/fa";
 
 import { useEffect, useState } from "react";
-import { useProductsCategoryGetMutation } from "@slices/productsApiSlice";
+import { useProductsCategoriesGetMutation } from "@slices/productsApiSlice";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import SpecialProducts from "@components/SpecialProducts";
@@ -24,9 +24,11 @@ const Home = () => {
   const [Comments, setComments] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
+  console.log({ Products });
+
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [fetchProducts] = useProductsCategoryGetMutation();
+  const [fetchProducts] = useProductsCategoriesGetMutation();
   const [fetchComments] = useCommentsGetMutation();
 
   const handleFetchCommentsData = async () => {
@@ -38,9 +40,7 @@ const Home = () => {
   };
 
   const handleFetchProductsData = async () => {
-    const res = await fetchProducts(
-      JSON.stringify(["recommended", "popular"])
-    ).unwrap();
+    const res = await fetchProducts().unwrap();
 
     if (res?.status && res?.status == "Success") {
       setProducts(res.data);
@@ -90,48 +90,6 @@ const Home = () => {
       >
         <Flex>
           <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
-            <Box padding={"1rem 0"}>
-              <Flex justifyContent={"space-between"}>
-                <Box>
-                  <Heading
-                    as={"h2"}
-                    fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
-                    textAlign={"center"}
-                  >
-                    Popular Products
-                  </Heading>
-                  <Flex>
-                    <Box
-                      height={"0.15rem"}
-                      width={{
-                        base: "5rem",
-                        md: "8rem",
-                        xl: "10rem",
-                      }}
-                      margin={"0.5rem 0"}
-                      background={ThemeColors.primaryColor}
-                    ></Box>
-                  </Flex>
-                </Box>
-                <Box>
-                  <Link href={"/search?q=popular"}>
-                    <Heading
-                      as={"h2"}
-                      fontSize={{ base: "md", md: "lg", xl: "lg" }}
-                      textAlign={"center"}
-                      _hover={{ color: ThemeColors.darkColor }}
-                      color={{
-                        base: ThemeColors.darkColor,
-                        md: ThemeColors.darkColor,
-                        xl: "#000",
-                      }}
-                    >
-                      View More
-                    </Heading>
-                  </Link>
-                </Box>
-              </Flex>
-            </Box>
             {Products?.length > 0 ? (
               Products.map(
                 (product, index) =>
@@ -140,11 +98,18 @@ const Home = () => {
                       key={index}
                       Products={product?.products}
                       userInfo={userInfo}
+                      category={product?.category}
+                      text={product?.category}
                     />
                   )
               )
             ) : (
-              <SpecialProducts Products={[]} userInfo={{}} />
+              <SpecialProducts
+                Products={[]}
+                userInfo={{}}
+                category={""}
+                text={""}
+              />
             )}
           </Box>
         </Flex>
@@ -307,53 +272,11 @@ const Home = () => {
                       margin={"auto"}
                       width={{ base: "95%", md: "90%", xl: "90%" }}
                     >
-                      <Box padding={"1rem 0"}>
-                        <Flex justifyContent={"space-between"}>
-                          <Box>
-                            <Heading
-                              as={"h2"}
-                              fontSize={{ base: "lg", md: "2xl", xl: "2xl" }}
-                              textAlign={"center"}
-                              textTransform={"capitalize"}
-                            >
-                              {product?.category} Products
-                            </Heading>
-                            <Flex>
-                              <Box
-                                height={"0.15rem"}
-                                width={{
-                                  base: "5rem",
-                                  md: "8rem",
-                                  xl: "10rem",
-                                }}
-                                margin={"0.5rem 0"}
-                                background={ThemeColors.primaryColor}
-                              ></Box>
-                            </Flex>
-                          </Box>
-                          <Box>
-                            <Link href={`/search?q=${product?.category}`}>
-                              <Heading
-                                as={"h2"}
-                                fontSize={{ base: "md", md: "lg", xl: "lg" }}
-                                textAlign={"center"}
-                                _hover={{ color: ThemeColors.darkColor }}
-                                color={{
-                                  base: ThemeColors.darkColor,
-                                  md: ThemeColors.darkColor,
-                                  xl: "#000",
-                                }}
-                              >
-                                View More
-                              </Heading>
-                            </Link>
-                          </Box>
-                        </Flex>
-                      </Box>
                       <SpecialProducts
                         Products={product?.products}
-                        category={product?.category}
                         userInfo={userInfo}
+                        category={product?.category}
+                        text={product?.category}
                       />
                     </Box>
                   </Flex>
