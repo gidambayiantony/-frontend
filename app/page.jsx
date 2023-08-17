@@ -210,35 +210,10 @@ const Home = () => {
                 className="secondary-light-font"
                 color={ThemeColors.lightColor}
               >
-                {" "}
-                While
-                <span
-                  style={{
-                    color: ThemeColors.darkColor,
-                    fontWeight: "bold",
-                    margin: "0 0.3rem",
-                  }}
-                  className="secondary-font"
-                >
-                  YooKatale
-                </span>
-                is your mobile food market...
+                Forget about going to the Market get Premium access to your Home
+                digital mobile food market
               </Text>
 
-              <Text
-                textAlign={"center"}
-                fontSize={{ base: "2xl", md: "2xl", xl: "3xl" }}
-                className="secondary-light-font"
-                color={ThemeColors.lightColor}
-              >
-                <span
-                  style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
-                  className="secondary-font"
-                >
-                  Subscribe to YooKatale
-                </span>
-                , rest assured about all our everyday home kitchen needs.
-              </Text>
               <Flex justifyContent={"center"} padding={"1rem 0"}>
                 <Link href={"/subscription"}>
                   <DynamicButton

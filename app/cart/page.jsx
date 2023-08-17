@@ -26,9 +26,6 @@ import { Images, ThemeColors } from "@constants/constants";
 // import Image from "next/image";
 import { useEffect } from "react";
 import { useState } from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa";
-import currency from "currency.js";
 
 import { useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
@@ -41,9 +38,8 @@ import {
   useCartMutation,
   useNewOrderMutation,
 } from "@slices/productsApiSlice";
-
-const UGX = (value) =>
-  currency(value, { symbol: "UGX", precision: 0, separator: "," });
+import CartCard from "@components/CartCard";
+import { FormatCurr } from "@utils/utils";
 
 const Cart = () => {
   const [Cart, setCart] = useState([]);
@@ -92,13 +88,9 @@ const Cart = () => {
           }
         }
 
-        // set value of total for each cart item
-        for (const cart of TempCart) {
-          cart.total = cart?.price * cart?.quantity;
-          // cart.cartId = cart._id;
-        }
-
         setCart([...TempCart]);
+
+        calcCartTotal([...TempCart]);
       } else {
         CartProductsItems = [];
       }
@@ -109,15 +101,21 @@ const Cart = () => {
     }
   };
 
-  useEffect(() => {
-    handleDataFetch();
-    fn();
-  }, []);
+  // function to calculate the cart total
+  const calcCartTotal = (param) => {
+    let newCartTotal = [];
+    if (param) {
+      newCartTotal = param.reduce((a, b) => {
+        return a + parseInt(b?.price) * parseInt(b?.quantity);
+      }, 0);
+    } else {
+      newCartTotal = Cart.reduce((a, b) => {
+        return a + parseInt(b?.price) * parseInt(b?.quantity);
+      }, 0);
+    }
 
-  useEffect(() => {
-    // handleDataFetch();
-    fn();
-  }, [count]);
+    setCartTotal((prevState) => newCartTotal);
+  };
 
   // function to delete cart item
   const handleDeleteCartItem = async (id) => {
@@ -133,11 +131,12 @@ const Cart = () => {
           isClosable: false,
         });
 
-        refresh();
         handleDataFetch();
-        fn();
+        calcCartTotal();
       }
     } catch (err) {
+      console.log({ err });
+
       chakraToast({
         title: "Error",
         description: err.data?.message
@@ -148,27 +147,6 @@ const Cart = () => {
         isClosable: false,
       });
     }
-  };
-
-  // calculate product total
-  const calcEachProductTotal = () => {
-    setCart((prevState) =>
-      prevState.map((cart) => {
-        return (cart = {
-          ...cart,
-          total: parseInt(cart?.price) * parseInt(cart?.quantity),
-        });
-      })
-    );
-  };
-
-  // function to calculate the cart total
-  const calcCartTotal = () => {
-    const newCartTotal = Cart.reduce((a, b) => {
-      return a + parseInt(b?.total ? b?.total : 0);
-    }, 0);
-
-    setCartTotal((prevState) => newCartTotal);
   };
 
   // function to handle increasing and reducing product quantity
@@ -189,10 +167,7 @@ const Cart = () => {
       ...Cart.slice(currentProductIndex + 1),
     ]);
 
-    // recalculate total
-    fn();
-
-    setCount(count + 1);
+    calcCartTotal();
   };
 
   const ReduceProductQuantity = (id) => {
@@ -216,16 +191,13 @@ const Cart = () => {
       ...Cart.slice(currentProductIndex + 1),
     ]);
 
-    // recalculate total
-    fn();
-
-    setCount(count + 1);
+    calcCartTotal();
   };
 
-  function fn() {
-    calcEachProductTotal();
+  useEffect(() => {
+    handleDataFetch();
     calcCartTotal();
-  }
+  }, []);
 
   return (
     <>
@@ -250,46 +222,93 @@ const Cart = () => {
             }}
             overflowX={"auto"}
           >
-            <Box>
-              <Box
-                padding={"0.5rem 0"}
-                display={{ base: "none", md: "none", xl: "block" }}
-              >
-                <Flex flexShrink={0} width={"100%"}>
-                  <Box width={"15%"} padding={"0.5rem 1rem"}>
-                    <Heading as={"h2"} size={"sm"}>
-                      Image
-                    </Heading>
-                  </Box>
-                  <Box
-                    width={{ base: "20%", md: "20%", xl: "25%" }}
-                    padding={"0.5rem 1rem"}
-                  >
-                    <Heading as={"h2"} size={"sm"}>
-                      Name
-                    </Heading>
-                  </Box>
-                  <Box
-                    width={{ base: "20%", md: "20%", xl: "15%" }}
-                    padding={"0.5rem 1rem"}
-                  >
-                    <Heading as={"h2"} size={"sm"}>
-                      Quantity
-                    </Heading>
-                  </Box>
-                  <Box width={"15%"} padding={"0.5rem 1rem"}>
-                    <Heading as={"h2"} size={"sm"}>
-                      Unit Price
-                    </Heading>
-                  </Box>
-                  <Box width={"20%"} padding={"0.5rem 1rem"}>
-                    <Heading as={"h2"} size={"sm"}>
-                      Total
-                    </Heading>
-                  </Box>
-                  <Box width={"10%"}></Box>
-                </Flex>
-              </Box>
+            <div className="flex lg:flex-row flex-col">
+              <div className="lg:w-[70%] w-full lg:pb-12 pb-4 pt-4">
+                <div className="lg:border-b-2 border-b-0 border-light max-h-[550px] overflow-y-auto lg:overflow-y-hidden">
+                  {Cart.length > 0 &&
+                    Cart.map((cart, index) => (
+                      <CartCard
+                        key={index}
+                        cart={cart}
+                        ReduceProductQuantity={ReduceProductQuantity}
+                        IncreaseProductQuantity={IncreaseProductQuantity}
+                        handleDeleteCartItem={handleDeleteCartItem}
+                      />
+                    ))}
+                </div>
+              </div>
+
+              <div className="lg:w-[30%] w-full">
+                {Cart.length > 0 ? (
+                  <div className="lg:py-4 lg:px-4 py-0 px-2">
+                    <div className="">
+                      <div className="hidden mb-4">
+                        <div className="p-4 border-[1.9px] border-light rounded-md">
+                          <div className="py-1">
+                            <h2 className="text-lg font-bold">
+                              Discount Coupon
+                            </h2>
+                          </div>
+
+                          <div className="py-1">
+                            <form>
+                              <FormControl>
+                                <Input
+                                  name="coupon"
+                                  type="text"
+                                  id="coupon"
+                                  placeholder="Coupon"
+                                />
+                                <div className="py-2">
+                                  <ButtonComponent
+                                    text={"Apply Coupon"}
+                                    type={"submit"}
+                                  />
+                                </div>
+                              </FormControl>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-[1.9px] border-light rounded-md p-4">
+                        <div>
+                          <div className="py-2 border-b-[1.9px] border-b-light">
+                            <div className="flex">
+                              <h2 className="text-lg">Cart Items:</h2>
+                              <p className="text-lg mx-2">
+                                {Cart ? Cart?.length : 0}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="py-2 border-b-[1.9px] border-b-light">
+                            <div className="flex">
+                              <h2 className="text-lg">Cart SubTotal:</h2>
+                              <p className="text-lg mx-2">
+                                UGX {FormatCurr(CartTotal)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="py-2">
+                          <div className="w-[5rem]" onClick={onOpen}>
+                            <ButtonComponent
+                              text={"Checkout"}
+                              type={"submit"}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            {/* <Box>
               <Box
                 padding={"0"}
                 borderBottom={"1.7px solid " + ThemeColors.lightColor}
@@ -410,92 +429,6 @@ const Cart = () => {
                           style={{ cursor: "pointer" }}
                         />
                       </Box>
-
-                      {/* // display for small and medium devices */}
-                      <Box
-                        display={{ base: "block", md: "block", xl: "none" }}
-                        borderBottom={"1.7px solid " + ThemeColors.darkColor}
-                        paddingTop={"1rem"}
-                      >
-                        <Box padding={"0.5rem"}>
-                          <Text fontSize={"2xl"}>
-                            {cart?.name ? cart?.name : ""}
-                          </Text>
-                        </Box>
-
-                        <Flex>
-                          <Box padding={"0.5rem"} width={"40%"}>
-                            <Text fontSize={"md"} fontWeight={"bold"}>
-                              Unit Price
-                            </Text>
-                            <Text fontSize={"lg"}>
-                              {UGX(cart?.price ? cart?.price : 0).format()}
-                            </Text>
-                          </Box>
-                          <Box width={"50%"} padding={"0.5rem"}>
-                            <Flex
-                              borderRadius={"0.3rem"}
-                              border={"1.7px solid " + ThemeColors.darkColor}
-                              padding={"0.2rem"}
-                            >
-                              <Button
-                                background={"none"}
-                                padding={"0.2rem"}
-                                margin={"0 0.2rem"}
-                                onClick={() =>
-                                  IncreaseProductQuantity(
-                                    cart?.cartId ? cart?.cartId : index
-                                  )
-                                }
-                              >
-                                <AiOutlinePlus size={18} />
-                              </Button>
-                              <Box
-                                padding={"0.2rem"}
-                                borderRadius={"0.3rem"}
-                                border={"1.7px solid " + ThemeColors.darkColor}
-                                width={"3rem"}
-                              >
-                                <Text fontSize={"lg"}>
-                                  {cart?.quantity ? cart?.quantity : 1}
-                                </Text>
-                              </Box>
-                              <Button
-                                background={"none"}
-                                padding={"0.2rem"}
-                                margin={"0 0.2rem"}
-                                onClick={() =>
-                                  ReduceProductQuantity(
-                                    cart?.cartId ? cart?.cartId : index
-                                  )
-                                }
-                              >
-                                <AiOutlineMinus size={18} />
-                              </Button>
-                            </Flex>
-                          </Box>
-                        </Flex>
-                        <Flex padding={"0.5rem 0 0 0"}>
-                          <Box padding={"1rem 0"}>
-                            <Text fontSize={"md"} fontWeight={"bold"}>
-                              Sub Total
-                            </Text>
-                            <Text fontSize={"lg"}>
-                              {cart?.total
-                                ? UGX(cart?.total ? cart?.total : 0).format()
-                                : 0}
-                            </Text>
-                          </Box>
-                          <Spacer />
-                          <Box padding={"1rem"}>
-                            <FaTrashAlt
-                              size={25}
-                              onClick={() => handleDeleteCartItem(cart?.cartId)}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </Box>
-                        </Flex>
-                      </Box>
                     </Flex>
                   ))
                 ) : (
@@ -504,83 +437,8 @@ const Cart = () => {
                   </Box>
                 )}
               </Box>
-            </Box>
+            </Box> */}
           </Box>
-          {Cart.length > 0 ? (
-            <Box padding={{ base: "0 1rem", md: "0 1rem", xl: "1rem 3rem" }}>
-              <Flex flexDirection={{ base: "column", md: "column", xl: "row" }}>
-                <Box hidden>
-                  <Box
-                    border={"1.7px solid " + ThemeColors.lightColor}
-                    padding={"1rem"}
-                    borderRadius={"0.3rem"}
-                  >
-                    <Box padding={"0.5rem"}>
-                      <Heading as={"h2"} size={"md"}>
-                        Discount Coupon
-                      </Heading>
-                    </Box>
-                    <Box padding={"0.5rem"}>
-                      <form>
-                        <FormControl>
-                          <FormLabel htmlFor="coupon">Coupon</FormLabel>
-                          <Input name="coupon" type="text" id="coupon" />
-                          <Box padding={"0.5rem 0"}>
-                            <ButtonComponent
-                              text={"Apply Coupon"}
-                              type={"submit"}
-                            />
-                          </Box>
-                        </FormControl>
-                      </form>
-                    </Box>
-                  </Box>
-                </Box>
-                <Spacer />
-                <Box
-                  border={"1.7px solid " + ThemeColors.lightColor}
-                  padding={"1rem"}
-                  borderRadius={"0.3rem"}
-                >
-                  <Stack>
-                    <Box
-                      padding={"0.5rem 0"}
-                      borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                    >
-                      <Flex>
-                        <Heading as={"h2"} size={"md"}>
-                          Cart Items:
-                        </Heading>
-                        <Text fontSize={"lg"} margin={"0 0.3rem"}>
-                          {Cart ? Cart?.length : 0}
-                        </Text>
-                      </Flex>
-                    </Box>
-                    <Box
-                      padding={"0.5rem 0"}
-                      borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                    >
-                      <Flex>
-                        <Heading as={"h2"} size={"md"}>
-                          Cart SubTotal:
-                        </Heading>
-                        <Text fontSize={"lg"} margin={"0 0.3rem"}>
-                          {UGX(CartTotal).format()}
-                        </Text>
-                      </Flex>
-                    </Box>
-                  </Stack>
-                  <Box padding={"0.5rem 0"}>
-                    <Box onClick={onOpen} width={"5rem"}>
-                      <ButtonComponent text={"Checkout"} type={"submit"} />
-                    </Box>
-                  </Box>
-                </Box>
-              </Flex>
-            </Box>
-          ) : (
-            ""
-          )}
         </Box>
       </Box>
 

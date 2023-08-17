@@ -91,8 +91,6 @@ const TabThree = ({ updateTabIndex, data }) => {
               transactionID: response?.transaction_id,
             };
 
-            data.yooCardNumber = yooCardNumber;
-
             const res = await placeOrder({ ...data }).unwrap();
 
             // set loading to be false
@@ -133,8 +131,6 @@ const TabThree = ({ updateTabIndex, data }) => {
       data.payment = {
         paymentMethod,
       };
-
-      data.yooCardNumber = yooCardNumber;
 
       const res = await placeOrder({ ...data }).unwrap();
 
@@ -210,44 +206,11 @@ const TabThree = ({ updateTabIndex, data }) => {
                     type={"card"}
                   />
                 </Box>
-                <Box>
-                  <PaymentCard
-                    text={"Yoo Card"}
-                    setPaymentMethod={setPaymentMethod}
-                    paymentMethod={paymentMethod}
-                    type={"yoocard"}
-                  />
-                </Box>
               </Grid>
             </Box>
           </Flex>
         </Box>
-        <Box padding={"1rem 0"}>
-          {paymentMethod == "yoocard" && (
-            <Flex>
-              <Box margin={"auto"} width={"60%"}>
-                <Box
-                  border={"1.7px solid " + ThemeColors.lightColor}
-                  padding={"1rem"}
-                  borderRadius={"md"}
-                >
-                  <Box padding={"0.5rem 0"}>
-                    <Text textAlign={"center"} fontSize={"lg"}>
-                      Enter your YooCard Number
-                    </Text>
-                  </Box>
-                  <Input
-                    type="text"
-                    placeholder="Enter your YooCard number"
-                    name="yooCardNumber"
-                    onChange={(e) => setYooCardNumber(e.target.value)}
-                    value={yooCardNumber}
-                  />
-                </Box>
-              </Box>
-            </Flex>
-          )}
-        </Box>
+
         <Box padding={"1rem 0 0.5rem 0"}>
           <Flex>
             <Box onClick={() => updateTabIndex(1)}>

@@ -12,6 +12,7 @@ import {
   Spacer,
   Textarea,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { useState } from "react";
@@ -39,6 +40,8 @@ const TabOne = ({ updateTabIndex, fetchData }) => {
     gender: "",
   });
 
+  const chakraToast = useToast();
+
   const handleDeliveryDataChange = (e) => {
     setDeliveryAddress({ ...deliveryAddress, [e.target.name]: e.target.value });
   };
@@ -60,13 +63,15 @@ const TabOne = ({ updateTabIndex, fetchData }) => {
   };
 
   const handleTabOneData = () => {
-    // fetchData({
-    //   deliveryAddress,
-    //   specialRequests,
-    //   personalInfo: !userInfo
-    //     ? setPersonalInfo({ ...personalInfo, ...userInfo })
-    //     : userInfo,
-    // });
+    if (deliveryAddress.address1 == "" && deliveryAddress.address2 == "")
+      return chakraToast({
+        title: "Error",
+        description: "Please enter a delivery address",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
     fetchData({ deliveryAddress, specialRequests });
     updateTabIndex(1);
   };
@@ -218,13 +223,13 @@ const TabOne = ({ updateTabIndex, fetchData }) => {
               gridGap={"1rem"}
             >
               <Box padding={"0.5rem 0"}>
-                <Checkbox
+                <input
+                  type="checkbox"
                   name="peeledFood"
                   value={specialRequests.peeledFood}
                   onChange={handleSpecialRequestDataChange}
-                >
-                  Peel Food
-                </Checkbox>
+                />{" "}
+                Peel Food
               </Box>
             </Grid>
             <Box padding={"0.5rem 0"}>

@@ -51,14 +51,14 @@ const SubscriptionCard = ({ card, selectedCard }) => {
             <Box padding={"0.5rem 0"}>
               {card?.price !== 0 ? (
                 <Flex justifyContent={"center"}>
-                  {/* <Text
-                      fontSize={"md"}
-                      marginTop={"0.2rem"}
-                      fontWeight={"light"}
-                      textDecoration={"line-through"}
-                    >
-                      {UGX(card?.previousPrice).format()} -
-                    </Text> */}
+                  <Text
+                    fontSize={"md"}
+                    marginTop={"0.2rem"}
+                    fontWeight={"light"}
+                    textDecoration={"line-through"}
+                  >
+                    {UGX(card?.previousPrice).format()} -
+                  </Text>
                   <Text
                     fontSize={"3xl"}
                     margin={"0 0 0 0.3rem"}
