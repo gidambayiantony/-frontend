@@ -149,8 +149,8 @@ const Subscription = () => {
                       <div className="flex justify-center items-center relative">
                         <Image
                           src={Images.img5}
-                          height={500}
-                          width={500}
+                          height={300}
+                          width={300}
                           alt="icon"
                         />
                       </div>
