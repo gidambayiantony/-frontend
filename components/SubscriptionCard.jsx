@@ -50,9 +50,9 @@ const SubscriptionCard = ({ card, selectedCard }) => {
 
             <Box padding={"0.5rem 0"}>
               {card?.price !== 0 ? (
-                <Flex justifyContent={"center"}>
+                <Flex justifyContent={"center"} flexDirection={"column"}>
                   <Text
-                    fontSize={"md"}
+                    fontSize={"lg"}
                     marginTop={"0.2rem"}
                     fontWeight={"light"}
                     textDecoration={"line-through"}
@@ -61,7 +61,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
                   </Text>
                   <Text
                     fontSize={"3xl"}
-                    margin={"0 0 0 0.3rem"}
+                    margin={"0.5rem 0.3rem"}
                     textAlign={"center"}
                     fontWeight={"light"}
                     color={ThemeColors.darkColor}

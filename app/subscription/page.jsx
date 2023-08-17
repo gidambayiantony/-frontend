@@ -89,23 +89,6 @@ const Subscription = () => {
                 margin={"auto"}
                 width={{ base: "90%", md: "100%", xl: "70%" }}
               >
-                {/* <Grid
-                  gridTemplateColumns={{
-                    base: "repeat(1, 1fr)",
-                    md: "repeat(1, 1fr)",
-                    xl: "repeat(4, 1fr)",
-                  }}
-                  gridGap={"1rem"}
-                >
-                  {subscriptionCards.length > 0 &&
-                    subscriptionCards.map((card, index) => (
-                      <SubscriptionCard
-                        card={card}
-                        key={index}
-                        selectedCard={handleCardSelect}
-                      />
-                    ))}
-                </Grid> */}
                 <Flex
                   flexDirection={{
                     base: "column-reverse",
@@ -129,7 +112,7 @@ const Subscription = () => {
                       padding={{
                         base: "1rem 0 2rem 0",
                         md: "1rem 0",
-                        xl: "1rem 3rem",
+                        xl: "3rem",
                       }}
                     >
                       <Text
@@ -155,9 +138,9 @@ const Subscription = () => {
                           }}
                         >
                           {" "}
-                          25% discount
+                          25%
                         </span>{" "}
-                        on every order you make
+                        subscription discount
                       </Text>
                     </Box>
                   </Box>
