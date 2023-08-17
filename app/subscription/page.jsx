@@ -24,8 +24,9 @@ import SubscriptionCard from "@components/SubscriptionCard";
 import TabOne from "@components/modals/tabs/subscriptionTabs/TabOne";
 import TabThree from "@components/modals/tabs/subscriptionTabs/TabThree";
 import TabTwo from "@components/modals/tabs/subscriptionTabs/TabTwo";
-import { ThemeColors } from "@constants/constants";
+import { Images, ThemeColors } from "@constants/constants";
 import { useSubscriptionCardGetMutation } from "@slices/usersApiSlice";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -143,6 +144,16 @@ const Subscription = () => {
                         subscription discount
                       </Text>
                     </Box>
+
+                    <div className="py-8">
+                      <div className="flex justify-center items-center relative">
+                        <Image
+                          src={Images.img5.src}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
                   </Box>
                 </Flex>
               </Box>

@@ -56,6 +56,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
                     marginTop={"0.2rem"}
                     fontWeight={"light"}
                     textDecoration={"line-through"}
+                    textAlign={"center"}
                   >
                     {UGX(card?.previousPrice).format()} -
                   </Text>
