@@ -145,10 +145,10 @@ const Subscription = () => {
                       </Text>
                     </Box>
 
-                    <div className="py-8">
+                    <div className="py-8 lg:block hidden">
                       <div className="flex justify-center items-center relative">
                         <Image
-                          src={Images.img5.src}
+                          src={Images.img5}
                           fill
                           className="object-contain"
                         />
