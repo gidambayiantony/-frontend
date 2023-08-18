@@ -293,7 +293,7 @@ const Header = () => {
                       fontSize={"lg"}
                       _hover={{ color: ThemeColors.darkColor }}
                     >
-                      YooCards
+                      Go Premium
                     </Text>
                   </Link>
                 </Box>
@@ -713,7 +713,7 @@ fontSize={"lg"}}}
                     fontSize={"lg"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
-                    YooCards
+                    Go Premium
                   </Text>
                 </Link>
               </Box>
