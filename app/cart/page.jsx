@@ -2,24 +2,16 @@
 
 import {
   Box,
-  Button,
-  Flex,
+
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Spacer,
-  Stack,
-  Text,
-  Image,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
-  Textarea,
-  Grid,
-  Checkbox,
 } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import { Images, ThemeColors } from "@constants/constants";
@@ -35,8 +27,7 @@ import TabTwo from "@components/modals/tabs/TabTwo";
 import TabThree from "@components/modals/tabs/TabThree";
 import {
   useCartDeleteMutation,
-  useCartMutation,
-  useNewOrderMutation,
+  useCartMutation
 } from "@slices/productsApiSlice";
 import CartCard from "@components/CartCard";
 import { FormatCurr } from "@utils/utils";
@@ -44,7 +35,6 @@ import { FormatCurr } from "@utils/utils";
 const Cart = () => {
   const [Cart, setCart] = useState([]);
   const [CartTotal, setCartTotal] = useState(0);
-  const [count, setCount] = useState(0);
   const [tabIndex, setTabIndex] = useState(0);
   const [tabOneData, setTabOneData] = useState({});
 
@@ -55,10 +45,9 @@ const Cart = () => {
 
   const [fetchCart] = useCartMutation();
   const [deleteCartItem] = useCartDeleteMutation();
-  const [placeOrder] = useNewOrderMutation();
 
   const chakraToast = useToast();
-  const { push, refresh } = useRouter();
+  const router = useRouter();
 
   // function handle fetching data
   const handleDataFetch = async () => {

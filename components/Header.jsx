@@ -248,29 +248,31 @@ const Header = () => {
             padding={"0 1rem"}
             display={{ base: "none", md: "none", xl: "block" }}
           >
-            <Flex>
-              <Box padding={"0.3rem 0.5rem"}>
-                <Text display={"flex"}>
-                  For support call us on{" "}
-                  <Text className="primary-bold-font"> +256 754615840</Text>
-                </Text>
-              </Box>
-              <Box padding={"0 0.5rem"}>
-                <form onSubmit={handleSearchFormSubmit}>
-                  {isLoading.status && isLoading.operation === "search" && (
-                    <Spinner />
-                  )}
-                  <Box>
-                    <Input
-                      type="text"
-                      name="search"
-                      placeholder="search product by name"
-                      padding={"0.3rem 0.5rem"}
-                      borderRadius={"0.3rem"}
-                      onChange={(e) => setSearchParam(e.target.value)}
-                    />
-                  </Box>
-                </form>
+            <Flex justifyContent={"center"} alignItems={"center"}>
+              <Box width={"fit-content"} display={"flex"}>
+                <Box padding={"0.3rem 0.5rem"}>
+                  <Text display={"flex"}>
+                    For support call us on{" "}
+                    <Text className="primary-bold-font"> +256 754615840</Text>
+                  </Text>
+                </Box>
+                <Box padding={"0 0.5rem"}>
+                  <form onSubmit={handleSearchFormSubmit}>
+                    {isLoading.status && isLoading.operation === "search" && (
+                      <Spinner />
+                    )}
+                    <Box>
+                      <Input
+                        type="text"
+                        name="search"
+                        placeholder="search product by name"
+                        padding={"0.3rem 0.5rem"}
+                        borderRadius={"0.3rem"}
+                        onChange={(e) => setSearchParam(e.target.value)}
+                      />
+                    </Box>
+                  </form>
+                </Box>
               </Box>
             </Flex>
             <Flex justifyContent={"center"} padding={"1rem 0"}>
@@ -320,17 +322,18 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
-              {/* <Box margin={"0.3rem 0.5rem"}>
+              <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/schedule"}>
                   <Text
-                  color={ThemeColors.lightColor}
-fontSize={"lg"}}}
+                    // color={ThemeColors.lightColor}
+                    fontSize={"lg"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Schedule Delivery
                   </Text>
                 </Link>
-              </Box> */}
+              </Box>
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"https://newsblog.yookatale.com"}>
                   <Text
@@ -355,23 +358,6 @@ fontSize={"lg"}}}
               </Box>
               <Box margin={"0 0.5rem"}>
                 <Link href={"https://wa.me/256754615840"} target="_blank">
-                  {/* <Button
-                    color={ThemeColors.lightColor}
-                    background={"whatsapp.600"}
-                    border={"1.7px solid " + "whatsapp.600"}
-                    borderRadius={"0.3rem"}
-                    padding={"0.3rem 0.5rem"}
-                    _hover={{
-                      border: "none",
-                    }}
-                  >
-                    <FaWhatsapp
-                      size={20}
-                      color={ThemeColors.lightColor}
-                      style={{ margin: "0 0.3rem" }}
-                    />{" "}
-                    Quick Order
-                  </Button> */}
                   <ButtonComponent
                     text={"Quick Order"}
                     size={"regular"}
@@ -506,23 +492,6 @@ fontSize={"lg"}}}
                       type={"button"}
                       icon={<LogIn size={20} />}
                     />
-                    {/* <Button
-                      color={ThemeColors.lightColor}
-                      background={ThemeColors.darkColor}
-                      border={"1.7px solid " + ThemeColors.darkColor}
-                      borderRadius={"0.3rem"}
-                      padding={"0.5rem 1rem"}
-                      _hover={{
-                        border: "none",
-                      }}
-                    >
-                      <FaSignInAlt
-                        size={20}
-                        color={ThemeColors.lightColor}
-                        style={{ margin: "0 0.3rem" }}
-                      />{" "}
-                      Sign In
-                    </Button> */}
                   </Link>
                 </Box>
               )}
@@ -750,19 +719,24 @@ fontSize={"lg"}}}
                 </Text>
               </Link>
             </Box>
-            {/* <Box margin={"0.5rem 0"}>
-                <Link href={"/schedule"} onClick={() =>
-            setMobileNavOpen((prevState) => (prevState ? false : true))
-          }>
-                  <Text
+
+            <Box margin={"0.5rem 0"}>
+              <Link
+                href={"/schedule"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
+                <Text
                   color={ThemeColors.lightColor}
-fontSize={"lg"}}}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Schedule Delivery
-                  </Text>
-                </Link>
-              </Box> */}
+                  fontSize={"lg"}
+                  _hover={{ color: ThemeColors.darkColor }}
+                >
+                  Schedule Delivery
+                </Text>
+              </Link>
+            </Box>
+
             <Box margin={"0.5rem 0"}>
               <Link
                 href={"https://newsblog.yookatale.com"}
@@ -779,6 +753,7 @@ fontSize={"lg"}}}
                 </Text>
               </Link>
             </Box>
+
             <Box margin={"0.5rem 0"}>
               <Link
                 href={"https://newsblog.yookatale.com/careers"}

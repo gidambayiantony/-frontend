@@ -60,23 +60,43 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    cartCheckout: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/products/cart/checkout`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     search: builder.mutation({
       query: (data) => ({
         url: `${DB_URL}/products/search/${data}`,
         method: "GET",
       }),
     }),
-    newOrder: builder.mutation({
+    newSchedule: builder.mutation({
       query: (data) => ({
-        url: `${DB_URL}/products/order`,
+        url: `${DB_URL}/products/schedule`,
         method: "POST",
         body: data,
       }),
     }),
-    orders: builder.mutation({
+    order: builder.mutation({
       query: (data) => ({
         url: `${DB_URL}/products/order/${data}`,
         method: "GET",
+      }),
+    }),
+    orders: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/products/orders/${data}`,
+        method: "GET",
+      }),
+    }),
+    orderUpdate: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/products/order`,
+        method: "PUT",
+        body: data,
       }),
     }),
   }),
@@ -92,7 +112,10 @@ export const {
   useCartMutation,
   useCartDeleteMutation,
   useSearchMutation,
-  useNewOrderMutation,
+  useNewScheduleMutation,
   useOrdersMutation,
   useProductsCategoriesGetMutation,
+  useOrderMutation,
+  useOrderUpdateMutation,
+  useCartCheckoutMutation,
 } = productsApiSlice;
