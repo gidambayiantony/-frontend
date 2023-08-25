@@ -81,6 +81,8 @@ const ProductCard = ({ product, userInfo }) => {
 
   // function to listen to user successfull login
   const handleListeningToSignIn = (param) => {
+    setLoading((prev) => (prev ? false : true));
+
     if (param.loggedIn) {
       setSignInStateModal((prev) => (prev ? false : true));
       handleAddCart(product._id, param?.user);

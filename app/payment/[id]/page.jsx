@@ -167,7 +167,11 @@ const Payment = ({ params }) => {
                     <option value="">Select payment method</option>
                     <option value="mobileMoney">Mobile Money</option>
                     <option value="card">Debit/Credit Card</option>
-                    <option value="cash">Cash on delivery</option>
+                    {Order?.paymentFor !== "subscription" ? (
+                      <option value="cash">Cash on delivery</option>
+                    ) : (
+                      ""
+                    )}
                   </select>
                 </div>
               </div>

@@ -31,13 +31,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    subscriptionCardGet: builder.mutation({
+    subscriptionPackageGet: builder.mutation({
       query: () => ({
-        url: `${DB_URL}/subscription`,
+        url: `${DB_URL}/subscription/package`,
         method: "GET",
       }),
     }),
-    subscriptionCardPost: builder.mutation({
+    subscriptionPost: builder.mutation({
       query: (data) => ({
         url: `${DB_URL}/subscription`,
         method: "POST",
@@ -78,8 +78,8 @@ export const {
   useRegisterMutation,
   useLogoutMutation,
   useCommentsGetMutation,
-  useSubscriptionCardGetMutation,
-  useSubscriptionCardPostMutation,
+  useSubscriptionPackageGetMutation,
+  useSubscriptionPostMutation,
   useMessagePostMutation,
   useBlogFetchMutation,
   useBlogsFetchMutation,

@@ -1,15 +1,12 @@
 import { Box, Flex, Grid, Text, Heading, Stack } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
-import React from "react";
+import React, { useState } from "react";
 import ButtonComponent from "./Button";
-import currency from "currency.js";
-import Link from "next/link";
+import { FormatCurr } from "@utils/utils";
+import { Loader2 } from "lucide-react";
 
-const SubscriptionCard = ({ card, selectedCard }) => {
-  const UGX = (value) =>
-    currency(value, { symbol: "UGX", precision: 0, separator: "," });
-
-  console.log({ card });
+const SubscriptionCard = ({ card, handleClick }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -58,7 +55,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
                     textDecoration={"line-through"}
                     textAlign={"center"}
                   >
-                    {UGX(card?.previousPrice).format()} -
+                    UGX {FormatCurr(card?.previousPrice)} -
                   </Text>
                   <Text
                     fontSize={"3xl"}
@@ -67,7 +64,7 @@ const SubscriptionCard = ({ card, selectedCard }) => {
                     fontWeight={"light"}
                     color={ThemeColors.darkColor}
                   >
-                    {UGX(card?.price).format()}
+                    UGX {FormatCurr(card?.price)}
                   </Text>
                 </Flex>
               ) : (
@@ -92,8 +89,22 @@ const SubscriptionCard = ({ card, selectedCard }) => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Box margin={"auto"} onClick={() => selectedCard(card?.type)}>
-                <ButtonComponent type={"button"} text={`Get ${card?.type}`} />
+              <Box
+                margin={"auto"}
+                onClick={() => {
+                  setIsLoading((prev) => (prev ? false : true));
+                  handleClick(card?._id);
+
+                  setTimeout(() => {
+                    setIsLoading((prev) => (prev ? false : true));
+                  }, 1500);
+                }}
+              >
+                <ButtonComponent
+                  type={"button"}
+                  text={`Get ${card?.type}`}
+                  icon={isLoading && <Loader2 size={20} />}
+                />
               </Box>
             </Box>
           </Box>

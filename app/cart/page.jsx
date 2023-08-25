@@ -2,7 +2,6 @@
 
 import {
   Box,
-
   FormControl,
   FormLabel,
   Heading,
@@ -27,10 +26,11 @@ import TabTwo from "@components/modals/tabs/TabTwo";
 import TabThree from "@components/modals/tabs/TabThree";
 import {
   useCartDeleteMutation,
-  useCartMutation
+  useCartMutation,
 } from "@slices/productsApiSlice";
 import CartCard from "@components/CartCard";
 import { FormatCurr } from "@utils/utils";
+import Link from "next/link";
 
 const Cart = () => {
   const [Cart, setCart] = useState([]);
@@ -124,8 +124,6 @@ const Cart = () => {
         calcCartTotal();
       }
     } catch (err) {
-      console.log({ err });
-
       chakraToast({
         title: "Error",
         description: err.data?.message
@@ -198,23 +196,15 @@ const Cart = () => {
             xl: "1rem 2rem",
           }}
         >
-          <Box padding={{ base: "0", md: "0", xl: "0 2rem" }}>
-            <Heading as={"h2"} size={"lg"}>
-              Your Cart
-            </Heading>
-          </Box>
-          <Box
-            padding={{
-              base: "1rem 0 3rem 0",
-              md: "1rem 0 3rem 0",
-              xl: "1rem 3rem",
-            }}
-            overflowX={"auto"}
-          >
+          <div className="lg:py-0 lg:px-8 px-0 py-0">
+            <h2 className="text-2xl font-semibold">Your Cart</h2>
+          </div>
+
+          <div className="lg:py-4 lg:px-12 pt-4 pb-12 px-0 overflow-x-0">
             <div className="flex lg:flex-row flex-col">
               <div className="lg:w-[70%] w-full lg:pb-12 pb-4 pt-4">
-                <div className="lg:border-b-2 border-b-0 border-light max-h-[550px] overflow-y-auto lg:overflow-y-hidden">
-                  {Cart.length > 0 &&
+                <div className="max-h-[550px] overflow-y-auto lg:overflow-y-hidden">
+                  {Cart.length > 0 ? (
                     Cart.map((cart, index) => (
                       <CartCard
                         key={index}
@@ -223,7 +213,26 @@ const Cart = () => {
                         IncreaseProductQuantity={IncreaseProductQuantity}
                         handleDeleteCartItem={handleDeleteCartItem}
                       />
-                    ))}
+                    ))
+                  ) : (
+                    <div className="py-16 flex justify-center items-center">
+                      <div className="flex">
+                        <h3 className="text-center text-4xl text-[#cacaca]">
+                          Your cart is empty
+                        </h3>
+
+                        <div className="px-4">
+                          <Link href={"/"}>
+                            <ButtonComponent
+                              text={"Add products"}
+                              type={"button"}
+                              size={"lg"}
+                            />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -297,137 +306,7 @@ const Cart = () => {
                 )}
               </div>
             </div>
-            {/* <Box>
-              <Box
-                padding={"0"}
-                borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                maxHeight={{ base: "550px", md: "500px" }}
-                overflowY={{ base: "auto", md: "auto", xl: "hidden" }}
-              >
-                {Cart.length > 0 ? (
-                  Cart.map((cart, index) => (
-                    <Flex
-                      key={cart?.cartId ? cart?.cartId : index}
-                      flexShrink={1}
-                      display={{ base: "block", md: "block", xl: "flex" }}
-                    >
-                      <Box
-                        width={{ base: "100%", md: "100%", xl: "15%" }}
-                        padding={"0 2rem"}
-                        height={{ base: "120px", md: "150px", xl: "auto" }}
-                      >
-                        <Flex
-                          alignContent={"center"}
-                          justifyContent={"center"}
-                          height={"100%"}
-                        >
-                          <Image
-                            alt=""
-                            src={`${cart?.images ? cart.images : ""}`}
-                            style={{
-                              height: "100%",
-                              width: "auto",
-                              margin: "auto",
-                            }}
-                          />
-                        </Flex>
-                      </Box>
-                      <Box
-                        width={"25%"}
-                        padding={"1rem"}
-                        display={{ base: "none", md: "none", xl: "block" }}
-                      >
-                        <Text fontSize={"lg"}>
-                          {cart?.name ? cart?.name : ""}
-                        </Text>
-                      </Box>
-                      <Box
-                        width={"15%"}
-                        padding={"1rem"}
-                        display={{ base: "none", md: "none", xl: "block" }}
-                      >
-                        <Flex
-                          borderRadius={"0.3rem"}
-                          border={"1.7px solid " + ThemeColors.darkColor}
-                          padding={"0.2rem"}
-                        >
-                          <Button
-                            background={"none"}
-                            padding={"0.2rem"}
-                            margin={"0 0.2rem"}
-                            onClick={() =>
-                              IncreaseProductQuantity(
-                                cart?.cartId ? cart?.cartId : index
-                              )
-                            }
-                          >
-                            <AiOutlinePlus size={21} />
-                          </Button>
-                          <Box
-                            padding={"0.2rem"}
-                            borderRadius={"0.3rem"}
-                            border={"1.7px solid " + ThemeColors.darkColor}
-                            width={"3rem"}
-                          >
-                            <Text fontSize={"md"}>
-                              {cart?.quantity ? cart?.quantity : 1}
-                            </Text>
-                          </Box>
-                          <Button
-                            background={"none"}
-                            padding={"0.2rem"}
-                            margin={"0 0.2rem"}
-                            onClick={() =>
-                              ReduceProductQuantity(
-                                cart?.cartId ? cart?.cartId : index
-                              )
-                            }
-                          >
-                            <AiOutlineMinus size={21} />
-                          </Button>
-                        </Flex>
-                      </Box>
-                      <Box
-                        width={"15%"}
-                        padding={"1rem"}
-                        display={{ base: "none", md: "none", xl: "block" }}
-                      >
-                        <Text fontSize={"lg"}>
-                          {UGX(cart?.price ? cart?.price : 0).format()}
-                        </Text>
-                      </Box>
-                      <Box
-                        width={"20%"}
-                        padding={"1rem"}
-                        display={{ base: "none", md: "none", xl: "block" }}
-                      >
-                        <Text fontSize={"lg"}>
-                          {cart?.total
-                            ? UGX(cart?.total ? cart?.total : 0).format()
-                            : 0}
-                        </Text>
-                      </Box>
-                      <Box
-                        width={"10%"}
-                        padding={"1rem"}
-                        display={{ base: "none", md: "none", xl: "block" }}
-                      >
-                        <FaTrashAlt
-                          size={30}
-                          onClick={() => handleDeleteCartItem(cart?.cartId)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Box>
-                    </Flex>
-                  ))
-                ) : (
-                  <Box padding={"3rem 0"}>
-                    <Text fontSize={"3xl"}>Your cart is empty</Text>
-                  </Box>
-                )}
-              </Box>
-            </Box> */}
-          </Box>
+          </div>
         </Box>
       </Box>
 

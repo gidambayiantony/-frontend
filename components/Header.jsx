@@ -147,6 +147,17 @@ const Header = () => {
     stickyNavbarActivate();
   }, []);
 
+  const DropdownLinks = [
+    { name: "Account", link: "/account" },
+    { name: "Schedule a meal", link: "/" },
+    { name: "Loyalty Points", link: "/" },
+    { name: "Subscription", link: "/" },
+    { name: "Support", link: "/" },
+    { name: "Invoices & Receipts", link: "/" },
+    { name: "Refer a friend", link: "/" },
+    { name: "Invite feature", link: "/" },
+  ];
+
   return (
     <>
       <Box padding={{ base: "0", md: "0", xl: "2rem 0 1rem 0" }}>
@@ -275,7 +286,7 @@ const Header = () => {
                 </Box>
               </Box>
             </Flex>
-            <Flex justifyContent={"center"} padding={"1rem 0"}>
+            <Flex justifyContent={"center"} padding={"1.5rem 0"}>
               {/* <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/products"}>
                   <Text
@@ -292,7 +303,7 @@ const Header = () => {
                   <Link href={"/subscription"}>
                     <Text
                       color={"#000"}
-                      fontSize={"lg"}
+                      fontSize={"md"}
                       _hover={{ color: ThemeColors.darkColor }}
                     >
                       Go Premium
@@ -304,7 +315,7 @@ const Header = () => {
                 <Link href={"/contact"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Contact
@@ -315,30 +326,30 @@ const Header = () => {
                 <Link href={"/about"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     About
                   </Text>
                 </Link>
               </Box>
-              <Box margin={"0.3rem 0.5rem"}>
+              {/* <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/schedule"}>
                   <Text
                     // color={ThemeColors.lightColor}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Schedule Delivery
                   </Text>
                 </Link>
-              </Box>
+              </Box> */}
 
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"https://newsblog.yookatale.com"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     News Blog
@@ -349,7 +360,7 @@ const Header = () => {
                 <Link href={"https://newsblog.yookatale.com/careers"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Careers
@@ -450,16 +461,19 @@ const Header = () => {
                       }
                     />
                     <Stack paddingTop={"1rem"}>
-                      <Box margin={"0.3rem 0"}>
-                        <Link href={"/account"}>
-                          <Text
-                            fontSize={"md"}
-                            _hover={{ color: ThemeColors.darkColor }}
-                          >
-                            Account
-                          </Text>
-                        </Link>
-                      </Box>
+                      {DropdownLinks.map((link, index) => (
+                        <Box margin={"0.3rem 0"} key={index}>
+                          <Link href={`${link.link}`}>
+                            <Text
+                              fontSize={"md"}
+                              _hover={{ color: ThemeColors.darkColor }}
+                            >
+                              {link.name}
+                            </Text>
+                          </Link>
+                        </Box>
+                      ))}
+
                       <Box
                         margin={"0.3rem 0"}
                         display={"flex"}
@@ -593,18 +607,24 @@ const Header = () => {
                 }
               />
               <Stack paddingTop={"1rem"}>
-                <Box
-                  margin={"0.3rem 0"}
-                  onClick={() =>
-                    setMobileNavOpen((prevState) => (prevState ? false : true))
-                  }
-                >
-                  <Link href={"/account"}>
-                    <Text fontSize={"lg"} color={ThemeColors.lightColor}>
-                      Account
-                    </Text>
-                  </Link>
-                </Box>
+                {DropdownLinks.map((link, index) => (
+                  <Box
+                    margin={"0.3rem 0"}
+                    onClick={() =>
+                      setMobileNavOpen((prevState) =>
+                        prevState ? false : true
+                      )
+                    }
+                    key={index}
+                  >
+                    <Link href={`${link.link}`}>
+                      <Text fontSize={"lg"} color={ThemeColors.lightColor}>
+                        {link.name}
+                      </Text>
+                    </Link>
+                  </Box>
+                ))}
+
                 <Box
                   margin={"0.3rem 0"}
                   display={"flex"}
@@ -720,7 +740,7 @@ const Header = () => {
               </Link>
             </Box>
 
-            <Box margin={"0.5rem 0"}>
+            {/* <Box margin={"0.5rem 0"}>
               <Link
                 href={"/schedule"}
                 onClick={() =>
@@ -735,7 +755,7 @@ const Header = () => {
                   Schedule Delivery
                 </Text>
               </Link>
-            </Box>
+            </Box> */}
 
             <Box margin={"0.5rem 0"}>
               <Link
@@ -834,6 +854,7 @@ const Header = () => {
                       </Text>
                     </Flex>
                   </Button>
+                  .
                 </Box>
               ) : (
                 <Box padding={"0"}>

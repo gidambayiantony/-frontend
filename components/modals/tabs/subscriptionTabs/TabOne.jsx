@@ -54,19 +54,6 @@ const TabOne = ({ updateTabIndex, setTabOneData }) => {
               >
                 <Box padding={"0.5rem 0"}>
                   <FormControl>
-                    <FormLabel htmlFor="cardNos">Number of Cards</FormLabel>
-                    <Input
-                      type="number"
-                      id="cardNos"
-                      placeholder="Number of cards is required"
-                      name="cardNos"
-                      value={numberOfCards}
-                      onChange={(e) => setNumberOfCards(e.target.value)}
-                    />
-                  </FormControl>
-                </Box>
-                <Box padding={"0.5rem 0"}>
-                  <FormControl>
                     <FormLabel htmlFor="address1">Delivery Address 1</FormLabel>
                     <Input
                       type="text"
@@ -83,6 +70,7 @@ const TabOne = ({ updateTabIndex, setTabOneData }) => {
                     />
                   </FormControl>
                 </Box>
+
                 <Box padding={"0.5rem 0"}>
                   <FormControl>
                     <FormLabel htmlFor="address2">Delivery Address 2</FormLabel>
@@ -102,6 +90,7 @@ const TabOne = ({ updateTabIndex, setTabOneData }) => {
                   </FormControl>
                 </Box>
               </Grid>
+
               <Box padding={"0.5rem 0"}>
                 <FormControl>
                   <FormLabel htmlFor="moreInfo">
