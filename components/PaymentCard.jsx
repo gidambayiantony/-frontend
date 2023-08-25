@@ -7,7 +7,7 @@ import React from "react";
 const PaymentCard = ({ text, setPaymentMethod, paymentMethod, type }) => {
   return (
     <Box
-      padding={"2rem 1rem"}
+      padding={"3rem 2rem"}
       cursor={"pointer"}
       background={
         paymentMethod === type ? ThemeColors.darkColor : ThemeColors.lightColor

@@ -21,7 +21,6 @@ import { useEffect, useState } from "react";
 
 const TabThree = ({ updateTabIndex, data }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [yooCardNumber, setYooCardNumber] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [CartTotal, setCartTotal] = useState(0);
   const router = useRouter();

@@ -12,13 +12,13 @@ const CartCard = ({
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="py-4 border-[1.9px] border-light lg:my-0 my-4">
+    <div className="py-4 border-[1.9px] border-light lg:my-0 my-4 rounded-md">
       <div className="flex justify-between lg:flex-row flex-col">
         <div className="lg:w-[60%] w-full">
           <div className="flex">
             <div className="w-1/5 relative">
               <Image
-                src={"/assets/images/img3.png"}
+                src={cart?.images}
                 alt={cart?.images}
                 fill
                 className="object-contain"
@@ -42,6 +42,10 @@ const CartCard = ({
             onClick={() => {
               setIsLoading((prev) => (prev ? false : true));
               handleDeleteCartItem(cart?.cartId);
+
+              setTimeout(() => {
+                setIsLoading((prev) => (prev ? false : true));
+              }, 1500);
             }}
           >
             <ButtonComponent

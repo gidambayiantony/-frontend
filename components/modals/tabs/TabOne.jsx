@@ -171,11 +171,13 @@ const TabOne = ({ updateTabIndex, fetchData }) => {
             ""
           )}
         </Box>
+
         <Box>
           <Heading as={"h3"} size={"md"}>
             Delivery Details
           </Heading>
         </Box>
+
         <Box padding={"1rem 0"}>
           <Grid
             gridTemplateColumns={{

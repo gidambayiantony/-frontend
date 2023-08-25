@@ -147,6 +147,17 @@ const Header = () => {
     stickyNavbarActivate();
   }, []);
 
+  const DropdownLinks = [
+    { name: "Account", link: "/account" },
+    { name: "Schedule a meal", link: "/" },
+    { name: "Loyalty Points", link: "/" },
+    { name: "Subscription", link: "/" },
+    { name: "Support", link: "/" },
+    { name: "Invoices & Receipts", link: "/" },
+    { name: "Refer a friend", link: "/" },
+    { name: "Invite feature", link: "/" },
+  ];
+
   return (
     <>
       <Box padding={{ base: "0", md: "0", xl: "2rem 0 1rem 0" }}>
@@ -248,32 +259,34 @@ const Header = () => {
             padding={"0 1rem"}
             display={{ base: "none", md: "none", xl: "block" }}
           >
-            <Flex>
-              <Box padding={"0.3rem 0.5rem"}>
-                <Text display={"flex"}>
-                  For support call us on{" "}
-                  <Text className="primary-bold-font"> +256 754615840</Text>
-                </Text>
-              </Box>
-              <Box padding={"0 0.5rem"}>
-                <form onSubmit={handleSearchFormSubmit}>
-                  {isLoading.status && isLoading.operation === "search" && (
-                    <Spinner />
-                  )}
-                  <Box>
-                    <Input
-                      type="text"
-                      name="search"
-                      placeholder="search product by name"
-                      padding={"0.3rem 0.5rem"}
-                      borderRadius={"0.3rem"}
-                      onChange={(e) => setSearchParam(e.target.value)}
-                    />
-                  </Box>
-                </form>
+            <Flex justifyContent={"center"} alignItems={"center"}>
+              <Box width={"fit-content"} display={"flex"}>
+                <Box padding={"0.3rem 0.5rem"}>
+                  <Text display={"flex"}>
+                    For support call us on{" "}
+                    <Text className="primary-bold-font"> +256 754615840</Text>
+                  </Text>
+                </Box>
+                <Box padding={"0 0.5rem"}>
+                  <form onSubmit={handleSearchFormSubmit}>
+                    {isLoading.status && isLoading.operation === "search" && (
+                      <Spinner />
+                    )}
+                    <Box>
+                      <Input
+                        type="text"
+                        name="search"
+                        placeholder="search product by name"
+                        padding={"0.3rem 0.5rem"}
+                        borderRadius={"0.3rem"}
+                        onChange={(e) => setSearchParam(e.target.value)}
+                      />
+                    </Box>
+                  </form>
+                </Box>
               </Box>
             </Flex>
-            <Flex justifyContent={"center"} padding={"1rem 0"}>
+            <Flex justifyContent={"center"} padding={"1.5rem 0"}>
               {/* <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/products"}>
                   <Text
@@ -290,7 +303,7 @@ const Header = () => {
                   <Link href={"/subscription"}>
                     <Text
                       color={"#000"}
-                      fontSize={"lg"}
+                      fontSize={"md"}
                       _hover={{ color: ThemeColors.darkColor }}
                     >
                       Go Premium
@@ -302,7 +315,7 @@ const Header = () => {
                 <Link href={"/contact"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Contact
@@ -313,7 +326,7 @@ const Header = () => {
                 <Link href={"/about"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     About
@@ -323,19 +336,20 @@ const Header = () => {
               {/* <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/schedule"}>
                   <Text
-                  color={ThemeColors.lightColor}
-fontSize={"lg"}}}
+                    // color={ThemeColors.lightColor}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Schedule Delivery
                   </Text>
                 </Link>
               </Box> */}
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"https://newsblog.yookatale.com"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     News Blog
@@ -346,7 +360,7 @@ fontSize={"lg"}}}
                 <Link href={"https://newsblog.yookatale.com/careers"}>
                   <Text
                     color={"#000"}
-                    fontSize={"lg"}
+                    fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
                     Careers
@@ -355,23 +369,6 @@ fontSize={"lg"}}}
               </Box>
               <Box margin={"0 0.5rem"}>
                 <Link href={"https://wa.me/256754615840"} target="_blank">
-                  {/* <Button
-                    color={ThemeColors.lightColor}
-                    background={"whatsapp.600"}
-                    border={"1.7px solid " + "whatsapp.600"}
-                    borderRadius={"0.3rem"}
-                    padding={"0.3rem 0.5rem"}
-                    _hover={{
-                      border: "none",
-                    }}
-                  >
-                    <FaWhatsapp
-                      size={20}
-                      color={ThemeColors.lightColor}
-                      style={{ margin: "0 0.3rem" }}
-                    />{" "}
-                    Quick Order
-                  </Button> */}
                   <ButtonComponent
                     text={"Quick Order"}
                     size={"regular"}
@@ -464,16 +461,19 @@ fontSize={"lg"}}}
                       }
                     />
                     <Stack paddingTop={"1rem"}>
-                      <Box margin={"0.3rem 0"}>
-                        <Link href={"/account"}>
-                          <Text
-                            fontSize={"md"}
-                            _hover={{ color: ThemeColors.darkColor }}
-                          >
-                            Account
-                          </Text>
-                        </Link>
-                      </Box>
+                      {DropdownLinks.map((link, index) => (
+                        <Box margin={"0.3rem 0"} key={index}>
+                          <Link href={`${link.link}`}>
+                            <Text
+                              fontSize={"md"}
+                              _hover={{ color: ThemeColors.darkColor }}
+                            >
+                              {link.name}
+                            </Text>
+                          </Link>
+                        </Box>
+                      ))}
+
                       <Box
                         margin={"0.3rem 0"}
                         display={"flex"}
@@ -506,23 +506,6 @@ fontSize={"lg"}}}
                       type={"button"}
                       icon={<LogIn size={20} />}
                     />
-                    {/* <Button
-                      color={ThemeColors.lightColor}
-                      background={ThemeColors.darkColor}
-                      border={"1.7px solid " + ThemeColors.darkColor}
-                      borderRadius={"0.3rem"}
-                      padding={"0.5rem 1rem"}
-                      _hover={{
-                        border: "none",
-                      }}
-                    >
-                      <FaSignInAlt
-                        size={20}
-                        color={ThemeColors.lightColor}
-                        style={{ margin: "0 0.3rem" }}
-                      />{" "}
-                      Sign In
-                    </Button> */}
                   </Link>
                 </Box>
               )}
@@ -624,18 +607,24 @@ fontSize={"lg"}}}
                 }
               />
               <Stack paddingTop={"1rem"}>
-                <Box
-                  margin={"0.3rem 0"}
-                  onClick={() =>
-                    setMobileNavOpen((prevState) => (prevState ? false : true))
-                  }
-                >
-                  <Link href={"/account"}>
-                    <Text fontSize={"lg"} color={ThemeColors.lightColor}>
-                      Account
-                    </Text>
-                  </Link>
-                </Box>
+                {DropdownLinks.map((link, index) => (
+                  <Box
+                    margin={"0.3rem 0"}
+                    onClick={() =>
+                      setMobileNavOpen((prevState) =>
+                        prevState ? false : true
+                      )
+                    }
+                    key={index}
+                  >
+                    <Link href={`${link.link}`}>
+                      <Text fontSize={"lg"} color={ThemeColors.lightColor}>
+                        {link.name}
+                      </Text>
+                    </Link>
+                  </Box>
+                ))}
+
                 <Box
                   margin={"0.3rem 0"}
                   display={"flex"}
@@ -750,19 +739,24 @@ fontSize={"lg"}}}
                 </Text>
               </Link>
             </Box>
+
             {/* <Box margin={"0.5rem 0"}>
-                <Link href={"/schedule"} onClick={() =>
-            setMobileNavOpen((prevState) => (prevState ? false : true))
-          }>
-                  <Text
+              <Link
+                href={"/schedule"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
+                <Text
                   color={ThemeColors.lightColor}
-fontSize={"lg"}}}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Schedule Delivery
-                  </Text>
-                </Link>
-              </Box> */}
+                  fontSize={"lg"}
+                  _hover={{ color: ThemeColors.darkColor }}
+                >
+                  Schedule Delivery
+                </Text>
+              </Link>
+            </Box> */}
+
             <Box margin={"0.5rem 0"}>
               <Link
                 href={"https://newsblog.yookatale.com"}
@@ -779,6 +773,7 @@ fontSize={"lg"}}}
                 </Text>
               </Link>
             </Box>
+
             <Box margin={"0.5rem 0"}>
               <Link
                 href={"https://newsblog.yookatale.com/careers"}
@@ -859,6 +854,7 @@ fontSize={"lg"}}}
                       </Text>
                     </Flex>
                   </Button>
+                  .
                 </Box>
               ) : (
                 <Box padding={"0"}>

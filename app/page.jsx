@@ -218,8 +218,8 @@ const Home = () => {
                 <Link href={"/subscription"}>
                   <DynamicButton
                     type={"button"}
-                    text={"Register"}
-                    pd={"1.3rem 2rem"}
+                    text={"Go Premium"}
+                    size={"lg"}
                   />
                 </Link>
               </Flex>
