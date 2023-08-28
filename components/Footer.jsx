@@ -29,6 +29,23 @@ import {
 import { useSelector } from "react-redux";
 import ButtonComponent from "./Button";
 import { useNewsletterPostMutation } from "@slices/usersApiSlice";
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  InstapaperIcon,
+  WhatsappIcon,
+  WhatsappShareButton,
+  InstapaperShareButton,
+  LinkedinShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinIcon,
+  TwitterIcon,
+  TelegramIcon,
+} from "react-share";
+import axios from "axios";
+import { Loader } from "lucide-react";
+// import nodemailer from "nodemailer";
 
 const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -38,43 +55,43 @@ const Footer = () => {
   const [createNewsletter] = useNewsletterPostMutation();
   const chakraToast = useToast();
 
-  // submit email for newsletter
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading((prevState) => (prevState ? false : true));
+    setLoading(true); // Start loading
 
     try {
       const res = await createNewsletter({ email: NewsletterEmail }).unwrap();
 
-      if (res.status == "Success") {
-        // set loading to be false
-        setLoading((prevState) => (prevState ? false : true));
-
-        // clear email value
+      if (res.status === "Success") {
+        // Clear email value
         setNewsletterEmail("");
 
-        chakraToast({
-          title: "Success",
-          description: "Successfully subscribed to newsletter",
-          status: "success",
-          duration: 5000,
-          isClosable: false,
-        });
+        // make call to api to send mail
+        const res = await axios.post("/api/mail", { email: NewsletterEmail });
+
+        if (res.statusText == "OK")
+          return chakraToast({
+            title: "Success",
+            description: "Successfully subscribed to the newsletter",
+            status: "success",
+            duration: 5000,
+            isClosable: false,
+          });
       }
     } catch (err) {
-      // set loading to be false
-      setLoading((prevState) => (prevState ? false : true));
-
+      // Display error message
       chakraToast({
-        title: "Error has occured",
+        title: "Error",
         description: err.data?.message
-          ? err.data?.message
+          ? err.data.message
           : err.data || err.error,
         status: "error",
         duration: 5000,
         isClosable: false,
       });
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -400,11 +417,11 @@ const Footer = () => {
                         </Text>
                       </Box>
                       <Box padding={"0.5rem 0"}>
-                        {isLoading ? (
-                          <Spinner />
-                        ) : (
-                          <ButtonComponent type={"submit"} text={"Subscribe"} />
-                        )}
+                        <ButtonComponent
+                          type={"submit"}
+                          text={"Subscribe"}
+                          icon={isLoading && <Loader size={20} />}
+                        />
                       </Box>
                     </Box>
                   </form>
@@ -436,6 +453,46 @@ const Footer = () => {
                 All rights reserved
               </span>
             </Text>
+          </Box>
+
+          <Spacer display={{ base: "none", md: "none", xl: "block" }} />
+
+          <Box padding={{ base: "0.5rem 0", md: "0.5rem 0", xl: "none" }}>
+            <Flex
+              justifyContent={"center"}
+              direction={{ base: "column", md: "column", xl: "row" }}
+            >
+              <Text
+                color={ThemeColors.primaryColor}
+                margin={"0.5rem"}
+                fontSize="lg"
+                textTransform={"uppercase"}
+                textAlign={"center"}
+              >
+                Invite A Friend
+              </Text>
+
+              <Flex justifyContent={"center"}>
+                <FacebookShareButton url={"https://www.yookatale.com"}>
+                  <FacebookIcon size={35} />
+                </FacebookShareButton>{" "}
+                <WhatsappShareButton url={"https://www.yookatale.com"}>
+                  <WhatsappIcon size={35} />
+                </WhatsappShareButton>{" "}
+                <InstapaperShareButton url={"https://www.yookatale.com"}>
+                  <InstapaperIcon size={35} />
+                </InstapaperShareButton>{" "}
+                <LinkedinShareButton url={"https://www.yookatale.com"}>
+                  <LinkedinIcon size={35} />
+                </LinkedinShareButton>{" "}
+                <TwitterShareButton url={"https://www.yookatale.com"}>
+                  <TwitterIcon size={35} />
+                </TwitterShareButton>{" "}
+                <TelegramShareButton url={"https://www.yookatale.com"}>
+                  <TelegramIcon size={35} />
+                </TelegramShareButton>
+              </Flex>
+            </Flex>
           </Box>
           <Spacer display={{ base: "none", md: "none", xl: "block" }} />
           <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>

@@ -64,3 +64,54 @@ export const TestBlog = `
 <div>
 <div><p>Debitis autem corporis facilis laboriosam porro, totam quod neque libero commodi temporibus nam qui obcaecati animi reiciendis voluptates eveniet quam. Dolore corrupti vero voluptatem neque ipsam reiciendis dolores delectus! Deleniti asperiores excepturi perspiciatis quidem aperiam, vitae autem? Tempore delectus officiis ad blanditiis qui voluptatem consequatur nam exercitationem necessitatibus eos enim, non ducimus molestiae atque, dignissimos totam quas. Inventore quae consequatur facere. Ab aspernatur quae sint, mollitia distinctio quasi consequatur vel qui placeat. Distinctio molestiae cumque eos, libero ipsa unde. A voluptates reiciendis sit voluptatibus dolor necessitatibus quae minima iste distinctio eveniet quia ea commodi officia possimus, consectetur perspiciatis quam error accusamus laboriosam consequuntur at alias mollitia voluptatum! Blanditiis est alias corrupti aut possimus error quia expedita! Dolorum quo rem eum dolor saepe nihil adipisci aspernatur nemo debitis exercitationem ratione corporis dicta a reprehenderit fugit provident delectus laboriosam ad quasi, quis nesciunt doloribus? Pariatur, culpa et quasi minima unde aut ut? Corrupti aperiam atque veniam. Modi, ipsam ut. Corporis.</p></div>
 `;
+
+export const emailTemplate = `
+<html lang="en">
+<head>
+</head>
+<body style={{ fontFamily: 'Arial, sans-serif', margin: 0, padding: 0, backgroundColor: '#f4f4f4' }}>
+
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style={{ maxWidth: '600px', margin: 'auto', backgroundColor: '#ffffff' }}>
+    <tr>
+      <td style={{ padding: '20px' }}>
+        <h1 style={{ fontSize: '24px', color: '#333333', textAlign: 'center' }}>Welcome to Yookatale</h1>
+        <p style={{ fontSize: '16px', color: '#777777', textAlign: 'center' }}>Your Digital Mobile Food Market</p>
+      </td>
+    </tr>
+  </table>
+
+
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style={{ maxWidth: '600px', margin: 'auto', backgroundColor: '#ffffff' }}>
+    <tr>
+      <td style={{ padding: '20px' }}>
+        <p style={{ fontSize: '18px', color: '#333333' }}>Thank you for subscribing to the Yookatale newsletter.</p>
+        <a href="[Link to Article]" style={{ display: 'block', marginTop: '20px', textDecoration: 'none', color: '#007bff' }}>[ Decoding 4000 years of the pamagmante fruit]</a>
+   
+        <img src="[Image URL]" alt="Article Image" style={{ maxWidth: '100%', marginTop: '20px' }} />
+        <p style={{ fontSize: '18px', color: '#333333' }}>Forget About Going to the Market</p>
+        <a href="[Link to YooKatale Premium]" style={{ display: 'inline-block', padding: '10px 20px', backgroundColor: '#007bff', color: '#ffffff', textDecoration: 'none', borderRadius: '5px' }}>Get YooKatale Premium</a>
+      </td>
+    </tr>
+  </table>
+
+
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style={{ maxWidth: '600px', margin: 'auto', backgroundColor: '#ffffff' }}>
+    <tr>
+      <td style={{ padding: '20px' }}>
+          <img src="https://www.yookatale.com/assets/images/1.jpg" alt="Avert Poster" style={{maxWidth: '100%'}}/>
+      </td>
+    </tr>
+  </table>
+
+
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style={{ maxWidth: '600px', margin: 'auto', backgroundColor: '#f4f4f4' }}>
+    <tr>
+      <td style={{ padding: '20px', textAlign: 'center' }}>
+        <p style={{ fontSize: '14px', color: '#777777' }}>&copy; ${new Date().getFullYear()} Yookatale. All rights reserved.</p>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+`;
