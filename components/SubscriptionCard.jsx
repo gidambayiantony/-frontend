@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import ButtonComponent from "./Button";
 import { FormatCurr } from "@utils/utils";
 import { Loader2 } from "lucide-react";
+import SubscriptionTerms from "./SubscriptionTerms";
 
 const SubscriptionCard = ({ card, handleClick }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [displayTermsModal, setDisplayTermsModal] = useState(false);
 
   return (
     <>
@@ -83,6 +85,7 @@ const SubscriptionCard = ({ card, handleClick }) => {
                 ))}
               </Stack>
             </Box>
+
             <Box
               paddingTop={"2rem"}
               display={"flex"}
@@ -107,6 +110,25 @@ const SubscriptionCard = ({ card, handleClick }) => {
                 />
               </Box>
             </Box>
+
+            <div className="py-4">
+              <p
+                className="text-base text-center cursor-pointer underline"
+                onClick={() =>
+                  setDisplayTermsModal((prev) => (prev ? false : true))
+                }
+              >
+                Terms ans conditions apply
+              </p>
+            </div>
+
+            {/* // subscription terms */}
+
+            {displayTermsModal && (
+              <div className="top-[5%] lg:left-[25%] lg:right-[25%] sm:left-[15%] sm:right-[15%] left-[5%] right-[5%] bottom-[5%] overflow-y-auto fixed bg-light rounded-md shadow-md p-10 z-[900]">
+                <SubscriptionTerms handleModalClose={setDisplayTermsModal} />
+              </div>
+            )}
           </Box>
         </Box>
       </Box>
