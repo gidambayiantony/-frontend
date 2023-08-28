@@ -23,7 +23,7 @@ import { useToast } from "@chakra-ui/react";
 import { redirect, useRouter } from "next/navigation";
 import TabOne from "@components/modals/tabs/TabOne";
 import TabTwo from "@components/modals/tabs/TabTwo";
-import TabThree from "@components/modals/tabs/TabThree";
+
 import {
   useCartDeleteMutation,
   useCartMutation,
@@ -322,25 +322,18 @@ const Cart = () => {
           <ModalContent padding={"2rem 3rem"}>
             <ModalCloseButton size={"lg"} color={ThemeColors.darkColor} />
             <Box padding={"1rem 0"}>
-              {tabIndex === 0 ? (
+              {tabIndex === 0 && (
                 <TabOne
                   updateTabIndex={setTabIndex}
                   fetchData={setTabOneData}
                 />
-              ) : tabIndex === 1 ? (
+              )}
+
+              {tabIndex === 1 && (
                 <TabTwo
                   Cart={Cart}
                   updateTabIndex={setTabIndex}
                   tabOneData={tabOneData}
-                />
-              ) : (
-                <TabThree
-                  updateTabIndex={setTabIndex}
-                  data={{
-                    Carts: Cart,
-                    Orders: { ...tabOneData },
-                    personalInfo: userInfo,
-                  }}
                 />
               )}
             </Box>
