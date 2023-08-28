@@ -104,12 +104,18 @@ const ProductCard = ({ product, userInfo }) => {
           </Link>
         </div>
         <div className="p-[0.3rem 0]">
-          <p className="secondary-light-font text-center text-lg">
-            {product.name}
-          </p>
-          <h3 className={`font-bold text-center text-base text-dark my-2`}>
-            {`UGX ${FormatCurr(product.price)}`}
-          </h3>
+          <div className="py-2">
+            <p className="secondary-light-font text-center text-lg">
+              {product.name}
+            </p>
+            <h3 className={`font-bold text-center text-base text-dark`}>
+              {`UGX ${FormatCurr(product.price)}`}
+            </h3>
+            <p className="secondary-light-font text-center text-base">
+              per {product.unit}
+            </p>
+          </div>
+
           <div className="py-[0.3rem] flex justify-center">
             <Button
               className="text-white bg-dark hover:bg-transparent hover:text-dark text-base gap-2 rounded-md border-[1.7px] border-dark"

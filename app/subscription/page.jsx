@@ -47,10 +47,14 @@ const Subscription = () => {
     try {
       const res = await fetchPackages().unwrap();
 
+      console.log({ res });
+
       if (res?.status == "Success") {
         setSubscriptionPackages(res?.data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   useEffect(() => {

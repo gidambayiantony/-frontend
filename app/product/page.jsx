@@ -250,13 +250,18 @@ const Product = () => {
                   <Heading as={"h2"} size={"2xl"}>
                     {Product?.name ? Product?.name : "__"}
                   </Heading>
+
                   <Text
                     margin={"1rem 0 0.5rem 0"}
                     color={ThemeColors.secondaryColor}
                     fontSize={"2xl"}
                   >
                     UGX {FormatCurr(Product?.price ? Product?.price : 0)}
+                    <span className="mx-2 text-lg font-bold text-[#000]">
+                      Per {Product?.unit}
+                    </span>
                   </Text>
+
                   <Text
                     margin={"0.5rem 0"}
                     className="secondary-bold-font"
