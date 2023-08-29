@@ -11,7 +11,7 @@ import ScriptTag from "@components/ScriptTag";
 export const metadata = {
   title: "yookatale",
   description:
-    "Digital Mobile Food Market | Food insights, Health Lifestyle & industry News | Promotions | Discount coupons & Offers. Reliable, convenient home food bank with YooCard. Publishing weekly",
+    "YooKatale Uganda | Online Food shopping, Organic and Fresh Foods Mobile Market, Affordable, Reliable & Convenient",
 };
 
 const RootLayout = ({ children }) => {
