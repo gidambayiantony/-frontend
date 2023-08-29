@@ -108,12 +108,17 @@ const ProductCard = ({ product, userInfo }) => {
             <p className="secondary-light-font text-center text-lg">
               {product.name}
             </p>
-            <h3 className={`font-bold text-center text-base text-dark`}>
-              {`UGX ${FormatCurr(product.price)}`}
-            </h3>
-            <p className="secondary-light-font text-center text-base">
-              per {product.unit}
-            </p>
+            {product.category == "grains and flour" && (
+              <h3 className={`font-bold text-center text-base text-dark`}>
+                {`UGX ${FormatCurr(product.price)}`}
+              </h3>
+            )}
+
+            {product.category == "grains and flour" && (
+              <p className="secondary-light-font text-center text-base">
+                per {product.unit}
+              </p>
+            )}
           </div>
 
           <div className="py-[0.3rem] flex justify-center">

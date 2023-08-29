@@ -9,10 +9,7 @@ import ButtonComponent from "./Button";
 const Hero = () => {
   return (
     <>
-      <Box
-        padding={"3rem 0"}
-        borderBottom={"1.7px solid " + ThemeColors.lightColor}
-      >
+      <div className="lg:py-12 sm:py-8 py-6">
         <Flex>
           <Box margin={"auto"} width={{ base: "100%", md: "90%", xl: "80%" }}>
             <Flex direction={{ base: "column", md: "column", xl: "row" }}>
@@ -115,7 +112,7 @@ const Hero = () => {
             </Flex>
           </Box>
         </Flex>
-      </Box>
+      </div>
     </>
   );
 };

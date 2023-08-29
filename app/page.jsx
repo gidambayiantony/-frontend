@@ -81,38 +81,50 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
-
-      {/* // product?.category == "popular" && */}
-      <Box
-        padding={"3rem 0"}
-        borderBottom={"1.7px solid " + ThemeColors.lightColor}
-      >
-        <Flex>
-          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
-            {Products?.length > 0 ? (
-              Products.map(
-                (product, index) =>
-                  product.category === "popular" && (
+      {Products.length > 0 ? (
+        Products.map(
+          (product, index) =>
+            product?.category !== "popular" &&
+            product.products?.length > 0 && (
+              <Box
+                padding={"3rem 0"}
+                borderBottom={"1.7px solid " + ThemeColors.lightColor}
+                key={index}
+              >
+                <Flex>
+                  <Box
+                    margin={"auto"}
+                    width={{ base: "95%", md: "90%", xl: "90%" }}
+                  >
                     <SpecialProducts
-                      key={index}
                       Products={product?.products}
                       userInfo={userInfo}
                       category={product?.category}
                       text={product?.category}
                     />
-                  )
-              )
-            ) : (
+                  </Box>
+                </Flex>
+              </Box>
+            )
+        )
+      ) : (
+        <Box
+          padding={"3rem 0"}
+          borderBottom={"1.7px solid " + ThemeColors.lightColor}
+          key={index}
+        >
+          <Flex>
+            <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
               <SpecialProducts
                 Products={[]}
                 userInfo={{}}
                 category={""}
                 text={""}
               />
-            )}
-          </Box>
-        </Flex>
-      </Box>
+            </Box>
+          </Flex>
+        </Box>
+      )}
 
       {/* ------------- section 
       ------------------------------- */}
@@ -259,33 +271,38 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
-      {Products.length > 0
-        ? Products.map(
-            (product, index) =>
-              product?.category !== "popular" &&
-              product?.products?.length > 0 && (
-                <Box
-                  padding={"3rem 0"}
-                  borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                  key={index}
-                >
-                  <Flex>
-                    <Box
-                      margin={"auto"}
-                      width={{ base: "95%", md: "90%", xl: "90%" }}
-                    >
-                      <SpecialProducts
-                        Products={product?.products}
-                        userInfo={userInfo}
-                        category={product?.category}
-                        text={product?.category}
-                      />
-                    </Box>
-                  </Flex>
-                </Box>
+
+      {/* // product?.category == "popular" && */}
+      <Box
+        padding={"3rem 0"}
+        borderBottom={"1.7px solid " + ThemeColors.lightColor}
+      >
+        <Flex>
+          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
+            {Products?.length > 0 ? (
+              Products.map(
+                (product, index) =>
+                  product.category === "popular" && (
+                    <SpecialProducts
+                      key={index}
+                      Products={product?.products}
+                      userInfo={userInfo}
+                      category={product?.category}
+                      text={product?.category}
+                    />
+                  )
               )
-          )
-        : ""}
+            ) : (
+              <SpecialProducts
+                Products={[]}
+                userInfo={{}}
+                category={""}
+                text={""}
+              />
+            )}
+          </Box>
+        </Flex>
+      </Box>
 
       {/* ------------- section 
       ------------------------------- */}

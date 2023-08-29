@@ -104,12 +104,12 @@ const Footer = () => {
       <Box borderTop={"1.7px solid " + ThemeColors.lightColor}>
         <Box padding={"1rem 0 2rem 0"} background={"#0c0c0c"}>
           <Flex>
-            <Box width={"95%"} margin={"auto"}>
+            <Box width={"80%"} margin={"auto"}>
               <Grid
                 gridTemplateColumns={{
                   base: "repeat(1, 1fr)",
                   md: "repeat(2, 1fr)",
-                  xl: "repeat(4, 1fr)",
+                  xl: "repeat(3, 1fr)",
                 }}
                 gridGap={"1rem"}
               >
@@ -282,7 +282,7 @@ const Footer = () => {
                             color={ThemeColors.lightColor}
                             _hover={{ color: ThemeColors.darkColor }}
                           >
-                            YooCards
+                            Go Premium
                           </Text>
                         </Link>
                       </Box>
@@ -358,7 +358,7 @@ const Footer = () => {
                   </Stack>
                 </Box>
 
-                <Box padding={"1rem 0"}>
+                {/* <Box padding={"1rem 0"}>
                   <Stack padding={"1rem"}>
                     {CategoriesJson.map((category, index) => (
                       <Box margin={"0.3rem 0"} key={index}>
@@ -374,7 +374,7 @@ const Footer = () => {
                       </Box>
                     ))}
                   </Stack>
-                </Box>
+                </Box> */}
 
                 <Box
                   padding={"1rem 0"}
@@ -434,6 +434,7 @@ const Footer = () => {
             </Box>
           </Flex>
         </Box>
+
         <Flex
           direction={{ base: "column", md: "column", xl: "row" }}
           justifyContent={{ base: "center", md: "center", xl: "none" }}
@@ -476,24 +477,24 @@ const Footer = () => {
                 Invite A Friend
               </Text>
 
-              <Flex justifyContent={"center"}>
+              <Flex justifyContent={"center"} gap={"2"}>
                 <FacebookShareButton url={shareUrl} quote={defaultMessage}>
-                  <FacebookIcon size={50} round />
+                  <FacebookIcon size={25} round />
                 </FacebookShareButton>
                 <TwitterShareButton url={shareUrl} title={defaultMessage}>
-                  <TwitterIcon size={50} round />
+                  <TwitterIcon size={25} round />
                 </TwitterShareButton>
                 <WhatsappShareButton url={shareUrl} title={defaultMessage}>
-                  <WhatsappIcon size={50} round />
+                  <WhatsappIcon size={25} round />
                 </WhatsappShareButton>
                 <InstapaperShareButton url={shareUrl} title={defaultMessage}>
-                  <InstapaperIcon size={50} round />
+                  <InstapaperIcon size={25} round />
                 </InstapaperShareButton>
                 <LinkedinShareButton url={shareUrl} title={defaultMessage}>
-                  <LinkedinIcon size={50} round />
+                  <LinkedinIcon size={25} round />
                 </LinkedinShareButton>
                 <TelegramShareButton url={shareUrl} title={defaultMessage}>
-                  <TelegramIcon size={50} round />
+                  <TelegramIcon size={25} round />
                 </TelegramShareButton>
               </Flex>
             </Flex>
