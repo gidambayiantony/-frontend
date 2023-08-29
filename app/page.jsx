@@ -111,7 +111,6 @@ const Home = () => {
         <Box
           padding={"3rem 0"}
           borderBottom={"1.7px solid " + ThemeColors.lightColor}
-          key={index}
         >
           <Flex>
             <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
