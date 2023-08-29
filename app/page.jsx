@@ -2,7 +2,7 @@
 
 import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import Hero from "@components/Hero";
-import { Images, ThemeColors } from "@constants/constants";
+import { CategoriesJson, Images, ThemeColors } from "@constants/constants";
 import Image from "next/image";
 import { FaTruckLoading, FaCreditCard, FaHeadset } from "react-icons/fa";
 
@@ -14,6 +14,7 @@ import SpecialProducts from "@components/SpecialProducts";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { useCommentsGetMutation } from "@slices/usersApiSlice";
+import { Salad } from "lucide-react";
 
 const DynamicButton = dynamic(() => import("@components/Button"), {
   loading: () => <p>Loading...</p>,
@@ -197,6 +198,34 @@ const Home = () => {
           </Box>
         </Flex>
       </Box>
+
+      {/* ------------- section 
+      ------------------------------- */}
+      <div className="bg-[url(/assets/images/img6.jpg)] bg-cover">
+        <div className="py-12 bg-gradient-to-t from-[#000000c2] to-[#000000c2] flex">
+          <div className="lg:w-[85%] sm:w-[90%] w-[95%] m-auto">
+            <div className="py-4">
+              <h3 className="text-2xl font-medium text-white">Categories</h3>
+              <div className="py-2">
+                <div className="h-[0.1rem] w-[200px] bg-primary"></div>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 py-6">
+              {CategoriesJson.map((category, index) => (
+                <div
+                  key={index}
+                  className="py-6 px-4 border-2 border-light rounded-md hover:border-primary"
+                >
+                  <Link href={`/search?q=${category}`}>
+                    <p className="text-lg text-center text-white">{category}</p>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ------------- section 
       ------------------------------- */}

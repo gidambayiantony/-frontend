@@ -47,14 +47,10 @@ const Subscription = () => {
     try {
       const res = await fetchPackages().unwrap();
 
-      console.log({ res });
-
       if (res?.status == "Success") {
         setSubscriptionPackages(res?.data);
       }
-    } catch (error) {
-      console.log({ error });
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -74,8 +70,6 @@ const Subscription = () => {
 
       if (res.status == "Success") router.push(`/payment/${res.data.Order}`);
     } catch (err) {
-      console.log({ err });
-
       chakraToast({
         title: "Error",
         description: err.data?.message

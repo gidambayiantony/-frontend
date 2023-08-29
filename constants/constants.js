@@ -8,7 +8,6 @@ import img2 from "@public/assets/images/img2.png";
 import img3 from "@public/assets/images/img3.png";
 import img4 from "@public/assets/images/img4.png";
 import img5 from "@public/assets/images/img5.png";
-import testImage from "@public/assets/images/test.png";
 import customerServiceIcon from "@public/assets/icons/customer-service.png";
 import cardSecureIcon from "@public/assets/icons/card-secure.png";
 
@@ -30,7 +29,6 @@ export const Images = {
   img3,
   img4,
   img5,
-  testImage,
   customerServiceIcon,
   cardSecureIcon,
 };
