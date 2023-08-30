@@ -40,9 +40,10 @@ export const CategoriesJson = [
   "vegetables",
   "grains and flour",
   "meats",
-  "fats&oils",
-  "herbs&spices",
-  "juice&meals",
+  "fats and oils",
+  "herbs and spices",
+  "juice",
+  "meals",
 ];
 
 export const DisplayImages = [img, img1, img2, img3, img4];
