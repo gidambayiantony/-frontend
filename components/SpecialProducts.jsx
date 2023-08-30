@@ -8,7 +8,6 @@ import Link from "next/link";
 import LoaderSkeleton from "./LoaderSkeleton";
 
 const SpecialProducts = ({ Products, userInfo, category, text }) => {
-  console.log({ Products });
   // handle scrolling to right
   const handleRightScroll = () => {
     const SliderDiv = document.getElementById(
