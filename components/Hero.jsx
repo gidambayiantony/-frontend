@@ -9,90 +9,22 @@ import ButtonComponent from "./Button";
 const Hero = () => {
   return (
     <>
-      <div className="lg:py-12 sm:py-8 py-6">
-        <Flex>
-          <Box margin={"auto"} width={{ base: "100%", md: "90%", xl: "80%" }}>
-            <Flex direction={{ base: "column", md: "column", xl: "row" }}>
-              <Box
-                width={{ base: "100%", md: "100%", xl: "60%" }}
-                padding={{ base: "1rem 0", md: "1rem", xl: "1rem" }}
-              >
-                <Text
-                  textAlign={"center"}
-                  className="secondary-light-font"
-                  fontSize={{ base: "3xl", md: "3xl", xl: "4xl" }}
-                  margin={"0.3rem 0"}
-                >
-                  Campaigning{" "}
-                  <span
-                    style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
-                    className="secondary-font"
-                  >
-                    Health
-                  </span>
-                </Text>
-                <Text
-                  textAlign={"center"}
-                  className="secondary-light-font"
-                  fontSize={{ base: "3xl", md: "3xl", xl: "4xl" }}
-                  margin={"0.3rem 0"}
-                >
-                  Celebrating{" "}
-                  <span
-                    style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
-                    className="secondary-font"
-                  >
-                    togetherness
-                  </span>
-                </Text>
-                <Text
-                  textAlign={"center"}
-                  className="secondary-light-font"
-                  fontSize={{ base: "3xl", md: "3xl", xl: "4xl" }}
-                  margin={"0.3rem 0"}
-                >
-                  Living better while{" "}
-                  <span
-                    style={{ color: ThemeColors.darkColor, fontWeight: "bold" }}
-                    className="secondary-font"
-                  >
-                    saving money
-                  </span>
-                </Text>
-                {/* <Heading
-                  as={"h3"}
-                  className="secondary-font"
-                  fontSize={"5xl"}
-                  color={ThemeColors.primaryColor}
-                  textAlign={"center"}
-                >
-                  Never miss a meal, Enjoy now Pay later
-                </Heading>
-                <Text
-                  textAlign={"center"}
-                  className="secondary-light-font"
-                  fontSize={"2xl"}
-                >
-                  Fresh food always. Delivered 24/7
-                </Text> */}
-                <Box padding={"2rem 0"}>
-                  <Flex justifyContent={"center"}>
+      <div className="bg-[url('/assets/images/img6.jpg')] bg-cover">
+        <div className="bg-gradient-to-r from-[#000000d8] to-[#000000d8] lg:py-12 sm:py-8 py-6 ">
+          <div className="flex">
+            <div className="m-auto lg:w-4/5 w-full">
+              <div className="p-4">
+                <div className="py-8">
+                  <div className="flex justify-center py-4">
+                    <div className="m-auto lg:w-3/5 w-full">
+                      <h3 className="lg:text-5xl text-4xl text-light text-center mr-2 secondary-light-font">
+                        Eat Better, Save Time, Save Money
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center py-2">
                     <Link href={"/products"}>
-                      {/* <Button
-                        color={ThemeColors.lightColor}
-                        background={ThemeColors.darkColor}
-                        border={"1.7px solid " + ThemeColors.darkColor}
-                        borderRadius={"0.3rem"}
-                        padding={"1.5rem 1rem"}
-                        className="secondary-light-font"
-                        fontSize={"md"}
-                        _hover={{
-                          background: "none",
-                          color: ThemeColors.darkColor,
-                        }}
-                      >
-                        View Products
-                      </Button> */}
                       <ButtonComponent
                         text={"View Products"}
                         type={"button"}
@@ -100,18 +32,12 @@ const Hero = () => {
                         icon={null}
                       />
                     </Link>
-                  </Flex>
-                </Box>
-              </Box>
-              <Box
-                width={"40%"}
-                display={{ base: "none", md: "none", xl: "block" }}
-              >
-                <Image src={Images.img} style={{ width: "100%" }} />
-              </Box>
-            </Flex>
-          </Box>
-        </Flex>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

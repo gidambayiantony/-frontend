@@ -75,55 +75,73 @@ const Home = () => {
     <>
       <Hero />
 
-      {/* <Box display={`${Products?.length > 0 && "none"}`} hidden>
-        <Loader />
-      </Box> */}
+      {/* ------------- section 
+      ------------------------------- */}
+      <div className="py-12 flex">
+        <div className="lg:w-[85%] sm:w-[90%] w-[95%] m-auto">
+          <div className="py-4">
+            <h3 className="text-2xl font-medium">Categories</h3>
+            <div className="py-2">
+              <div className="h-[0.13rem] w-[170px] bg-primary"></div>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-5 sm:grid-cols-4 grid-cols-3 gap-4 py-6">
+            {CategoriesJson.map((category, index) => (
+              <Link href={`/search?q=${category}`} key={index}>
+                <div className="lg:p-10 p-4 border-2 border-light rounded-md hover:border-primary">
+                  <div className="flex justify-center flex-center">
+                    <img
+                      src={`/assets/images/categories/${category}.jpg`}
+                      className="lg:h-20 lg:w-20 w-12 h-12 rounded-full object-cover"
+                    />
+                  </div>
+                  <p className="lg:text-lg text-base text-center">{category}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* ------------- section 
       ------------------------------- */}
-      {Products.length > 0 ? (
-        Products.map(
-          (product, index) =>
-            product?.category !== "popular" &&
-            product.products?.length > 0 && (
-              <Box
-                padding={"3rem 0"}
-                borderBottom={"1.7px solid " + ThemeColors.lightColor}
-                key={index}
-              >
-                <Flex>
-                  <Box
-                    margin={"auto"}
-                    width={{ base: "95%", md: "90%", xl: "90%" }}
-                  >
+
+      {/* // product?.category == "popular" && */}
+      <Box
+        padding={"3rem 0"}
+        borderBottom={"1.7px solid " + ThemeColors.lightColor}
+      >
+        <Flex>
+          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
+            {Products?.length > 0 ? (
+              Products.map(
+                (product, index) =>
+                  product.category === "popular" && (
                     <SpecialProducts
+                      key={index}
                       Products={product?.products}
                       userInfo={userInfo}
                       category={product?.category}
                       text={product?.category}
                     />
-                  </Box>
-                </Flex>
-              </Box>
-            )
-        )
-      ) : (
-        <Box
-          padding={"3rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
-        >
-          <Flex>
-            <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
+                  )
+              )
+            ) : (
               <SpecialProducts
                 Products={[]}
                 userInfo={{}}
                 category={""}
                 text={""}
               />
-            </Box>
-          </Flex>
-        </Box>
-      )}
+            )}
+          </Box>
+        </Flex>
+      </Box>
+
+      {/* <Box display={`${Products?.length > 0 && "none"}`} hidden>
+        <Loader />
+      </Box> */}
 
       {/* ------------- section 
       ------------------------------- */}
@@ -212,34 +230,6 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
-      <div className="bg-[url(/assets/images/img6.jpg)] bg-cover">
-        <div className="py-12 bg-gradient-to-t from-[#000000c2] to-[#000000c2] flex">
-          <div className="lg:w-[85%] sm:w-[90%] w-[95%] m-auto">
-            <div className="py-4">
-              <h3 className="text-2xl font-medium text-white">Categories</h3>
-              <div className="py-2">
-                <div className="h-[0.1rem] w-[200px] bg-primary"></div>
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 py-6">
-              {CategoriesJson.map((category, index) => (
-                <div
-                  key={index}
-                  className="py-6 px-4 border-2 border-light rounded-md hover:border-primary"
-                >
-                  <Link href={`/search?q=${category}`}>
-                    <p className="text-lg text-center text-white">{category}</p>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ------------- section 
-      ------------------------------- */}
       <Box padding={"3rem 0"} background={"#000"}>
         <Flex>
           <Box margin={"auto"} width={{ base: "100%", md: "70%", xl: "50%" }}>
@@ -270,38 +260,49 @@ const Home = () => {
 
       {/* ------------- section 
       ------------------------------- */}
-
-      {/* // product?.category == "popular" && */}
-      <Box
-        padding={"3rem 0"}
-        borderBottom={"1.7px solid " + ThemeColors.lightColor}
-      >
-        <Flex>
-          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
-            {Products?.length > 0 ? (
-              Products.map(
-                (product, index) =>
-                  product.category === "popular" && (
+      {Products.length > 0 ? (
+        Products.map(
+          (product, index) =>
+            product?.category !== "popular" &&
+            product.products?.length > 0 && (
+              <Box
+                padding={"3rem 0"}
+                borderBottom={"1.7px solid " + ThemeColors.lightColor}
+                key={index}
+              >
+                <Flex>
+                  <Box
+                    margin={"auto"}
+                    width={{ base: "95%", md: "90%", xl: "90%" }}
+                  >
                     <SpecialProducts
-                      key={index}
                       Products={product?.products}
                       userInfo={userInfo}
                       category={product?.category}
                       text={product?.category}
                     />
-                  )
-              )
-            ) : (
+                  </Box>
+                </Flex>
+              </Box>
+            )
+        )
+      ) : (
+        <Box
+          padding={"3rem 0"}
+          borderBottom={"1.7px solid " + ThemeColors.lightColor}
+        >
+          <Flex>
+            <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
               <SpecialProducts
                 Products={[]}
                 userInfo={{}}
                 category={""}
                 text={""}
               />
-            )}
-          </Box>
-        </Flex>
-      </Box>
+            </Box>
+          </Flex>
+        </Box>
+      )}
 
       {/* ------------- section 
       ------------------------------- */}
