@@ -45,6 +45,7 @@ import {
 } from "react-share";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import NewsletterForm from "./NewsletterForm";
 // import nodemailer from "nodemailer";
 
 const Footer = () => {
@@ -101,6 +102,9 @@ const Footer = () => {
 
   return (
     <>
+      {/* // modal newsletter form  */}
+      <NewsletterForm />
+
       <Box borderTop={"1.7px solid " + ThemeColors.lightColor}>
         <Box padding={"1rem 0 2rem 0"} background={"#0c0c0c"}>
           <Flex>
