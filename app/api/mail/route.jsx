@@ -7,13 +7,10 @@ export const POST = async (req, res) => {
     const { email } = await req.json();
 
     const transporter = nodemailer.createTransport({
-      name: "www.yookatale.com",
-      host: "mail.privateemail.com",
-      post: 465,
-      secure: false,
+      service: "gmail",
       auth: {
-        user: "info@yookatale.com",
-        pass: "info@y00k@Ta13-Pas5",
+        user: "yookatale256@gmail.com",
+        pass: "yomarket256!",
       },
       tls: {
         rejectUnauthorized: false,
@@ -22,7 +19,7 @@ export const POST = async (req, res) => {
 
     // Send the welcome email
     const mailOptions = {
-      from: "info@yookatale.com",
+      from: "yookatale256@gmail.com",
       to: email,
       subject: "Welcome to our Food Market!",
       html: emailTemplate,
