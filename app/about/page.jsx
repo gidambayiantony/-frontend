@@ -69,80 +69,41 @@ const About = () => {
                 </Flex>
               </Box>
             </Flex>
-            <Box padding={"1rem 0"}>
-              <Flex>
-                <Box
-                  margin={"auto"}
-                  width={{ base: "100%", md: "100%", xl: "80%" }}
-                >
-                  <Box padding={"0.5rem 0"}>
-                    <Heading as={"h3"} size={"md"}>
-                      Core Principles
-                    </Heading>
-                  </Box>
-                  <Grid
-                    gridTemplateColumns={{
-                      base: "repeat(2, 1fr)",
-                      md: "repeat(2, 1fr)",
-                      xl: "repeat(3, 1fr)",
-                    }}
-                    gridGap={"1rem"}
-                  >
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Eternal Craft
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        Never stop improving your craft we care about craft &
-                        people we do it with
-                      </Text>
-                    </Box>
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Relentless Curiosity
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        Always ask why? But also ask yourself what if ?
-                      </Text>
-                    </Box>
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Creativity
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        Anyone can have a good idea, it's not about departments
-                        or ranks
-                      </Text>
-                    </Box>
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Divine discontent
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        We can do more that's remarkable, we don't settle for
-                        routine
-                      </Text>
-                    </Box>
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Collective & connected team work
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        We respect different backgrounds for team fluidity
-                      </Text>
-                    </Box>
-                    <Box padding={"0.3rem 0"}>
-                      <Heading as={"h3"} size={"sm"}>
-                        Adaptability with persistence
-                      </Heading>
-                      <Text fontSize={"md"}>
-                        Change the approach not the goal
-                      </Text>
-                    </Box>
-                  </Grid>
-                </Box>
-              </Flex>
-            </Box>
+
+            <div className={"py-4"}>
+              <div className="flex">
+                <div className="m-auto lg:w-4/5 w-full">
+                  <div className="py-2">
+                    <h3 className="text-lg font-bold">Core Principles</h3>
+                  </div>
+
+                  <div className="grid lg:grid-cols-3 lg:py-0 gap-4 py-2">
+                    <div className="p-4 border-2 border-light rounded-md">
+                      <p className="text-center">
+                        You have power & opportunity to make someone smile, do
+                        it. we live in an ever changing world, the only fuel
+                        that can drive us to a better & peaceful tomorrow for
+                        generations is deep compassion for one another.
+                      </p>
+                    </div>
+                    <div className="p-4 border-2 border-light rounded-md">
+                      <p className="text-center">
+                        Ultimately, we come into existence through love. Spread
+                        this feeling throughout the world in your own way,
+                        Celebrate life.
+                      </p>
+                    </div>
+                    <div className="p-4 border-2 border-light rounded-md">
+                      <p className="text-center">
+                        Yookatale is about giving and lifting others with love
+                        and trust as the fabric and structure of building happy
+                        & healthy communities everywhere.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Box>
         </Box>
       </Box>

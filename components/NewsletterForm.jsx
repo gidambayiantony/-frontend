@@ -6,6 +6,7 @@ import { Spinner, useToast } from "@chakra-ui/react";
 import ButtonComponent from "./Button";
 import { useNewsletterPostMutation } from "@slices/usersApiSlice";
 import { ChevronDown, X } from "lucide-react";
+import axios from "axios";
 
 const NewsletterForm = () => {
   const [NewsletterEmail, setNewsletterEmail] = useState("");

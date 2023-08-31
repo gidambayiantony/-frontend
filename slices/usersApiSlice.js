@@ -70,6 +70,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    partnerPost: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/partner/new`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -84,4 +91,5 @@ export const {
   useBlogFetchMutation,
   useBlogsFetchMutation,
   useNewsletterPostMutation,
+  usePartnerPostMutation,
 } = usersApiSlice;
