@@ -506,6 +506,11 @@ const Footer = () => {
           <Spacer display={{ base: "none", md: "none", xl: "block" }} />
           <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>
             <Flex justifyContent={{ base: "center", md: "center", xl: "none" }}>
+              <Link href={"/partner"}>
+                <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
+                  <Text fontSize={"md"}>Partner</Text>
+                </Box>
+              </Link>
               <Link href={"/faqs"}>
                 <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
                   <Text fontSize={"md"}>Faqs</Text>
