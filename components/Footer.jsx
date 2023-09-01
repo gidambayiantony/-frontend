@@ -72,17 +72,17 @@ const Footer = () => {
         // Clear email value
         setNewsletterEmail("");
 
-        // make call to api to send mail
-        const res = await axios.post("/api/mail", { email: NewsletterEmail });
+        // // make call to api to send mail
+        // const res = await axios.post("/api/mail", { email: NewsletterEmail });
 
-        if (res.statusText == "OK")
-          return chakraToast({
-            title: "Success",
-            description: "Successfully subscribed to the newsletter",
-            status: "success",
-            duration: 5000,
-            isClosable: false,
-          });
+        // if (res.statusText == "OK")
+        return chakraToast({
+          title: "Success",
+          description: "Successfully subscribed to the newsletter",
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
       }
     } catch (err) {
       // Display error message
