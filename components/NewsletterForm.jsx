@@ -28,6 +28,8 @@ const NewsletterForm = () => {
         // Clear email value
         setNewsletterEmail("");
 
+        setDisplay((prev) => (prev ? false : true));
+
         // // make call to api to send mail
         // const res = await axios.post("/api/mail", { email: NewsletterEmail });
 
