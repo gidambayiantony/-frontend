@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Spinner, useToast } from "@chakra-ui/react";
 import ButtonComponent from "./Button";
@@ -11,7 +11,7 @@ import axios from "axios";
 const NewsletterForm = () => {
   const [NewsletterEmail, setNewsletterEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const [display, setDisplay] = useState(true);
+  const [display, setDisplay] = useState(false);
 
   const [createNewsletter] = useNewsletterPostMutation();
   const chakraToast = useToast();
@@ -57,6 +57,12 @@ const NewsletterForm = () => {
       setLoading(false); // Stop loading
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDisplay((prev) => (prev ? false : true));
+    }, 2500);
+  }, []);
 
   return (
     <div
