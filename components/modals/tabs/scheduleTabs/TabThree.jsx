@@ -41,6 +41,7 @@ const TabThree = ({ updateTabIndex, data }) => {
         deliveryDays: data.deliveryDays,
         deliveryTime: data.deliveryTime,
         repeatSchedule: data.repeatSchedule,
+        nutritionist: data?.nutritionist,
         order: {
           payment: { paymentMethod: "", transactionId: "" },
           deliveryAddress: data.deliveryAddress,
@@ -105,14 +106,13 @@ const TabThree = ({ updateTabIndex, data }) => {
             </p>
           </div>
 
-          <div className="border-2 border-light rounded-md p-2">
-            <h3 className="font-bold">Address 2</h3>
-            <p className="">
-              {data.deliveryAddress.address2
-                ? data.deliveryAddress.address2
-                : ""}
-            </p>
-          </div>
+          {data.deliveryAddress.address2 &&
+            data.deliveryAddress.address2 !== "" && (
+              <div className="border-2 border-light rounded-md p-2">
+                <h3 className="font-bold">Address 2</h3>
+                <p className="">{data.deliveryAddress.address2}</p>
+              </div>
+            )}
         </div>
       </div>
 
@@ -136,24 +136,24 @@ const TabThree = ({ updateTabIndex, data }) => {
         </div>
       </div>
 
-      <div className="py-2">
-        <div className="">
-          <h3 className="text-lg">Delivery days</h3>
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+        <div className="py-2">
+          <div className="">
+            <h3 className="text-lg">Delivery days</h3>
+          </div>
+
+          <div className="py-2 grid lg:grid-cols-3 grid-cols-3 gap-4">
+            {data.deliveryDays.map((item, index) => (
+              <p
+                key={index}
+                className="py-1 px-2 border-2 border-light rounded-md"
+              >
+                {item}
+              </p>
+            ))}
+          </div>
         </div>
 
-        <div className="py-2 grid lg:grid-cols-7 grid-cols-3 gap-4">
-          {data.deliveryDays.map((item, index) => (
-            <p
-              key={index}
-              className="py-1 px-2 border-2 border-light rounded-md"
-            >
-              {item}
-            </p>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-2 grid-cols-2 gap-4">
         <div className="py-2">
           <div className="">
             <h3 className="text-lg">Delivery Time</h3>
@@ -164,6 +164,18 @@ const TabThree = ({ updateTabIndex, data }) => {
               {data.deliveryTime}
             </p>
           </div>
+        </div>
+      </div>
+
+      <div className="py-2">
+        <div className="">
+          <h3 className="text-lg">Nutritionist</h3>
+        </div>
+
+        <div className="py-2">
+          <p className="py-1 px-2 border-2 border-light rounded-md w-fit">
+            {data?.nutritionist ? "Yes" : "No"}
+          </p>
         </div>
       </div>
 
