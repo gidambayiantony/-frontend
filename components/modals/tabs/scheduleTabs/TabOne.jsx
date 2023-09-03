@@ -10,6 +10,7 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
   const [orderTotal, setOrderTotal] = useState(0);
   const [productTotal, setProductTotal] = useState(0);
   const [Products, setProducts] = useState(data.Products);
+  const [nutritionist, setNutritionist] = useState(false);
 
   // function to calculate the cart total
   const calcCartTotal = () => {
@@ -79,7 +80,14 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
       orderTotal,
       deliveryDays: data.deliveryDays,
       repeatSchedule: data.scheduleRepeat,
+      nutritionist: nutritionist,
     });
+  };
+
+  // function to handle nutritionist data
+  const handleNutritionist = (input) => {
+    if (input.checked) setOrderTotal((prev) => prev + 60000);
+    if (!input.checked) setOrderTotal((prev) => prev - 60000);
   };
 
   useEffect(() => {
@@ -148,6 +156,30 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="py-4">
+        <h3 className="text-lg text-semibold">Nutritionalist/Dietitian</h3>
+
+        <div className="py-1">
+          <div className="flex">
+            <input
+              type="checkbox"
+              name="nutritionist"
+              id="nutritionist"
+              className="mr-4 cursor-pointer"
+              onChange={(e) => {
+                setNutritionist((prev) => (prev ? false : true));
+                handleNutritionist(e.target);
+              }}
+            />{" "}
+            <p className="text-lg font-bold text-primary">
+              {" "}
+              @ UGX
+              {FormatCurr(60000)}
+            </p>
+          </div>
         </div>
       </div>
 

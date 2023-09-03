@@ -4,9 +4,11 @@ import { useToast } from "@chakra-ui/react";
 import ButtonComponent from "@components/Button";
 import FlutterwavePayment from "@components/FlutterwavePayment";
 import PaymentCard from "@components/PaymentCard";
+import { Input } from "@components/ui/input";
 import {
   useOrderMutation,
   useOrderUpdateMutation,
+  useValidateCouponMutation,
 } from "@slices/productsApiSlice";
 import { FormatCurr } from "@utils/utils";
 import { Loader2 } from "lucide-react";
@@ -18,10 +20,15 @@ const Payment = ({ params }) => {
   const [Order, setOrder] = useState({});
   const [paymentDisplay, setPaymentDisplay] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
+  const [CouponFormIsLoading, setCouponFormIsLoading] = useState(false);
+
+  const [CouponCode, setCouponCode] = useState("");
 
   const [fetchOrder] = useOrderMutation();
   const [updateOrder] = useOrderUpdateMutation();
+  const [validateCoupon] = useValidateCouponMutation();
 
   const chakraToast = useToast();
   const { userInfo } = useSelector((state) => state.auth);
@@ -108,6 +115,43 @@ const Payment = ({ params }) => {
     }
   };
 
+  const handleCouponFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setCouponFormIsLoading((prev) => (prev ? false : true));
+
+      const res = await validateCoupon({
+        couponCode: CouponCode,
+        orderId: Order?._id,
+      }).unwrap();
+
+      if (res.status == "Success")
+        chakraToast({
+          description: "Coupon Applied",
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+
+      setCouponCode("");
+
+      // refetch order data
+      handleDataFetch();
+    } catch (err) {
+      chakraToast({
+        title: "Error",
+        description: err.data?.message
+          ? err.data?.message
+          : err.data || err.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    } finally {
+      setCouponFormIsLoading((prev) => (prev ? false : true));
+    }
+  };
+
   return (
     <div className="pt-[3rem] pb-[5rem]">
       <div className="flex">
@@ -146,6 +190,35 @@ const Payment = ({ params }) => {
                       type={""}
                       paymentMethod={"card"}
                     />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="py-4 m-auto lg:w-2/5 sm:w-3/5 w-4/5">
+                  <div className="py-1">
+                    <h3 className="text-center text-lg">Apply Coupon</h3>
+                  </div>
+
+                  <div className="py-2">
+                    <form onSubmit={handleCouponFormSubmit}>
+                      <Input
+                        type="text"
+                        name="coupon"
+                        placeholder="Enter coupon code"
+                        onChange={(e) => setCouponCode(e.target.value)}
+                        value={CouponCode}
+                      />
+
+                      <div className="py-2 flex justify-center">
+                        <ButtonComponent
+                          text={"Apply coupon"}
+                          size={"lg"}
+                          type={"submit"}
+                          icon={CouponFormIsLoading && <Loader2 size={20} />}
+                        />
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>

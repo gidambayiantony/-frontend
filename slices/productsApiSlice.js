@@ -99,6 +99,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    validateCoupon: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/coupon/validate`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -118,4 +125,5 @@ export const {
   useOrderMutation,
   useOrderUpdateMutation,
   useCartCheckoutMutation,
+  useValidateCouponMutation,
 } = productsApiSlice;
