@@ -38,8 +38,8 @@ const TabThree = ({ updateTabIndex, data }) => {
       const res = await createSchedule({
         user: data.personalInfo,
         products: data.Products,
-        deliveryDays: data.deliveryDays,
-        deliveryTime: data.deliveryTime,
+        scheduleDays: data.scheduleDays,
+        scheduleTime: data.scheduleTime,
         repeatSchedule: data.repeatSchedule,
         nutritionist: data?.nutritionist,
         order: {
@@ -143,7 +143,7 @@ const TabThree = ({ updateTabIndex, data }) => {
           </div>
 
           <div className="py-2 grid lg:grid-cols-3 grid-cols-3 gap-4">
-            {data.deliveryDays.map((item, index) => (
+            {data.scheduleDays.map((item, index) => (
               <p
                 key={index}
                 className="py-1 px-2 border-2 border-light rounded-md"
@@ -161,7 +161,7 @@ const TabThree = ({ updateTabIndex, data }) => {
 
           <div className="py-2">
             <p className="py-1 px-2 border-2 border-light rounded-md w-fit">
-              {data.deliveryTime}
+              {data.scheduleTime}
             </p>
           </div>
         </div>
@@ -183,7 +183,7 @@ const TabThree = ({ updateTabIndex, data }) => {
         {data.repeatSchedule && (
           <div className="py-2">
             <p className="text-lg">
-              You're schedule will be repeated every week for a month
+              Your schedule will be repeated every week for a month
             </p>
           </div>
         )}

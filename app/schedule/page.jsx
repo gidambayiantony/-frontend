@@ -18,8 +18,13 @@ import TabThree from "@components/modals/tabs/scheduleTabs/TabThree";
 import TabTwo from "@components/modals/tabs/scheduleTabs/TabTwo";
 import { Input } from "@components/ui/input";
 import { ThemeColors } from "@constants/constants";
-import { useProductsGetMutation } from "@slices/productsApiSlice";
-import { Search } from "lucide-react";
+import {
+  useNewScheduleMutation,
+  useProductsGetMutation,
+} from "@slices/productsApiSlice";
+import { FormatCurr } from "@utils/utils";
+import { Loader2, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // import React from "react";
@@ -27,19 +32,22 @@ import { useSelector } from "react-redux";
 const ScheduleDelivery = () => {
   const [Order, setOrder] = useState({
     deliveryProducts: [],
-    deliveryDays: [],
-    deliveryTime: "",
+    scheduleDays: [],
+    scheduleTime: "",
     repeatSchedule: false,
   });
   const [deliveryProducts, setDeliveryProducts] = useState([]);
-  const [deliveryDays, setDeliveryDays] = useState([]);
-  const [deliveryTime, setDeliveryTime] = useState("");
+  const [scheduleDays, setScheduleDays] = useState([]);
+  const [scheduleTime, setScheduleTime] = useState("");
   const [repeatSchedule, setRepeatSchedule] = useState(false);
   const [Products, setProducts] = useState([]);
   const [SearchProducts, setSearchProducts] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
   const [tabOneData, setTabOneData] = useState({});
   const [tabTwoData, setTabTwoData] = useState({});
+  const [scheduleFor, setScheduleFor] = useState("products");
+  const [appointmentType, setAppointmentType] = useState("online");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fetchProducts] = useProductsGetMutation();
 
@@ -47,8 +55,11 @@ const ScheduleDelivery = () => {
   const { onOpen, onClose, isOpen } = useDisclosure();
 
   const { userInfo } = useSelector((state) => state.auth);
-
+  const router = useRouter();
+  const [createSchedule] = useNewScheduleMutation();
   const chakraToast = useToast();
+
+  if (!userInfo) router.push("/signin");
 
   const handleDataFetch = async () => {
     const res = await fetchProducts().unwrap();
@@ -82,7 +93,7 @@ const ScheduleDelivery = () => {
     return output;
   };
 
-  // function to handle removing or adding items from the deliveryDays state
+  // function to handle removing or adding items from the scheduleDays state
   const handleAddingRemovingItems = (arr, item, action) => {
     let output = arr;
 
@@ -116,10 +127,10 @@ const ScheduleDelivery = () => {
   };
 
   // function to handle populating days of delivery data
-  const handleDeliveryDays = (e) => {
-    setDeliveryDays(
+  const handleScheduleDays = (e) => {
+    setScheduleDays(
       handleAddingRemovingItems(
-        deliveryDays,
+        scheduleDays,
         e.target.value,
         e.target.checked ? "add" : "remove"
       )
@@ -134,7 +145,7 @@ const ScheduleDelivery = () => {
   // function to handle populating order
   const handleScheduleDeliveryOrder = () => {
     // check if delivery days array is empty and throw an error
-    if (deliveryDays.length <= 0) {
+    if (scheduleDays.length <= 0) {
       return chakraToast({
         title: "Error",
         description: "Please select days for delivery",
@@ -192,23 +203,6 @@ const ScheduleDelivery = () => {
     checkIfSelected();
   };
 
-  const testingDate = (dayName, excludeToday = true, date = new Date()) => {
-    const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"].indexOf(
-      dayName.slice(0, 3).toLowerCase()
-    );
-
-    if (dayOfWeek < 0) return;
-
-    date.setHours(0, 0, 0, 0);
-    date.setDate(
-      date.getDate() +
-        +!!excludeToday +
-        ((dayOfWeek + 7 - date.getDay() - +!!excludeToday) % 7)
-    );
-
-    return date;
-  };
-
   const DaysOfWeek = [
     "Monday",
     "Tuesday",
@@ -224,53 +218,201 @@ const ScheduleDelivery = () => {
     handleDataFetch();
   }, []);
 
+  // function to handle checking out appointment schedule
+  const handleAppointmentCheckout = async () => {
+    if (appointmentType === "")
+      return chakraToast({
+        title: "Error",
+        description: "Please select appointment Type",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+    if (scheduleDays == [])
+      return chakraToast({
+        title: "Error",
+        description: "Please select appointment days",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+    if (scheduleTime == "")
+      return chakraToast({
+        title: "Error",
+        description: "Please select appointment time",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+    // create order
+    try {
+      setIsLoading((prevState) => (prevState ? false : true));
+
+      // calculate total
+      const orderTotal =
+        appointmentType == "online"
+          ? 60000 * (scheduleDays.length * repeatSchedule ? 4 : 1)
+          : 120000 * (scheduleDays.length * repeatSchedule ? 4 : 1);
+
+      const res = await createSchedule({
+        user: userInfo,
+        products: {
+          appointmentType,
+        },
+        scheduleDays,
+        scheduleTime,
+        repeatSchedule,
+        scheduleFor: scheduleFor == "products" ? "delivery" : scheduleFor,
+        order: {
+          payment: { paymentMethod: "", transactionId: "" },
+          deliveryAddress: "NAN",
+          specialRequests: "NAN",
+          orderTotal,
+        },
+      }).unwrap();
+
+      if (res.status == "Success") {
+        chakraToast({
+          description: `Your ${appointmentType} appointment with a nutritionist/dietitian has been requested for ${scheduleDays[0]} at ${scheduleTime}. Please proceed to checkout to confirm your appointment`,
+          status: "success",
+          duration: 3000,
+          isClosable: false,
+        });
+
+        router.push(`/payment/${res.data.Order}`);
+      }
+    } catch (err) {
+      chakraToast({
+        title: "Error",
+        description: err.data?.message
+          ? err.data?.message
+          : err.data || err.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    } finally {
+      // set loading to be false
+      setIsLoading((prevState) => (prevState ? false : true));
+    }
+  };
+
   return (
     <>
       <div>
         <div className="flex">
-          <div className="p-8 m-auto w-4/5">
-            <div className="py-4">
-              <h2 className="text-3xl">Schedule Delivery</h2>
-            </div>
-            <div className="py-1 max-h-[300px]">
-              <div>
-                <h3 className="text-lg">Select Products</h3>
-              </div>
-
-              <div className="py-2 relative">
-                <Input
-                  name="product-search"
-                  placeholder="Search for product by name or category"
-                  className="pl-8 w-3/4"
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-                <Search className="absolute top-4 left-2" size={20} />
-              </div>
-
-              {SearchProducts.length > 0 ? (
-                <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
-                  {SearchProducts.map((product, key) => (
-                    <div className="py-2" key={key}>
-                      <input
-                        type="checkbox"
-                        name={product.name}
-                        value={product.name}
-                        className="product-checkbox mr-4 cursor-pointer"
-                        data-target={product._id}
-                        onChange={handleSelectedProducts}
-                      />
-                      {product.name}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                ""
+          <div className="lg:p-8 p-2 m-auto lg:w-4/5 w-full">
+            <div className="py-4 border-b-2 border-light">
+              <h4 className="text-3xl font-light">
+                Schedule{" "}
+                {scheduleFor == "products" ? "Delivery" : "Appointment"}
+              </h4>
+              {scheduleFor == "appointment" && (
+                <h2 className="mb-2 text-lg">
+                  Make an appointment with a nutritionist/dietitian
+                </h2>
               )}
+
+              <div className="py-2 flex gap-4">
+                <button
+                  onClick={() => setScheduleFor((prev) => (prev = "products"))}
+                  type="button"
+                  className={`outline-none py-2 px-4 ${
+                    scheduleFor == "products"
+                      ? "text-white bg-primary"
+                      : "text-[#000] bg-transparent"
+                  } border-[1.8px] border-primary rounded-md`}
+                >
+                  Schedule Delivery
+                </button>
+
+                <button
+                  onClick={() =>
+                    setScheduleFor((prev) => (prev = "appointment"))
+                  }
+                  type="button"
+                  className={`outline-none py-2 px-4 ${
+                    scheduleFor == "appointment"
+                      ? "text-white bg-primary"
+                      : "text-[#000] bg-transparent"
+                  } border-[1.8px] border-primary rounded-md`}
+                >
+                  Schedule Appointment
+                </button>
+              </div>
             </div>
+
+            {scheduleFor === "products" && (
+              <div className="py-4 lg:max-h-[300px] max-h-[200px]">
+                <div>
+                  <h3 className="text-lg">Select Products</h3>
+                </div>
+
+                <div className="py-2 relative">
+                  <Input
+                    name="product-search"
+                    placeholder="Search for product by name or category"
+                    className="pl-8 w-3/4"
+                    onChange={(e) => handleSearch(e.target.value)}
+                  />
+                  <Search className="absolute top-4 left-2" size={20} />
+                </div>
+
+                {SearchProducts.length > 0 ? (
+                  <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
+                    {SearchProducts.map((product, key) => (
+                      <div className="py-2" key={key}>
+                        <input
+                          type="checkbox"
+                          name={product.name}
+                          value={product.name}
+                          className="product-checkbox mr-4 cursor-pointer"
+                          data-target={product._id}
+                          onChange={handleSelectedProducts}
+                        />
+                        {product.name}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            )}
+
+            {scheduleFor === "appointment" && (
+              <div className="py-4">
+                <div>
+                  <h3 className="text-lg">Appointment Type</h3>
+                </div>
+                <div className="py-2">
+                  <select
+                    placeholder="Select appointment type"
+                    name="appointmentType"
+                    id="appointmentType"
+                    className="border-[1.8px] py-2 px-2 rounded-md cursor-pointer"
+                    onChange={(e) => setAppointmentType(e.target.value)}
+                  >
+                    <option className="p-2 cursor-pointer" value="online">
+                      60 mins Online @ UGX{FormatCurr(60000)}
+                    </option>
+                    <option className="p-2 cursor-pointer" value="physical">
+                      60 mins Physical meet @ UGX{FormatCurr(120000)}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            )}
 
             <div className="py-4">
               <div>
-                <h3 className="text-lg">Select Delivery Days</h3>
+                <h3 className="text-lg capitalize">
+                  Select{" "}
+                  {scheduleFor === "products" ? "Delivery" : "Appointment"} Days
+                </h3>
               </div>
 
               <div>
@@ -281,7 +423,7 @@ const ScheduleDelivery = () => {
                         type="checkbox"
                         name={day.toLowerCase()}
                         value={day.toLowerCase()}
-                        onChange={handleDeliveryDays}
+                        onChange={handleScheduleDays}
                         className="mr-4 cursor-pointer"
                       />
                       {day}
@@ -293,16 +435,18 @@ const ScheduleDelivery = () => {
 
             <div className="py-4">
               <div>
-                <h3 className="text-lg">Delivery Time</h3>
+                <h3 className="text-lg capitalize">
+                  {scheduleFor === "products" ? "Delivery" : "Appointment"} Time
+                </h3>
               </div>
 
               <div className="py-2 w-1/5">
                 <select
                   placeholder="Choose time"
-                  name="deliveryTime"
-                  id="deliveryTime"
+                  name="scheduleTime"
+                  id="scheduleTime"
                   className="border-[1.8px] py-2 px-2 rounded-md cursor-pointer"
-                  onChange={(e) => setDeliveryTime(e.target.value)}
+                  onChange={(e) => setScheduleTime(e.target.value)}
                 >
                   <option>Choose time</option>
                   <option value="7 AM - 8 AM">7 AM - 8 AM</option>
@@ -337,14 +481,17 @@ const ScheduleDelivery = () => {
             <div className="py-4">
               <div
                 className="max-w-[10rem]"
-                onClick={() => {
-                  handleScheduleDeliveryOrder();
-                }}
+                onClick={() =>
+                  scheduleFor == "products"
+                    ? handleScheduleDeliveryOrder()
+                    : handleAppointmentCheckout()
+                }
               >
                 <ButtonComponent
                   type={"button"}
-                  text={"Make Order"}
+                  text={"Schedule"}
                   size={"regular"}
+                  icon={isLoading && <Loader2 />}
                 />
               </div>
             </div>
@@ -369,7 +516,7 @@ const ScheduleDelivery = () => {
                     data={{
                       Products: deliveryProducts,
                       scheduleRepeat: repeatSchedule,
-                      deliveryDays,
+                      scheduleDays,
                     }}
                   />
                 ) : tabIndex == 1 ? (
@@ -379,7 +526,7 @@ const ScheduleDelivery = () => {
                   />
                 ) : tabIndex == 2 ? (
                   <TabThree
-                    data={{ ...tabOneData, ...tabTwoData, deliveryTime }}
+                    data={{ ...tabOneData, ...tabTwoData, scheduleTime }}
                     updateTabIndex={setTabIndex}
                   />
                 ) : (
