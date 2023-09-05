@@ -149,7 +149,7 @@ const Header = () => {
 
   const DropdownLinks = [
     { name: "Account", link: "/account" },
-    { name: "Schedule a meal", link: "/" },
+    { name: "Schedule a meal", link: "/schedule" },
     { name: "Loyalty Points", link: "/" },
     { name: "Subscription", link: "/" },
     { name: "Support", link: "/" },

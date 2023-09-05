@@ -10,7 +10,6 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
   const [orderTotal, setOrderTotal] = useState(0);
   const [productTotal, setProductTotal] = useState(0);
   const [Products, setProducts] = useState(data.Products);
-  const [nutritionist, setNutritionist] = useState(false);
 
   // function to calculate the cart total
   const calcCartTotal = () => {
@@ -21,8 +20,8 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
     setProductTotal((prevState) => newCartTotal);
     setOrderTotal((prev) =>
       data.scheduleRepeat
-        ? newCartTotal * (data.deliveryDays.length * 4)
-        : newCartTotal * data.deliveryDays.length
+        ? newCartTotal * (data.scheduleDays.length * 4)
+        : newCartTotal * data.scheduleDays.length
     );
   };
 
@@ -78,16 +77,9 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
       Products,
       productTotal,
       orderTotal,
-      deliveryDays: data.deliveryDays,
+      scheduleDays: data.scheduleDays,
       repeatSchedule: data.scheduleRepeat,
-      nutritionist: nutritionist,
     });
-  };
-
-  // function to handle nutritionist data
-  const handleNutritionist = (input) => {
-    if (input.checked) setOrderTotal((prev) => prev + 60000);
-    if (!input.checked) setOrderTotal((prev) => prev - 60000);
   };
 
   useEffect(() => {
@@ -156,30 +148,6 @@ const TabOne = ({ updateTabIndex, data, fetchData }) => {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="py-4">
-        <h3 className="text-lg text-semibold">Nutritionalist/Dietitian</h3>
-
-        <div className="py-1">
-          <div className="flex">
-            <input
-              type="checkbox"
-              name="nutritionist"
-              id="nutritionist"
-              className="mr-4 cursor-pointer"
-              onChange={(e) => {
-                setNutritionist((prev) => (prev ? false : true));
-                handleNutritionist(e.target);
-              }}
-            />{" "}
-            <p className="text-lg font-bold text-primary">
-              {" "}
-              @ UGX
-              {FormatCurr(60000)}
-            </p>
-          </div>
         </div>
       </div>
 

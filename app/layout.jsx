@@ -1,12 +1,14 @@
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { Providers } from "./providers";
-import "@styles/globals.css";
+import "./globals.css";
 import CookiePolicy from "@components/CookiePolicy";
 import ScriptTag from "@components/ScriptTag";
+import { Cabin, Inter, Montserrat, Raleway } from "next/font/google";
 
-// import store from "@store";
-// import { Provider } from "react-redux";
+const inter = Inter({ subsets: ["latin"] });
+const cabin = Cabin({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"] });
 
 export const metadata = {
   title: "yookatale",
@@ -17,7 +19,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <main>
           <Providers>
             <Header />
