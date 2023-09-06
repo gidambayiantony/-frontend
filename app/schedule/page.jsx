@@ -304,7 +304,7 @@ const ScheduleDelivery = () => {
     <>
       <div>
         <div className="flex">
-          <div className="lg:p-8 p-2 m-auto lg:w-4/5 w-full">
+          <div className="lg:p-8 p-2 m-auto lg:w-4/5 w-[97%]">
             <div className="py-4 border-b-2 border-light">
               <h4 className="text-3xl font-light">
                 Schedule{" "}
