@@ -13,8 +13,6 @@ const News = () => {
     try {
       const res = await fetchNewsArticles().unwrap();
 
-      console.log({ res });
-
       if (res.status == "Success") setNewsArticles(res.data);
     } catch (error) {}
   };

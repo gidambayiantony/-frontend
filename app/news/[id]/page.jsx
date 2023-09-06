@@ -26,17 +26,17 @@ const NewsArticle = ({ params }) => {
       <div className="py-8">
         <div className="border-b-[1.9px] border-light">
           <div className="m-auto w-4/5">
-            <div className="py-4 relative lg:h-[250px] h-[200px]">
+            <div className="py-4 relative lg:h-[300px] sm:h-[200px] h-auto">
               <img
                 src={
                   NewsArticle
                     ? NewsArticle?.image
                       ? NewsArticle?.image
                       : ""
-                    : "/assets/images/img2.png"
+                    : ""
                 }
                 alt="newsblog image"
-                className="h-full w-auto object-cover"
+                className="lg:h-full sm:h-full h-auto lg:w-auto sm:w-auto w-full object-cover"
               />
             </div>
 
