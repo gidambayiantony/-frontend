@@ -151,7 +151,7 @@ const Header = () => {
     { name: "Account", link: "/account" },
     { name: "Schedule a meal", link: "/schedule" },
     { name: "Loyalty Points", link: "/" },
-    { name: "Subscription", link: "/" },
+    { name: "Subscription", link: "/subscription" },
     { name: "Support", link: "/" },
     { name: "Invoices & Receipts", link: "/" },
     { name: "Refer a friend", link: "/" },
@@ -333,17 +333,17 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
-              {/* <Box margin={"0.3rem 0.5rem"}>
+              <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/schedule"}>
                   <Text
                     // color={ThemeColors.lightColor}
                     fontSize={"md"}
                     _hover={{ color: ThemeColors.darkColor }}
                   >
-                    Schedule Delivery
+                    Schedule
                   </Text>
                 </Link>
-              </Box> */}
+              </Box>
 
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"https://newsblog.yookatale.com"}>
@@ -740,7 +740,7 @@ const Header = () => {
               </Link>
             </Box>
 
-            {/* <Box margin={"0.5rem 0"}>
+            <Box margin={"0.5rem 0"}>
               <Link
                 href={"/schedule"}
                 onClick={() =>
@@ -752,10 +752,10 @@ const Header = () => {
                   fontSize={"lg"}
                   _hover={{ color: ThemeColors.darkColor }}
                 >
-                  Schedule Delivery
+                  Schedule
                 </Text>
               </Link>
-            </Box> */}
+            </Box>
 
             <Box margin={"0.5rem 0"}>
               <Link

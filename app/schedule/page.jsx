@@ -346,7 +346,7 @@ const ScheduleDelivery = () => {
             </div>
 
             {scheduleFor === "products" && (
-              <div className="py-4 lg:max-h-[300px] max-h-[200px]">
+              <div className="py-4 lg:max-h-[300px] max-h-[200px] overflow-y-auto">
                 <div>
                   <h3 className="text-lg">Select Products</h3>
                 </div>

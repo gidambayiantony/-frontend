@@ -4,11 +4,9 @@ import { Providers } from "./providers";
 import "./globals.css";
 import CookiePolicy from "@components/CookiePolicy";
 import ScriptTag from "@components/ScriptTag";
-import { Cabin, Inter, Montserrat, Raleway } from "next/font/google";
+import { Work_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
-const cabin = Cabin({ subsets: ["latin"] });
-const raleway = Raleway({ subsets: ["latin"] });
+const WorkSans = Work_Sans({ subsets: ["latin"] });
 
 export const metadata = {
   title: "yookatale",
@@ -19,7 +17,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={WorkSans.className}>
         <main>
           <Providers>
             <Header />
