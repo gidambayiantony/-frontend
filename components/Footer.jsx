@@ -506,24 +506,59 @@ const Footer = () => {
           <Spacer display={{ base: "none", md: "none", xl: "block" }} />
           <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>
             <Flex justifyContent={{ base: "center", md: "center", xl: "none" }}>
+              <Link href={"/news"}>
+                <Box
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "1rem 0.5rem",
+                    xl: "0 0.5rem",
+                  }}
+                >
+                  <p className="text-md">News</p>
+                </Box>
+              </Link>
               <Link href={"/partner"}>
-                <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
-                  <Text fontSize={"md"}>Partner</Text>
+                <Box
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "1rem 0.5rem",
+                    xl: "0 0.5rem",
+                  }}
+                >
+                  <p className="text-md">Partner</p>
                 </Box>
               </Link>
               <Link href={"/faqs"}>
-                <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
-                  <Text fontSize={"md"}>Faqs</Text>
+                <Box
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "1rem 0.5rem",
+                    xl: "0 0.5rem",
+                  }}
+                >
+                  <p className="text-md">Faqs</p>
                 </Box>
               </Link>
               <Link href={"/privacy"}>
-                <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
-                  <Text fontSize={"md"}>Privacy Policy</Text>
+                <Box
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "1rem 0.5rem",
+                    xl: "0 0.5rem",
+                  }}
+                >
+                  <p className="text-md">Privacy Policy</p>
                 </Box>
               </Link>
               <Link href={"/usage"}>
-                <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
-                  <Text fontSize={"md"}>Usage Policy</Text>
+                <Box
+                  padding={{
+                    base: "1rem 0.5rem",
+                    md: "1rem 0.5rem",
+                    xl: "0 0.5rem",
+                  }}
+                >
+                  <p className="text-md">Usage Policy</p>
                 </Box>
               </Link>
             </Flex>
