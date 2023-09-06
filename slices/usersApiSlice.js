@@ -77,6 +77,18 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    newsArticlesFetch: builder.mutation({
+      query: () => ({
+        url: `${DB_URL}/newsarticles`,
+        method: "GET",
+      }),
+    }),
+    newsArticleFetch: builder.mutation({
+      query: (data) => ({
+        url: `${DB_URL}/newsarticle/${data}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -92,4 +104,6 @@ export const {
   useBlogsFetchMutation,
   useNewsletterPostMutation,
   usePartnerPostMutation,
+  useNewsArticlesFetchMutation,
+  useNewsArticleFetchMutation,
 } = usersApiSlice;
