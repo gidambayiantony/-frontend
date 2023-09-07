@@ -88,8 +88,11 @@ const Home = () => {
 
           <div className="grid lg:grid-cols-5 sm:grid-cols-4 grid-cols-3 gap-4 py-6">
             {CategoriesJson.map((category, index) => (
-              <Link href={`/search?q=${category}`} key={index}>
-                <div className="lg:p-10 p-4 border-2 border-light rounded-md hover:border-primary">
+              <div
+                className="lg:p-10 p-4 border-2 border-light rounded-md hover:border-primary"
+                key={index}
+              >
+                <Link href={`/search?q=${category}`}>
                   <div className="flex justify-center flex-center">
                     <img
                       src={`/assets/images/categories/${category}.jpg`}
@@ -97,8 +100,8 @@ const Home = () => {
                     />
                   </div>
                   <p className="lg:text-lg text-base text-center">{category}</p>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
