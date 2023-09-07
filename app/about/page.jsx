@@ -30,6 +30,7 @@ const About = () => {
               ></Box>
             </Flex>
           </Box>
+
           <Box padding={"2rem 0"}>
             <Flex>
               <Box
