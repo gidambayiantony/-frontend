@@ -154,8 +154,7 @@ const Header = () => {
     { name: "Subscription", link: "/subscription" },
     { name: "Support", link: "/" },
     { name: "Invoices & Receipts", link: "/" },
-    { name: "Refer a friend", link: "/" },
-    { name: "Invite feature", link: "/" },
+    { name: "Refer a friend", link: "/#refer" },
   ];
 
   return (

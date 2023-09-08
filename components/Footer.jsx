@@ -105,7 +105,7 @@ const Footer = () => {
       {/* // modal newsletter form  */}
       <NewsletterForm />
 
-      <Box borderTop={"1.7px solid " + ThemeColors.lightColor}>
+      <Box borderTop={"1.7px solid " + ThemeColors.lightColor} id="refer">
         <Box padding={"1rem 0 2rem 0"} background={"#0c0c0c"}>
           <Flex>
             <Box width={"80%"} margin={"auto"}>
