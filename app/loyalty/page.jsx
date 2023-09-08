@@ -34,8 +34,8 @@ const LoyaltyPage = () => {
               <div className="py-4">
                 <div>
                   <p className="text-2xl text-center">
-                    Your have{" "}
-                    <span className="text-primary font-bold">2000</span> points
+                    Your have <span className="text-primary font-bold">5</span>{" "}
+                    points
                   </p>
                 </div>
               </div>
@@ -48,6 +48,21 @@ const LoyaltyPage = () => {
                     size={"lg"}
                   />
                 </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="py-2">
+                <p className="text-2xl text-center">
+                  Available Promo Codes:{" "}
+                  <span className="text-primary font-bold">19</span> points
+                </p>
+              </div>
+              <div className="py-2">
+                <p className="text-2xl text-center">
+                  Converted Promo Codes:{" "}
+                  <span className="text-primary font-bold">0</span> points
+                </p>
               </div>
             </div>
           </div>
