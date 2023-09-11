@@ -186,36 +186,52 @@ const Header = () => {
           }}
         >
           <Flex>
-            <Box margin={"auto"} width={{ base: "80%", md: "60%", xl: "40%" }}>
-              <Box>
-                <form onSubmit={handleSearchFormSubmit}>
-                  {isLoading.status && isLoading.operation === "search" && (
-                    <Spinner />
-                  )}
-                  <Box position={"relative"}>
-                    <AiOutlineSearch
-                      size={30}
-                      style={{
-                        color: ThemeColors.lightColor,
-                        margin: "0 0.5rem",
-                        position: "absolute",
-                        top: "0.5rem",
-                        left: "0",
-                      }}
-                    />
-                    <Input
-                      type="text"
-                      name="search"
-                      width={"100%"}
-                      placeholder="search product by name"
-                      padding={"0.3rem 0.5rem 0.3rem 2.5rem"}
-                      borderRadius={"0.3rem"}
-                      color={ThemeColors.lightColor}
-                      onChange={(e) => setSearchParam(e.target.value)}
-                    />
-                  </Box>
-                </form>
-              </Box>
+            <Box margin={"auto"} width={{ base: "90%", md: "70%", xl: "40%" }}>
+              <div className="flex">
+                <div className="lg:w-full w-[90%]">
+                  <form onSubmit={handleSearchFormSubmit}>
+                    {isLoading.status && isLoading.operation === "search" && (
+                      <Spinner />
+                    )}
+                    <Box position={"relative"}>
+                      <AiOutlineSearch
+                        size={30}
+                        style={{
+                          color: ThemeColors.lightColor,
+                          margin: "0 0.5rem",
+                          position: "absolute",
+                          top: "0.5rem",
+                          left: "0",
+                        }}
+                      />
+                      <Input
+                        type="text"
+                        name="search"
+                        width={"100%"}
+                        placeholder="search product by name"
+                        padding={"0.3rem 0.5rem 0.3rem 2.5rem"}
+                        borderRadius={"0.3rem"}
+                        color={ThemeColors.lightColor}
+                        onChange={(e) => setSearchParam(e.target.value)}
+                      />
+                    </Box>
+                  </form>
+                </div>
+
+                <div
+                  className={`lg:w-0 w-[5%] lg:hidden block lg:px-0 sm:px-8 px-4`}
+                >
+                  <div
+                    onClick={() =>
+                      setMobileNavOpen((prevState) =>
+                        prevState ? false : true
+                      )
+                    }
+                  >
+                    <CgMenu size={30} color={ThemeColors.lightColor} />
+                  </div>
+                </div>
+              </div>
             </Box>
           </Flex>
         </Box>
@@ -253,7 +269,9 @@ const Header = () => {
               </Flex>
             </Link>
           </Box>
+
           <Spacer display={{ base: "block", md: "block", xl: "none" }} />
+
           <Box
             padding={"0 1rem"}
             display={{ base: "none", md: "none", xl: "block" }}
@@ -266,6 +284,7 @@ const Header = () => {
                     <Text className="primary-bold-font"> +256 754615840</Text>
                   </Text>
                 </Box>
+
                 <Box padding={"0 0.5rem"}>
                   <form onSubmit={handleSearchFormSubmit}>
                     {isLoading.status && isLoading.operation === "search" && (
@@ -285,6 +304,7 @@ const Header = () => {
                 </Box>
               </Box>
             </Flex>
+
             <Flex justifyContent={"center"} padding={"1.5rem 0"}>
               {/* <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/products"}>
@@ -297,6 +317,7 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box> */}
+
               {userInfo && (
                 <Box margin={"0.3rem 0.5rem"}>
                   <Link href={"/subscription"}>
@@ -310,6 +331,7 @@ const Header = () => {
                   </Link>
                 </Box>
               )}
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/contact"}>
                   <Text
@@ -321,6 +343,7 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/about"}>
                   <Text
@@ -332,6 +355,7 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"/schedule"}>
                   <Text
@@ -355,6 +379,7 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
+
               <Box margin={"0.3rem 0.5rem"}>
                 <Link href={"https://newsblog.yookatale.com/careers"}>
                   <Text
@@ -366,6 +391,7 @@ const Header = () => {
                   </Text>
                 </Link>
               </Box>
+
               <Box margin={"0 0.5rem"}>
                 <Link href={"https://wa.me/256754615840"} target="_blank">
                   <ButtonComponent
@@ -402,6 +428,7 @@ const Header = () => {
                   </Flex>
                 </Link>
               </Box>
+
               {userInfo ? (
                 <Box position={"relative"} zIndex={5}>
                   <Box padding={" 0.3rem 0.5rem"}>
@@ -431,6 +458,7 @@ const Header = () => {
                       {`${userInfo?.lastname}`}
                     </Button>
                   </Box>
+
                   {/* // dropdown menu */}
                   <Box
                     position={"fixed"}
@@ -510,7 +538,7 @@ const Header = () => {
               )}
             </Flex>
           </Box>
-          <Box display={{ base: "block", md: "block", xl: "none" }}>
+          {/* <Box display={{ base: "block", md: "block", xl: "none" }}>
             <Box
               padding={"2rem 2rem 0 0"}
               onClick={() =>
@@ -519,7 +547,7 @@ const Header = () => {
             >
               <CgMenu size={30} />
             </Box>
-          </Box>
+          </Box> */}
         </Flex>
       </Box>
 
