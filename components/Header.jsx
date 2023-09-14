@@ -143,8 +143,22 @@ const Header = () => {
       });
   };
 
+  // function to get user IP
+  const handleUserIp = async () => {
+    const res = await fetch(
+      "https://geolocation-db.com/json/4aebddc0-500e-11ee-9b7d-f1b795d54ff5"
+    );
+
+    const data = await res.json();
+
+    console.log({ data });
+  };
+
   useEffect(() => {
     stickyNavbarActivate();
+
+    // get user IP
+    handleUserIp();
   }, []);
 
   const DropdownLinks = [

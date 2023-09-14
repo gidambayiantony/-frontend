@@ -5,6 +5,7 @@ import "./globals.css";
 import CookiePolicy from "@components/CookiePolicy";
 import ScriptTag from "@components/ScriptTag";
 import { Work_Sans } from "next/font/google";
+import ServiceWorker from "@components/ServiceWorker";
 
 const WorkSans = Work_Sans({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ const RootLayout = ({ children }) => {
     <html lang="en">
       <body className={WorkSans.className}>
         <main>
+          {/* <ServiceWorker /> */}
           <Providers>
             <Header />
             {children}
