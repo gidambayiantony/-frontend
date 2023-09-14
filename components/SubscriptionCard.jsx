@@ -118,7 +118,7 @@ const SubscriptionCard = ({ card, handleClick }) => {
                   setDisplayTermsModal((prev) => (prev ? false : true))
                 }
               >
-                Terms ans conditions apply
+                Terms and conditions apply
               </p>
             </div>
 
