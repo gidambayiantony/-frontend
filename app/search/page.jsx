@@ -20,14 +20,12 @@ const Search = () => {
 
   const [Products, setProducts] = useState([]);
 
-  const [fetchProducts, { isLoading }] = useSearchMutation();
+  const [fetchProducts] = useSearchMutation();
 
   // function handle fetching data
   const handleDataFetch = async () => {
     try {
       const res = await fetchProducts(param).unwrap();
-
-      console.log({ res });
 
       if (res?.status && res?.status == "Success") {
         setProducts(res?.Products);
