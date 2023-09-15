@@ -43,11 +43,23 @@ const Subscription = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
+  // check if user logged in
+  if (!userInfo || userInfo == {} || userInfo == "") {
+    router.push("/login");
+  }
+
   const handleSubscriptionCardFetch = async (req, res) => {
     try {
       const res = await fetchPackages().unwrap();
 
       if (res?.status == "Success") {
+        chakraToast({
+          description: "Please login to continue",
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+
         setSubscriptionPackages(res?.data);
       }
     } catch (error) {}
