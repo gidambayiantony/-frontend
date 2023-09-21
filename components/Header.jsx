@@ -800,6 +800,23 @@ const Header = () => {
 
             <Box margin={"0.5rem 0"}>
               <Link
+                href={"/partner"}
+                onClick={() =>
+                  setMobileNavOpen((prevState) => (prevState ? false : true))
+                }
+              >
+                <Text
+                  color={ThemeColors.lightColor}
+                  fontSize={"lg"}
+                  _hover={{ color: ThemeColors.darkColor }}
+                >
+                  Partner
+                </Text>
+              </Link>
+            </Box>
+
+            <Box margin={"0.5rem 0"}>
+              <Link
                 href={"https://newsblog.yookatale.com"}
                 onClick={() =>
                   setMobileNavOpen((prevState) => (prevState ? false : true))
