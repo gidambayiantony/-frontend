@@ -28,7 +28,7 @@ import { FormatCurr } from "@utils/utils";
 import SpecialProducts from "@components/SpecialProducts";
 import SignIn from "@app/signin/page";
 
-const Product = () => {
+const ProductPage = ({ params }) => {
   // get user information stored in the localstorage
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -44,9 +44,9 @@ const Product = () => {
   const { push } = useRouter();
 
   // use the useSearchParam hooks from next/navigation to get url params
-  const searchParam = useSearchParams();
+  // const searchParam = useSearchParams();
 
-  const param = searchParam.get("id");
+  // const param = searchParam.get("id");
 
   // initialize mutation function to fetch product data from database
   const [fetchProduct] = useProductGetMutation();
@@ -55,7 +55,7 @@ const Product = () => {
 
   // function handle fetching data
   const handleDataFetch = async () => {
-    const res = await fetchProduct(param).unwrap();
+    const res = await fetchProduct(params.id).unwrap();
 
     if (res.status && res.status == "Success") {
       setProduct({ ...res.data });
@@ -204,6 +204,7 @@ const Product = () => {
                         height: "100%",
                         margin: "auto",
                       }}
+                      alt="product image"
                     />
                   </Flex>
                   <Box padding={"1rem 0"}>
@@ -234,6 +235,7 @@ const Product = () => {
                                   width: "100%",
                                   margin: "auto",
                                 }}
+                                alt="product image"
                               />
                             </Flex>
                           ))
@@ -370,4 +372,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default ProductPage;
