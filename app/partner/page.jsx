@@ -68,7 +68,7 @@ const Partner = () => {
             <div className="py-4">
               <h3 className="text-center font-bold text-lg">Partner</h3>
               <p className="text-center text-4xl secondary-light-font my-1">
-                Partner With Us
+                Grow Your Business With Us
               </p>
 
               <div className="flex justify-center items-center py-2">

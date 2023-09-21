@@ -52,7 +52,6 @@ const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [NewsletterEmail, setNewsletterEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
-
   const [createNewsletter] = useNewsletterPostMutation();
   const chakraToast = useToast();
 

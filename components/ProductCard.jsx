@@ -93,7 +93,7 @@ const ProductCard = ({ product, userInfo }) => {
     <>
       <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0">
         <div className="h-[120px] p-[0.3rem]">
-          <Link href={`/product?id=${product._id}`}>
+          <Link href={`/product/${product._id}`}>
             <div className="flex justify-center items-center h-full relative">
               <img
                 src={`${product.images[0]}` || `/${product.images[0]}`}
