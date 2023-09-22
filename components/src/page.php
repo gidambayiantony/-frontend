@@ -11,7 +11,7 @@ get_header();
 </div>
 
 <?php
-// Include the footer of the theme
+// Include the footer of the  theme
 get_footer();
 ?>
 
