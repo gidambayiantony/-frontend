@@ -348,7 +348,7 @@ const ProductPage = ({ params }) => {
             </div>
 
             {/* // signin / signup form */}
-            <div
+            {/* <div
               className={`fixed top-[10%] lg:left-[30%] left-[5%] lg:right-[30%] right-[5%] bottom-[10%] z-[990] bg-light py-6 rounded-md shadow-md ${
                 SignInStateModal
                   ? "visible translate-y-0"
@@ -364,7 +364,7 @@ const ProductPage = ({ params }) => {
                 <AiOutlineClose size={30} style={{ cursor: "pointer" }} />
               </div>
               <SignIn redirect={null} callback={handleListeningToSignIn} />
-            </div>
+            </div> */}
           </Box>
         </Box>
       </Box>
