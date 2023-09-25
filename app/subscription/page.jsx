@@ -45,7 +45,7 @@ const Subscription = () => {
 
   // check if user logged in
   if (!userInfo || userInfo == {} || userInfo == "") {
-    router.push("/login");
+    router.push("/signin");
   }
 
   const handleSubscriptionCardFetch = async (req, res) => {
