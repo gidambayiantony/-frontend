@@ -103,6 +103,7 @@ const ProductCard = ({ product, userInfo }) => {
             </div>
           </Link>
         </div>
+
         <div className="p-[0.3rem 0]">
           <div className="py-2">
             <p className="secondary-light-font text-center text-lg">

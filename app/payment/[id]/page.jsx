@@ -34,6 +34,11 @@ const Payment = ({ params }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const router = useRouter();
 
+  // check if user logged in
+  if (!userInfo || userInfo == {} || userInfo == "") {
+    router.push("/signin");
+  }
+
   const handleDataFetch = async () => {
     const res = await fetchOrder(params.id).unwrap();
 
