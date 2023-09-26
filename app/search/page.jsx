@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 
 import ProductCard from "@components/ProductCard";
 import { useSelector } from "react-redux";
+import { Loader2 } from "lucide-react";
+import LoaderSkeleton from "@components/LoaderSkeleton";
 
 const Search = () => {
   // use the useSearchParam hooks from next/navigation to get url params
@@ -18,7 +20,7 @@ const Search = () => {
 
   const param = searchParam.get("q");
 
-  const [Products, setProducts] = useState([]);
+  const [Products, setProducts] = useState(null);
 
   const [fetchProducts] = useSearchMutation();
 
@@ -42,51 +44,52 @@ const Search = () => {
 
   return (
     <>
-      <Box>
-        <Box padding={{ base: "2rem", md: "2rem 3rem", xl: "2rem 5rem" }}>
-          <Heading as={"h3"} size={"md"} display={"flex"}>
+      <div>
+        <div className="lg:py-8 lg:px-20 sm:px-12 px-8">
+          <h3 className="text-lg flex">
             Showing results for:
-            <Heading
-              as={"h3"}
-              size={"md"}
-              color={ThemeColors.darkColor}
-              margin={"0 0.5rem"}
-            >
-              {param}
-            </Heading>
-          </Heading>
-        </Box>
-        <Flex>
-          <Box margin={"auto"} width={{ base: "100%", md: "100%", xl: "85%" }}>
-            {Products.length > 0 ? (
-              <Grid
-                gridTemplateColumns={{
-                  base: "repeat(1, 1fr)",
-                  md: "repeat(3, 1fr)",
-                  xl: "repeat(4, 1fr)",
-                }}
-                gridGap={"1rem"}
-              >
-                {Products.map((product, index) => (
-                  <ProductCard
-                    key={index}
-                    userInfo={userInfo}
-                    width={false}
-                    product={product}
-                  />
-                ))}
-              </Grid>
+            <h3 className="text-lg text-primary mx-2">{param}</h3>
+          </h3>
+        </div>
+
+        <div className="flex">
+          <div className="m-auto lg:w-[85%] w-full">
+            {Products ? (
+              Products.length > 0 ? (
+                <div className="grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-1 gap-4">
+                  {Products.map((product, index) => (
+                    <ProductCard
+                      key={index}
+                      userInfo={userInfo}
+                      width={false}
+                      product={product}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <div
+                    className={"lg:py-12 py-8 lg:px-0 px-8"}
+                    padding={{ base: "2rem", md: "2rem", xl: "3rem 0" }}
+                  >
+                    <p className="text-3xl">No products currently</p>
+                  </div>
+                </div>
+              )
             ) : (
-              <Box>
-                <Box padding={{ base: "2rem", md: "2rem", xl: "3rem 0" }}>
-                  <Text fontSize={"3xl"}>No products currently</Text>
-                </Box>
-              </Box>
+              <div className="grid grid-cols-5 gap-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item}>
+                    <LoaderSkeleton />
+                  </div>
+                ))}
+              </div>
             )}
-          </Box>
-        </Flex>
-        <Box padding={"3rem 0"}></Box>
-      </Box>
+          </div>
+        </div>
+
+        <div className="py-12"></div>
+      </div>
     </>
   );
 };

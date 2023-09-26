@@ -13,7 +13,7 @@ import {
 import { DisplayImages, Images, ThemeColors } from "@constants/constants";
 import React, { useEffect, useState } from "react";
 // import Image from "next/image";
-import { FaCartPlus } from "react-icons/fa";
+
 import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import {
   useCartCreateMutation,
@@ -28,12 +28,12 @@ import { FormatCurr } from "@utils/utils";
 import SpecialProducts from "@components/SpecialProducts";
 import SignIn from "@app/signin/page";
 
-const ProductPage = ({ params }) => {
+const Product = ({ params }) => {
   // get user information stored in the localstorage
   const { userInfo } = useSelector((state) => state.auth);
 
   // create state to hold fetched Product information
-  const [Product, setProduct] = useState({});
+  const [ProductData, setProductData] = useState({});
   const [SignInStateModal, setSignInStateModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -53,17 +53,6 @@ const ProductPage = ({ params }) => {
   const [fetchProductsCategory] = useProductsCategoryGetMutation();
   const [addCartApi] = useCartCreateMutation();
 
-  // function handle fetching data
-  const handleDataFetch = async () => {
-    const res = await fetchProduct(params.id).unwrap();
-
-    if (res.status && res.status == "Success") {
-      setProduct({ ...res.data });
-    }
-
-    handleSimilarProductFetch(res.data.category);
-  };
-
   // function to fetch similar products
   async function handleSimilarProductFetch(category) {
     try {
@@ -72,8 +61,31 @@ const ProductPage = ({ params }) => {
       if (res.status == "Success") {
         setSimilarProducts(res?.data);
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error?.message == "Not authorized. No token found")
+        chakraToast({
+          title: "Sign In required",
+          description: `You need to sign in to continue`,
+          status: "error",
+          duration: 5000,
+          isClosable: false,
+        });
+    }
   }
+
+  // function handle fetching data
+  const handleDataFetch = async () => {
+    try {
+      const res = await fetchProduct(params.id).unwrap();
+
+      if (res.status && res.status == "Success") {
+        setProductData({ ...res.data });
+        handleSimilarProductFetch(res.data.category);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   // fetch product categories
   useEffect(() => {
@@ -91,7 +103,9 @@ const ProductPage = ({ params }) => {
         duration: 5000,
         isClosable: false,
       });
+
       push("/signin");
+
       return;
     }
 
@@ -169,9 +183,11 @@ const ProductPage = ({ params }) => {
   const handleListeningToSignIn = (param) => {
     if (param.loggedIn) {
       setSignInStateModal((prev) => (prev ? false : true));
-      handleAddCart(Product._id, param?.user);
+      handleAddCart(ProductData._id, param?.user);
     }
   };
+
+  console.log({ SimilarProducts });
 
   return (
     <>
@@ -181,10 +197,11 @@ const ProductPage = ({ params }) => {
             <Heading as={"h2"} size={"sm"} display={"flex"}>
               Home/product/
               <Heading as={"h2"} size={"sm"} color={ThemeColors.darkColor}>
-                {Product?.category ? Product?.category : "category"}
+                {ProductData?.category ? ProductData?.category : "category"}
               </Heading>
             </Heading>
           </Box>
+
           <Box padding={{ base: "1rem 0", md: "1rem 0", xl: "1rem 2rem" }}>
             <Flex
               borderTop={"1.7px solid " + ThemeColors.lightColor}
@@ -198,7 +215,9 @@ const ProductPage = ({ params }) => {
                     height={"100%"}
                   >
                     <Image
-                      src={Product?.images ? `${Product?.images[0]}` : ""}
+                      src={
+                        ProductData?.images ? `${ProductData?.images[0]}` : ""
+                      }
                       style={{
                         width: "auto",
                         height: "100%",
@@ -218,8 +237,8 @@ const ProductPage = ({ params }) => {
                       }, 1fr)`}
                       gridGap={"1rem"}
                     >
-                      {Product?.images
-                        ? Product?.images.map((image, index) => (
+                      {ProductData?.images
+                        ? ProductData?.images.map((image, index) => (
                             <Flex
                               alignContent={"center"}
                               justifyContent={"center"}
@@ -250,7 +269,7 @@ const ProductPage = ({ params }) => {
               >
                 <Box padding={"1rem 0"}>
                   <Heading as={"h2"} size={"2xl"}>
-                    {Product?.name ? Product?.name : "__"}
+                    {ProductData?.name ? ProductData?.name : "__"}
                   </Heading>
 
                   <Text
@@ -258,9 +277,10 @@ const ProductPage = ({ params }) => {
                     color={ThemeColors.secondaryColor}
                     fontSize={"2xl"}
                   >
-                    UGX {FormatCurr(Product?.price ? Product?.price : 0)}
+                    UGX{" "}
+                    {FormatCurr(ProductData?.price ? ProductData?.price : 0)}
                     <span className="mx-2 text-lg font-bold text-[#000]">
-                      Per {Product?.unit}
+                      Per {ProductData?.unit}
                     </span>
                   </Text>
 
@@ -270,12 +290,12 @@ const ProductPage = ({ params }) => {
                     color={ThemeColors.darkColor}
                     fontSize={"lg"}
                   >
-                    {Product?.category ? Product?.category : "__"}
+                    {ProductData?.category ? ProductData?.category : "__"}
                   </Text>
                 </Box>
                 <Box padding={"1rem 0"}>
                   <Text>
-                    {Product?.description ? Product?.description : "__"}
+                    {ProductData?.description ? ProductData?.description : "__"}
                   </Text>
                 </Box>
                 <Box padding={"0.5rem 0"}>
@@ -317,7 +337,7 @@ const ProductPage = ({ params }) => {
                       <div
                         onClick={() =>
                           handleAddToCartBtnClick(
-                            Product?._id ? Product?._id : ""
+                            ProductData?._id ? ProductData?._id : ""
                           )
                         }
                       >
@@ -341,14 +361,14 @@ const ProductPage = ({ params }) => {
                     Products={SimilarProducts}
                     userInfo={userInfo}
                     text="Similar"
-                    category={Product?.category}
+                    category={ProductData?.category}
                   />
                 )}
               </div>
             </div>
 
             {/* // signin / signup form */}
-            {/* <div
+            <div
               className={`fixed top-[10%] lg:left-[30%] left-[5%] lg:right-[30%] right-[5%] bottom-[10%] z-[990] bg-light py-6 rounded-md shadow-md ${
                 SignInStateModal
                   ? "visible translate-y-0"
@@ -364,7 +384,7 @@ const ProductPage = ({ params }) => {
                 <AiOutlineClose size={30} style={{ cursor: "pointer" }} />
               </div>
               <SignIn redirect={null} callback={handleListeningToSignIn} />
-            </div> */}
+            </div>
           </Box>
         </Box>
       </Box>
@@ -372,4 +392,4 @@ const ProductPage = ({ params }) => {
   );
 };
 
-export default ProductPage;
+export default Product;

@@ -39,9 +39,9 @@ const SignIn = ({ redirect, callback }) => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (userInfo) return push("/");
-  }, []);
+  // useEffect(() => {
+  //   if (userInfo) return push("/");
+  // }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
