@@ -15,8 +15,7 @@ const FlutterwavePayment = ({ data, callback, closeComponent }) => {
     tx_ref: Date.now(),
     amount: data.amount,
     currency: "UGX",
-    payment_options:
-      data?.paymentMethod == "card" ? "card" : "mobilemoneyuganda",
+    payment_options: "all",
     customer: {
       email: `${userInfo?.email}`,
       phone_number: `${userInfo?.phone}`,
