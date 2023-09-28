@@ -3,508 +3,355 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
-  Grid,
+  Heading,
   Input,
-  Spacer,
-  Spinner,
-  Stack,
-  StackDivider,
+  InputGroup,
   Text,
-  useToast,
+  InputLeftElement,
+  Spacer,
+  Stack,
+  Spinner,
+  CloseButton,
 } from "@chakra-ui/react";
-import { CategoriesJson, ThemeColors } from "@constants/constants";
+import { Images, ThemeColors } from "@constants/constants";
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import {
-  FaEnvelope,
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaPhone,
-  FaTwitter,
+  FaShoppingCart,
+  FaShoppingBasket,
+  FaShoppingBag,
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaSearch,
+  FaUser,
 } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import ButtonComponent from "./Button";
-import { useNewsletterPostMutation } from "@slices/usersApiSlice";
 import {
-  FacebookIcon,
-  FacebookShareButton,
-  InstapaperIcon,
-  InstapaperShareButton,
-  LinkedinShareButton,
-  TelegramShareButton,
-  TwitterShareButton,
-  LinkedinIcon,
-  TwitterIcon,
-  TelegramIcon,
-} from "react-share";
-import axios from "axios";
-import { Loader } from "lucide-react";
-import NewsletterForm from "./NewsletterForm";
+  AiOutlineArrowLeft,
+  AiOutlineMenu,
+  AiOutlineSearch,
+  AiOutlineShoppingCart,
+  AiTwotoneShopping,
+} from "react-icons/ai";
+import { CgMenuRight, CgMenuRightAlt, CgMenu } from "react-icons/cg";
 
-const Footer = () => {
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@slices/authSlice";
+import { useLogoutMutation } from "@slices/usersApiSlice";
+import { redirect, useRouter } from "next/navigation";
+import { useToast } from "@chakra-ui/react";
+import { IsAccountValid } from "@middleware/middleware";
+import { HiChevronLeft } from "react-icons/hi";
+import ButtonComponent from "./Button";
+import { LogIn } from "lucide-react";
+
+const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const [NewsletterEmail, setNewsletterEmail] = useState("");
-  const [isLoading, setLoading] = useState(false);
-  const [createNewsletter] = useNewsletterPostMutation();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchParam, setSearchParam] = useState("");
+  const [isLoading, setLoading] = useState({ operation: "", status: false });
+  const [dropdownMenu, setDropdownMenu] = useState(false);
+  const [scrollDownState, setScrollDownState] = useState(false);
+
+  IsAccountValid();
+
+  const { push } = useRouter();
+
+  const [logoutApiCall] = useLogoutMutation();
+
   const chakraToast = useToast();
 
-  const shareUrl = "https://www.yookatale.com"; // URL to be shared
-  const defaultMessage =
-    "Hey, I am using YooKatale. Forget about going to the market. Enjoy low cost discounted products and never miss a meal with your friends and family!"; // Default message
+  const dispatch = useDispatch();
 
-  const handleNewsletterSubmit = async (e) => {
-    e.preventDefault();
+  const logoutHandler = async () => {
+    // set loading to be true
+    setLoading({ ...isLoading, operation: "logout", status: true });
 
-    setLoading(true); // Start loading
+    // close dropdown menu if open
+    if (dropdownMenu) setDropdownMenu(false);
 
     try {
-      const res = await createNewsletter({ email: NewsletterEmail }).unwrap();
+      const res = await logoutApiCall().unwrap();
 
-      if (res.status === "Success") {
-        // Clear email value
-        setNewsletterEmail("");
+      // set loading to be false
+      setLoading({ ...isLoading, operation: "", status: false });
 
-        return chakraToast({
-          title: "Success",
-          description: "Successfully subscribed to the newsletter",
-          status: "success",
-          duration: 5000,
-          isClosable: false,
-        });
-      }
+      dispatch(logout());
+
+      push("/");
     } catch (err) {
-      // Display error message
+      // set loading to be false
+      setLoading({ ...isLoading, operation: "", status: false });
+
       chakraToast({
-        title: "Error",
+        title: "Error has occurred",
         description: err.data?.message
-          ? err.data.message
+          ? err.data?.message
           : err.data || err.error,
         status: "error",
         duration: 5000,
         isClosable: false,
       });
-    } finally {
-      setLoading(false); // Stop loading
     }
   };
 
+  const handleSearchFormSubmit = (e) => {
+    e.preventDefault();
+
+    // set loading to be true
+    setLoading(
+      (prevState) => (prevState = { operation: "search", status: true })
+    );
+
+    if (mobileNavOpen) {
+      setMobileNavOpen(false);
+    }
+
+    if (searchParam == "")
+      return chakraToast({
+        title: "Error",
+        description: "Search cannot be empty",
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+
+    // set loading to be false
+    setLoading({ ...isLoading, operation: "", status: false });
+
+    push(`/search?q=${searchParam}`);
+  };
+
+  const stickyNavbarActivate = () => {
+    let lastScrollIndex = 0;
+
+    if (window)
+      window.addEventListener("scroll", (e) => {
+        const currentScrollIndex = window.scrollY;
+
+        if (currentScrollIndex <= 0) {
+          setScrollDownState(true);
+        }
+
+        if (currentScrollIndex > lastScrollIndex) setScrollDownState(true);
+
+        if (currentScrollIndex < lastScrollIndex) setScrollDownState(false);
+
+        lastScrollIndex = currentScrollIndex;
+      });
+  };
+
+  // function to get user IP
+  const handleUserIp = async () => {
+    const res = await fetch(
+      "https://geolocation-db.com/json/4aebddc0-500e-11ee-9b7d-f1b795d54ff5"
+    );
+
+    const data = await res.json();
+
+    console.log({ data });
+  };
+
+  useEffect(() => {
+    stickyNavbarActivate();
+
+    // get user IP
+    handleUserIp();
+  }, []);
+
+  const DropdownLinks = [
+    { name: "Account", link: "/account" },
+    { name: "Schedule a meal", link: "/schedule" },
+    { name: "Loyalty Points", link: "/loyalty" },
+    { name: "Subscription", link: "/subscription" },
+    { name: "Support", link: "/" },
+    { name: "Invoices & Receipts", link: "/" },
+    { name: "Support", link: "/" },
+    { name: "Invoices & Receipts", link: "/" },
+  ];
+
   return (
-    <>
-      {/* // modal newsletter form  */}
-      <NewsletterForm />
+    <Box
+      as="header"
+      bg="white"
+      borderBottomWidth="1px"
+      borderColor="gray.200"
+      position={scrollDownState ? "sticky" : "static"}
+      top={0}
+      zIndex="sticky"
+      transition="background-color 0.2s"
+    >
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        maxW={{ xl: "1920px" }}
+        py={4}
+        px={4}
+        mx="auto"
+      >
+        {/* Logo */}
+        <Link href="/">
+          <a>
+            <Image
+              src={Images.Logo}
+              alt="Logo"
+              width={160}
+              height={40}
+              loading="lazy"
+            />
+          </a>
+        </Link>
 
-      <Box borderTop={"1.7px solid " + ThemeColors.lightColor} id="refer">
-        <Box padding={"1rem 0 2rem 0"} background={"#0c0c0c"}>
-          <Flex>
-            <Box width={"80%"} margin={"auto"}>
-              <Grid
-                gridTemplateColumns={{
-                  base: "repeat(1, 1fr)",
-                  md: "repeat(2, 1fr)",
-                  xl: "repeat(3, 1fr)",
-                }}
-                gridGap={"1rem"}
-              >
-                <Box padding={"1rem 0"}>
-                  <Stack>
-                    <Box padding={"0.5rem 0"}>
-                      <Text
-                        display={"flex"}
-                        margin={"0.3rem 0"}
-                        color={ThemeColors.lightColor}
-                      >
-                        <FaPhone
-                          size={20}
-                          color={ThemeColors.lightColor}
-                          style={{ margin: "0 0.3rem 0 0" }}
-                        />{" "}
-                        256 754615840
-                      </Text>
-                      <Text
-                        display={"flex"}
-                        margin={"0.3rem 0"}
-                        color={ThemeColors.lightColor}
-                      >
-                        <FaEnvelope
-                          size={20}
-                          color={ThemeColors.lightColor}
-                          style={{ margin: "0 0.3rem 0 0" }}
-                        />
-                        info@yookatale.com
-                      </Text>
-                    </Box>
-                    <Box padding={"1rem 0"}>
-                      <Flex>
-                        <Box margin={"0 0.7rem 0 0"}>
-                          <Link
-                            href={
-                              "https://www.linkedin.com/company/96071915/admin/feed/posts/"
-                            }
-                          >
-                            <FaLinkedin
-                              size={23}
-                              color={ThemeColors.lightColor}
-                              style={{}}
-                            />
-                          </Link>
-                        </Box>
-                        <Box margin={"0 0.7rem 0 0"}>
-                          <Link
-                            href={
-                              "https://twitter.com/YooKatale?t=3Q96I9JR98HgA69gisdXdA&s=09"
-                            }
-                          >
-                            <FaTwitter
-                              size={23}
-                              color={ThemeColors.lightColor}
-                              style={{}}
-                            />
-                          </Link>
-                        </Box>
-                        <Box margin={"0 0.7rem 0 0"}>
-                          <Link
-                            href={
-                              "https://www.facebook.com/profile.php?id=100094194942669&mibextid=LQQJ4d"
-                            }
-                          >
-                            <FaFacebook
-                              size={23}
-                              color={ThemeColors.lightColor}
-                              style={{}}
-                            />
-                          </Link>
-                        </Box>
-                        <Box margin={"0 0.7rem 0 0"}>
-                          <Link
-                            href
-                          <Link
-                            href={
-                              "https://www.instagram.com/p/CuHdaksN5UW/?igshid=NTc4MTIwNjQ2YQ=="
-                            }
-                          >
-                            <FaInstagram
-                              size={23}
-                              color={ThemeColors.lightColor}
-                            />
-                          </Link>
-                        </Box>
-                      </Flex>
-                    </Box>
-                  </Stack>
-                </Box>
-
-                <Box
-                  padding={"1rem 0"}
-                  display={{ base: "block", md: "block", xl: "none" }}
-                >
-                  <form onSubmit={handleNewsletterSubmit}>
-                    <Box borderRadius={"0.5rem"} padding={"0.5rem"}>
-                      <Box>
-                        <Text
-                          fontSize={"lg"}
-                          fontWeight={"bold"}
-                          textAlign={{
-                            base: "center",
-                            md: "center",
-                            xl: "left",
-                          }}
-                          color={ThemeColors.lightColor}
-                        >
-                          Subscribe to our newsletter
-                        </Text>
-                      </Box>
-                      <Box padding={"1rem 0"}>
-                        <Input
-                          type="text"
-                          name={"NewsletterEmail"}
-                          placeholder="Enter your email"
-                          value={NewsletterEmail}
-                          onChange={(e) => setNewsletterEmail(e.target.value)}
-                          color={ThemeColors.lightColor}
-                        />
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text
-                          fontSize={"sm"}
-                          textAlign={{
-                            base: "center",
-                            md: "center",
-                            xl: "left",
-                          }}
-                          color={ThemeColors.lightColor}
-                        >
-                          By clicking "Subscribe" I agree to receive news,
-                          promotions, information and offers from YooKatale
-                        </Text>
-                      </Box>
-                      <Box padding={"0.5rem 0"}>
-                        {isLoading ? (
-                          <Spinner />
-                        ) : (
-                          <ButtonComponent type={"submit"} text={"Subscribe"} />
-                        )}
-                      </Box>
-                    </Box>
-                  </form>
-                </Box>
-
-                <Box padding={"1rem 0"}>
-                  <Stack padding={"1rem"}>
-                    {userInfo && (
-                      <Box margin={"0.3rem 0"}>
-                        <Link href={"/subscription"}>
-                          <Text
-                            color={ThemeColors.lightColor}
-                            _hover={{ color: ThemeColors.darkColor }}
-                          >
-                            Go Premium
-                          </Text>
-                        </Link>
-                      </Box>
-                    )}
-                    <Box margin={"0.3rem 0"}>
-                      <Link href={"/contact"}>
-                        <Text
-                          color={ThemeColors.lightColor}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          Contact
-                        </Text>
-                      </Link>
-                    </Box>
-                    <Box margin={"0.3rem 0"}>
-                      <Link href={"/about"}>
-                        <Text
-                          color={ThemeColors.lightColor}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          About
-                        </Text>
-                      </Link>
-                    </Box>
-                    <Box margin={"0.3rem 0"}>
-                      <Link href={"https://newsblog.yookatale.com"}>
-                        <Text
-                          color={ThemeColors.lightColor}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          News Blog
-                        </Text>
-                      </Link>
-                    </Box>
-                    <Box margin={"0.3rem 0"}>
-                      <Link href={"https://newsblog.yookatale.com/careers"}>
-                        <Text
-                          color={ThemeColors.lightColor}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          Careers
-                        </Text>
-                      </Link>
-                    </Box>
-                  </Stack>
-                </Box>
-
-                <Box
-                  padding={"1rem 0"}
-                  display={{ base: "none", md: "none", xl: "block" }}
-                >
-                  <form onSubmit={handleNewsletterSubmit}>
-                    <Box borderRadius={"0.5rem"} padding={"0.5rem"}>
-                      <Box>
-                        <Text
-                          fontSize={"lg"}
-                          fontWeight={"bold"}
-                          textAlign={{
-                            base: "center",
-                            md: "center",
-                            xl: "left",
-                          }}
-                          color={ThemeColors.lightColor}
-                        >
-                          Subscribe to our newsletter
-                        </Text>
-                      </Box>
-                      <Box padding={"1rem 0"}>
-                        <Input
-                          type="text"
-                          name={"NewsletterEmail"}
-                          placeholder="Enter your email"
-                          value={NewsletterEmail}
-                          onChange={(e) => setNewsletterEmail(e.target.value)}
-                          color={ThemeColors.lightColor}
-                        />
-                      </Box>
-                      <Box padding={"0.3rem 0"}>
-                        <Text
-                          fontSize={"sm"}
-                          textAlign={{
-                            base: "center",
-                            md: "center",
-                            xl: "left",
-                          }}
-                          color={ThemeColors.lightColor}
-                        >
-                          By clicking "Subscribe" I agree to receive news,
-                          promotions, information and offers from YooKatale
-                        </Text>
-                      </Box>
-                      <Box padding={"0.5rem 0"}>
-                        <ButtonComponent
-                          type={"submit"}
-                          text={"Subscribe"}
-                          icon={isLoading && <Loader size={20} />}
-                        />
-                      </Box>
-                    </Box>
-                  </form>
-                </Box>
-              </Grid>
-            </Box>
-          </Flex>
+        {/* Mobile navigation */}
+        <Box display={{ base: "block", lg: "none" }}>
+          <Button
+            variant="link"
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            size="lg"
+          >
+            {mobileNavOpen ? (
+              <CloseButton size="24px" />
+            ) : (
+              <CgMenu size="24px" />
+            )}
+          </Button>
         </Box>
 
-        <Flex
-          direction={{ base: "column", md: "column", xl: "row" }}
-          justifyContent={{ base: "center", md: "center", xl: "none" }}
+        {/* Desktop navigation */}
+        <Stack
+          as="ul"
+          direction={{ base: "column", lg: "row" }}
+          spacing={8}
+          display={{ base: mobileNavOpen ? "block" : "none", lg: "flex" }}
+          alignItems={{ base: "center", lg: "center" }}
+          mt={{ base: 4, lg: 0 }}
+          ml={{ base: 0, lg: "auto" }}
+          listStyleType="none"
+          flexGrow={1}
+          pl={0}
+          transition="all 0.3s ease-in-out"
         >
-          <Box padding={{ base: "0.5rem 0", md: "0.5rem 0", xl: "1rem 2rem" }}>
-            <Text
-              fontSize="md"
-              display={"flex"}
-              justifyContent={{ base: "center", md: "center", xl: "none" }}
-            >
-              &copy; {new Date().getFullYear()}
-              <Text
-                color={ThemeColors.primaryColor}
-                margin={"0 0.3rem"}
-                fontSize="lg"
-                textTransform={"uppercase"}
-              >
-                yookatale
-              </Text>{" "}
-              <span style={{ margin: "0.1rem 0 0 0" }}>
-                All rights reserved
-              </span>
-            </Text>
+          {/* Home */}
+          <Box as="li">
+            <Link href="/">
+              <a>Home</a>
+            </Link>
           </Box>
 
-          <Spacer display={{ base: "none", md: "none", xl: "block" }} />
-
-          <Box padding={{ base: "0.5rem 0", md: "0.5rem 0", xl: "none" }}>
-            <Flex
-              justifyContent={"center"}
-              direction={{ base: "column", md: "column", xl: "row" }}
-            >
-              <Text
-                color={ThemeColors.primaryColor}
-                margin={"0.5rem"}
-                fontSize="lg"
-                textTransform={"uppercase"}
-                textAlign={"center"}
-              >
-                Invite A Friend
-              </Text>
-
-              <Flex justifyContent={"center"} gap={"2"}>
-                <FacebookShareButton url={shareUrl} quote={defaultMessage}>
-                  <FacebookIcon size={25} round />
-                </FacebookShareButton>
-                <TwitterShareButton url={shareUrl} title={defaultMessage}>
-                  <TwitterIcon size={25} round />
-                </TwitterShareButton>
-                <InstapaperShareButton url={shareUrl} title={defaultMessage}>
-                  <InstapaperIcon size={25} round />
-                </InstapaperShareButton>
-                <LinkedinShareButton url={shareUrl} title={defaultMessage}>
-                  <LinkedinIcon size={25} round />
-                </LinkedinShareButton>
-                <TelegramShareButton url={shareUrl} title={defaultMessage}>
-                  <TelegramIcon size={25} round />
-                </TelegramShareButton>
-              </Flex>
-            </Flex>
+          {/* Products */}
+          <Box as="li">
+            <Link href="/products">
+              <a>Products</a>
+            </Link>
           </Box>
-          <Spacer display={{ base: "none", md: "none", xl: "block" }} />
-          <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>
-            <Flex justifyContent={{ base: "center", md: "center", xl: "none" }}>
-              <Link href={"/news"}>
+
+          {/* Contact */}
+          <Box as="li">
+            <Link href="/contact">
+              <a>Contact</a>
+            </Link>
+          </Box>
+
+          {/* Search */}
+          <Box as="li">
+            <form onSubmit={handleSearchFormSubmit}>
+              <InputGroup size="sm">
+                <InputLeftElement pointerEvents="none">
+                  <FaSearch color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  variant="filled"
+                  value={searchParam}
+                  onChange={(e) => setSearchParam(e.target.value)}
+                />
+              </InputGroup>
+            </form>
+          </Box>
+        </Stack>
+
+        {/* Right section */}
+        <Flex align="center">
+          {/* Cart */}
+          <Box display={{ base: "none", lg: "block" }}>
+            <ButtonComponent
+              variant="icon"
+              icon={<AiOutlineShoppingCart size="24px" />}
+              onClick={() => push("/cart")}
+            />
+          </Box>
+
+          {/* User dropdown */}
+          {userInfo ? (
+            <Box ml={4} display={{ base: "none", lg: "block" }}>
+              <ButtonComponent
+                variant="icon"
+                icon={<FaUser size="20px" />}
+                onClick={() => setDropdownMenu(!dropdownMenu)}
+              />
+
+              {dropdownMenu && (
                 <Box
-                  padding={{
-                    base: "1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
+                  bg="white"
+                  boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                  borderRadius="md"
+                  mt={2}
+                  position="absolute"
+                  right={0}
+                  zIndex={3}
                 >
-                  <p className="text-md">News</p>
+                  <ul>
+                    {DropdownLinks.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.link}>
+                          <a
+                            onClick={() => setDropdownMenu(false)}
+                            className="dropdown-link"
+                          >
+                            {item.name}
+                          </a>
+                        </Link>
+                      </li>
+                    ))}
+
+                    <li>
+                      <a
+                        className="dropdown-link"
+                        onClick={() => logoutHandler()}
+                      >
+                        Log Out
+                      </a>
+                    </li>
+                  </ul>
                 </Box>
-              </Link>
-              <Link href={"/partner"}>
-                <Box
-                  padding={{
-                    base: "1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
-                >
-                  <p className="text-md">Partner</p>
-                </Box>
-              </Link>
-              <Link href={"/faqs"}>
-                <Box
-                  padding={{
-                    base: "1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
-                >
-                  <p className="text-md">Faqs</p>
-                </Box>
-              </Link>
-              <Link href={"/privacy"}>
-                <Box
-                  padding={{
-                    base: "1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
-                >
-                  <p className="text-md">Privacy Policy</p>
-                </Box>
-              </Link>
-              <Link href={"/usage"}>
-                <Box
-                  padding={{
-                    base: "
-                  1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
-                >
-                  <p className="text-md">Usage</p>
-                </Box>
-              </Link>
-              <Link href={"/terms"}>
-                <Box
-                  padding={{
-                    base: "1rem 0.5rem",
-                    md: "1rem 0.5rem",
-                    xl: "0 0.5rem",
-                  }}
-                >
-                  <p className="text-md">Terms of Use</p>
-                </Box>
-              </Link>
-            </Flex>
+              )}
+            </Box>
+          ) : (
+            <Box ml={4} display={{ base: "none", lg: "block" }}>
+              <ButtonComponent
+                variant="icon"
+                icon={<FaSignInAlt size="20px" />}
+                onClick={() => push("/login")}
+              />
+            </Box>
+          )}
+
+          {/* Cart mobile */}
+          <Box display={{ base: "block", lg: "none" }}>
+            <ButtonComponent
+              variant="icon"
+              icon={<AiOutlineShoppingCart size="24px" />}
+              onClick={() => push("/cart")}
+            />
           </Box>
         </Flex>
-      </Box>
-    </>
+      </Flex>
+    </Box>
   );
 };
 
-export default Footer;
+export default Header;
 
