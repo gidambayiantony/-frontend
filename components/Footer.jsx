@@ -230,7 +230,7 @@ const Footer = () => {
                       <Box padding={"1rem 0"}>
                         <Input
                           type="text
-name={"NewsletterEmail"}
+                          name={"NewsletterEmail"}
                           placeholder="Enter your email"
                           value={NewsletterEmail}
                           onChange={(e) => setNewsletterEmail(e.target.value)}
