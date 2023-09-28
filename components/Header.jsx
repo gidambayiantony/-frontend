@@ -24,7 +24,6 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaSearch,
-  FaWhatsapp,
   FaUser,
 } from "react-icons/fa";
 import {
@@ -86,7 +85,7 @@ const Header = () => {
       setLoading({ ...isLoading, operation: "", status: false });
 
       chakraToast({
-        title: "Error has occured",
+        title: "Error has occurred",
         description: err.data?.message
           ? err.data?.message
           : err.data || err.error,
@@ -168,789 +167,191 @@ const Header = () => {
     { name: "Subscription", link: "/subscription" },
     { name: "Support", link: "/" },
     { name: "Invoices & Receipts", link: "/" },
-    { name: "Refer a friend", link: "/#refer" },
+    { name: "Support", link: "/" },
+    { name: "Invoices & Receipts", link: "/" },
   ];
 
   return (
-    <>
-      <Box padding={{ base: "0", md: "0", xl: "2rem 0 1rem 0" }}>
-        <Box
-          position={{
-            base: scrollDownState ? "fixed" : "relative",
-            md: "relative",
-            xl: "fixed",
-          }}
-          top={"0"}
-          right={"0"}
-          left={"0"}
-          padding={"1rem 0"}
-          background={"#000"}
-          zIndex={"900"}
-          visibility={{
-            base: "visible",
-            md: "visible",
-            xl: scrollDownState ? "visible" : "hidden",
-          }}
-          transform={{
-            base: "translate3d(0, 0, 0)",
-            md: "translate3d(0, 0, 0)",
-            xl: scrollDownState
-              ? "translate3d(0, 0, 0)"
-              : "translate3d(0, -100%, 0)",
-          }}
-        >
-          <Flex>
-            <Box margin={"auto"} width={{ base: "90%", md: "70%", xl: "40%" }}>
-              <div className="flex">
-                <div className="lg:w-full w-[90%]">
-                  <form onSubmit={handleSearchFormSubmit}>
-                    {isLoading.status && isLoading.operation === "search" && (
-                      <Spinner />
-                    )}
-                    <Box position={"relative"}>
-                      <AiOutlineSearch
-                        size={30}
-                        style={{
-                          color: ThemeColors.lightColor,
-                          margin: "0 0.5rem",
-                          position: "absolute",
-                          top: "0.5rem",
-                          left: "0",
-                        }}
-                      />
-                      <Input
-                        type="text"
-                        name="search"
-                        width={"100%"}
-                        placeholder="search product by name"
-                        padding={"0.3rem 0.5rem 0.3rem 2.5rem"}
-                        borderRadius={"0.3rem"}
-                        color={ThemeColors.lightColor}
-                        onChange={(e) => setSearchParam(e.target.value)}
-                      />
-                    </Box>
-                  </form>
-                </div>
+    <Box
+      as="header"
+      bg="white"
+      borderBottomWidth="1px"
+      borderColor="gray.200"
+      position={scrollDownState ? "sticky" : "static"}
+      top={0}
+      zIndex="sticky"
+      transition="background-color 0.2s"
+    >
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        maxW={{ xl: "1920px" }}
+        py={4}
+        px={4}
+        mx="auto"
+      >
+        {/* Logo */}
+        <Link href="/">
+          <a>
+            <Image
+              src={Images.Logo}
+              alt="Logo"
+              width={160}
+              height={40}
+              loading="lazy"
+            />
+          </a>
+        </Link>
 
-                <div
-                  className={`lg:w-0 w-[5%] lg:hidden block lg:px-0 sm:px-8 px-4`}
-                >
-                  <div
-                    onClick={() =>
-                      setMobileNavOpen((prevState) =>
-                        prevState ? false : true
-                      )
-                    }
-                  >
-                    <CgMenu size={30} color={ThemeColors.lightColor} />
-                  </div>
-                </div>
-              </div>
-            </Box>
-          </Flex>
+        {/* Mobile navigation */}
+        <Box display={{ base: "block", lg: "none" }}>
+          <Button
+            variant="link"
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            size="lg"
+          >
+            {mobileNavOpen ? (
+              <CloseButton size="24px" />
+            ) : (
+              <CgMenu size="24px" />
+            )}
+          </Button>
         </Box>
 
-        <Flex
-          justifyContent={"space-evenly"}
-          padding={"0 0 1rem 0"}
-          borderBottom={"1.7px solid " + ThemeColors.lightColor}
+        {/* Desktop navigation */}
+        <Stack
+          as="ul"
+          direction={{ base: "column", lg: "row" }}
+          spacing={8}
+          display={{ base: mobileNavOpen ? "block" : "none", lg: "flex" }}
+          alignItems={{ base: "center", lg: "center" }}
+          mt={{ base: 4, lg: 0 }}
+          ml={{ base: 0, lg: "auto" }}
+          listStyleType="none"
+          flexGrow={1}
+          pl={0}
+          transition="all 0.3s ease-in-out"
         >
-          <Box padding={"0.5rem 1rem"}>
-            <Link href={"/"}>
-              <Flex justifyContent={"center"}>
-                <Box display={{ base: "none", md: "none", xl: "block" }}>
-                  <Image
-                    src={Images.logo1}
-                    style={{ width: "100px", height: "auto" }}
-                  />
-                </Box>
-                <Box display={{ base: "block", md: "block", xl: "none" }}>
-                  <Image
-                    src={Images.logo1}
-                    style={{ width: "60px", height: "auto" }}
-                  />
-                </Box>
-              </Flex>
-              <Flex justifyContent={"center"}>
-                <Heading
-                  as={"h2"}
-                  className="secondary-bold-font"
-                  size={"sm"}
-                  margin={"0.3rem 0"}
-                  display={"flex"}
-                >
-                  Here For you
-                </Heading>
-              </Flex>
+          {/* Home */}
+          <Box as="li">
+            <Link href="/">
+              <a>Home</a>
             </Link>
           </Box>
 
-          <Spacer display={{ base: "block", md: "block", xl: "none" }} />
-
-          <Box
-            padding={"0 1rem"}
-            display={{ base: "none", md: "none", xl: "block" }}
-          >
-            <Flex justifyContent={"center"} alignItems={"center"}>
-              <Box width={"fit-content"} display={"flex"}>
-                <Box padding={"0.3rem 0.5rem"}>
-                  <Text display={"flex"}>
-                    For support call us on{" "}
-                    <Text className="primary-bold-font"> +256 754615840</Text>
-                  </Text>
-                </Box>
-
-                <Box padding={"0 0.5rem"}>
-                  <form onSubmit={handleSearchFormSubmit}>
-                    {isLoading.status && isLoading.operation === "search" && (
-                      <Spinner />
-                    )}
-                    <Box>
-                      <Input
-                        type="text"
-                        name="search"
-                        placeholder="search product by name"
-                        padding={"0.3rem 0.5rem"}
-                        borderRadius={"0.3rem"}
-                        onChange={(e) => setSearchParam(e.target.value)}
-                      />
-                    </Box>
-                  </form>
-                </Box>
-              </Box>
-            </Flex>
-
-            <Flex justifyContent={"center"} padding={"1.5rem 0"}>
-              {/* <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"/products"}>
-                  <Text
-                    color={"#000"}
-                    fontSize={"lg"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Products
-                  </Text>
-                </Link>
-              </Box> */}
-
-              {userInfo && (
-                <Box margin={"0.3rem 0.5rem"}>
-                  <Link href={"/subscription"}>
-                    <Text
-                      color={"#000"}
-                      fontSize={"md"}
-                      _hover={{ color: ThemeColors.darkColor }}
-                    >
-                      Go Premium
-                    </Text>
-                  </Link>
-                </Box>
-              )}
-
-              <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"/contact"}>
-                  <Text
-                    color={"#000"}
-                    fontSize={"md"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Contact
-                  </Text>
-                </Link>
-              </Box>
-
-              <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"/about"}>
-                  <Text
-                    color={"#000"}
-                    fontSize={"md"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    About
-                  </Text>
-                </Link>
-              </Box>
-
-              <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"/schedule"}>
-                  <Text
-                    // color={ThemeColors.lightColor}
-                    fontSize={"md"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Schedule
-                  </Text>
-                </Link>
-              </Box>
-
-              <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"https://newsblog.yookatale.com"}>
-                  <Text
-                    color={"#000"}
-                    fontSize={"md"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    News Blog
-                  </Text>
-                </Link>
-              </Box>
-
-              <Box margin={"0.3rem 0.5rem"}>
-                <Link href={"https://newsblog.yookatale.com/careers"}>
-                  <Text
-                    color={"#000"}
-                    fontSize={"md"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Careers
-                  </Text>
-                </Link>
-              </Box>
-
-              <Box margin={"0 0.5rem"}>
-                <Link href={"https://wa.me/256754615840"} target="_blank">
-                  <ButtonComponent
-                    text={"Quick Order"}
-                    size={"regular"}
-                    type={"button"}
-                    icon={
-                      <FaWhatsapp size={20} color={ThemeColors.lightColor} />
-                    }
-                  />
-                </Link>
-              </Box>
-            </Flex>
+          {/* Products */}
+          <Box as="li">
+            <Link href="/products">
+              <a>Products</a>
+            </Link>
           </Box>
-          <Box
-            padding={"0 1rem"}
-            display={{ base: "none", md: "none", xl: "block" }}
-          >
-            <Flex>
-              <Box padding={"0.3rem 0.5rem"}>
-                <Link href={"/cart"}>
-                  <Flex position={"relative"}>
-                    <FaShoppingBasket
-                      size={35}
-                      color={ThemeColors.primaryColor}
-                    />
-                    <Text
-                      style={{ fontSize: "1.3rem" }}
-                      margin={"0.3rem 0.5rem"}
-                      className=""
-                    >
-                      Cart
-                    </Text>
-                  </Flex>
-                </Link>
-              </Box>
 
-              {userInfo ? (
-                <Box position={"relative"} zIndex={5}>
-                  <Box padding={" 0.3rem 0.5rem"}>
-                    <Button
-                      background={"none"}
-                      border={"1.7px solid " + ThemeColors.darkColor}
-                      borderRadius={"0.3rem"}
-                      padding={"0.8rem"}
-                      _hover={{
-                        border: "1.8px solid " + ThemeColors.darkColor,
-                      }}
-                      fontSize={"lg"}
-                      fontWeight={"thin"}
-                      onClick={() =>
-                        setDropdownMenu((prevState) =>
-                          prevState ? false : true
-                        )
-                      }
-                    >
-                      <FaUser
-                        size={20}
-                        style={{
-                          margin: "0 0.5rem 0 0.3rem",
-                          color: ThemeColors.darkColor,
-                        }}
-                      />
-                      {`${userInfo?.lastname}`}
-                    </Button>
-                  </Box>
-
-                  {/* // dropdown menu */}
-                  <Box
-                    position={"fixed"}
-                    top={"15%"}
-                    padding={"1rem"}
-                    background={ThemeColors.lightColor}
-                    borderRadius={"0.5rem"}
-                    zIndex={3}
-                    width={"13rem"}
-                    visibility={dropdownMenu ? "visible" : "hidden"}
-                    transform={
-                      dropdownMenu
-                        ? "translate3d(0, 0, 0)"
-                        : "translate3d(150%, 0, 0)"
-                    }
-                  >
-                    <CloseButton
-                      position={"absolute"}
-                      fontSize={"md"}
-                      cursor={"pointer"}
-                      top={"0.5rem"}
-                      right={"1rem"}
-                      onClick={() =>
-                        setDropdownMenu((prevState) =>
-                          prevState ? false : true
-                        )
-                      }
-                    />
-                    <Stack paddingTop={"1rem"}>
-                      {DropdownLinks.map((link, index) => (
-                        <Box margin={"0.3rem 0"} key={index}>
-                          <Link href={`${link.link}`}>
-                            <Text
-                              fontSize={"md"}
-                              _hover={{ color: ThemeColors.darkColor }}
-                            >
-                              {link.name}
-                            </Text>
-                          </Link>
-                        </Box>
-                      ))}
-
-                      <Box
-                        margin={"0.3rem 0"}
-                        display={"flex"}
-                        cursor={"pointer"}
-                        onClick={logoutHandler}
-                      >
-                        {isLoading.status &&
-                        isLoading.operation === "logout" ? (
-                          <Spinner />
-                        ) : (
-                          <FaSignOutAlt size={20} />
-                        )}{" "}
-                        <Text
-                          fontSize={"md"}
-                          margin={"0 0.3rem"}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          Logout
-                        </Text>
-                      </Box>
-                    </Stack>
-                  </Box>
-                </Box>
-              ) : (
-                <Box padding={" 0.3rem 0.5rem"}>
-                  <Link href={"/signin"}>
-                    <ButtonComponent
-                      text={"Sign In"}
-                      size={"regular"}
-                      type={"button"}
-                      icon={<LogIn size={20} />}
-                    />
-                  </Link>
-                </Box>
-              )}
-            </Flex>
+          {/* Contact */}
+          <Box as="li">
+            <Link href="/contact">
+              <a>Contact</a>
+            </Link>
           </Box>
-          {/* <Box display={{ base: "block", md: "block", xl: "none" }}>
-            <Box
-              padding={"2rem 2rem 0 0"}
-              onClick={() =>
-                setMobileNavOpen((prevState) => (prevState ? false : true))
-              }
-            >
-              <CgMenu size={30} />
-            </Box>
-          </Box> */}
-        </Flex>
-      </Box>
 
-      {/* // mobile nav bar */}
-      <Box
-        padding={"5rem 2rem 2rem 2rem"}
-        position={"fixed"}
-        top={"0"}
-        bottom={"0"}
-        right={"0"}
-        width={"80%"}
-        background={
-          "linear-gradient(to bottom, rgba(0, 0, 0, 0.847), rgba(0, 0, 0, 0.947))"
-        }
-        backdropFilter={"blur(6px)"}
-        visibility={mobileNavOpen ? "visible" : "hidden"}
-        transform={
-          mobileNavOpen ? "translate3d(0, 0, 0)" : "translate3d(150%, 0, 0)"
-        }
-        zIndex={990}
-      >
-        <HiChevronLeft
-          style={{
-            margin: "0 0.5rem",
-            position: "absolute",
-            top: "5%",
-            left: "3%",
-            zIndex: "991",
-          }}
-          size={35}
-          color={ThemeColors.lightColor}
-          onClick={() =>
-            setMobileNavOpen((prevState) => (prevState ? false : true))
-          }
-        />
-        {userInfo ? (
-          <Box paddingTop={"0.5rem"} position={"relative"} zIndex={5}>
-            <Box padding={"0.5rem 0"}>
-              <Button
-                background={"none"}
-                border={"1.7px solid " + ThemeColors.darkColor}
-                borderRadius={"0.3rem"}
-                padding={"0.8rem"}
-                _hover={{
-                  border: "1.8px solid " + ThemeColors.darkColor,
-                }}
-                fontSize={"lg"}
-                fontWeight={"thin"}
-                onClick={() =>
-                  setDropdownMenu((prevState) => (prevState ? false : true))
-                }
-                color={ThemeColors.lightColor}
-              >
-                <FaUser
-                  size={20}
-                  style={{
-                    margin: "0 0.5rem 0 0.3rem",
-                    color: ThemeColors.darkColor,
-                  }}
+          {/* Search */}
+          <Box as="li">
+            <form onSubmit={handleSearchFormSubmit}>
+              <InputGroup size="sm">
+                <InputLeftElement pointerEvents="none">
+                  <FaSearch color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  variant="filled"
+                  value={searchParam}
+                  onChange={(e) => setSearchParam(e.target.value)}
                 />
-                {`${userInfo?.lastname ? userInfo?.lastname : "John Doe"}`}
-              </Button>
-            </Box>
+              </InputGroup>
+            </form>
+          </Box>
+        </Stack>
 
-            {/* // -------------  dropdown menu ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-            <Box
-              position={"absolute"}
-              padding={"1rem"}
-              background={"#000"}
-              borderRadius={"0.5rem"}
-              zIndex={3}
-              width={"13rem"}
-              display={dropdownMenu ? "block" : "none"}
-            >
-              <CloseButton
-                position={"absolute"}
-                fontSize={"md"}
-                cursor={"pointer"}
-                top={"0.5rem"}
-                right={"1rem"}
-                color={ThemeColors.lightColor}
-                onClick={() =>
-                  setDropdownMenu((prevState) => (prevState ? false : true))
-                }
+        {/* Right section */}
+        <Flex align="center">
+          {/* Cart */}
+          <Box display={{ base: "none", lg: "block" }}>
+            <ButtonComponent
+              variant="icon"
+              icon={<AiOutlineShoppingCart size="24px" />}
+              onClick={() => push("/cart")}
+            />
+          </Box>
+
+          {/* User dropdown */}
+          {userInfo ? (
+            <Box ml={4} display={{ base: "none", lg: "block" }}>
+              <ButtonComponent
+                variant="icon"
+                icon={<FaUser size="20px" />}
+                onClick={() => setDropdownMenu(!dropdownMenu)}
               />
-              <Stack paddingTop={"1rem"}>
-                {DropdownLinks.map((link, index) => (
-                  <Box
-                    margin={"0.3rem 0"}
-                    onClick={() =>
-                      setMobileNavOpen((prevState) =>
-                        prevState ? false : true
-                      )
-                    }
-                    key={index}
-                  >
-                    <Link href={`${link.link}`}>
-                      <Text fontSize={"lg"} color={ThemeColors.lightColor}>
-                        {link.name}
-                      </Text>
-                    </Link>
-                  </Box>
-                ))}
 
+              {dropdownMenu && (
                 <Box
-                  margin={"0.3rem 0"}
-                  display={"flex"}
-                  onClick={() =>
-                    setMobileNavOpen((prevState) => (prevState ? false : true))
-                  }
+                  bg="white"
+                  boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                  borderRadius="md"
+                  mt={2}
+                  position="absolute"
+                  right={0}
+                  zIndex={3}
                 >
-                  <Box>
-                    <Link
-                      href={"/cart"}
-                      onClick={() =>
-                        setMobileNavOpen((prevState) =>
-                          prevState ? false : true
-                        )
-                      }
-                    >
-                      <Flex
-                        position={"relative"}
-                        onClick={() =>
-                          setMobileNavOpen((prevState) =>
-                            prevState ? false : true
-                          )
-                        }
+                  <ul>
+                    {DropdownLinks.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.link}>
+                          <a
+                            onClick={() => setDropdownMenu(false)}
+                            className="dropdown-link"
+                          >
+                            {item.name}
+                          </a>
+                        </Link>
+                      </li>
+                    ))}
+
+                    <li>
+                      <a
+                        className="dropdown-link"
+                        onClick={() => logoutHandler()}
                       >
-                        <FaShoppingBasket
-                          size={23}
-                          color={ThemeColors.primaryColor}
-                        />
-                        <Text
-                          fontSize={"lg"}
-                          margin={"0 0.5rem"}
-                          color={ThemeColors.lightColor}
-                        >
-                          Cart
-                        </Text>
-                      </Flex>
-                    </Link>
-                  </Box>
-                </Box>
-              </Stack>
-            </Box>
-          </Box>
-        ) : (
-          ""
-        )}
-
-        <Box>
-          <Stack padding={"1rem"}>
-            {/* <Box margin={"0.5rem 0"}>
-              <Link
-                href={"/products"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  Products
-                </Text>
-              </Link>
-            </Box> */}
-            {userInfo && (
-              <Box margin={"0.5rem 0"}>
-                <Link
-                  href={"/subscription"}
-                  onClick={() =>
-                    setMobileNavOpen((prevState) => (prevState ? false : true))
-                  }
-                >
-                  <Text
-                    color={ThemeColors.lightColor}
-                    fontSize={"lg"}
-                    _hover={{ color: ThemeColors.darkColor }}
-                  >
-                    Go Premium
-                  </Text>
-                </Link>
-              </Box>
-            )}
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"/contact"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  Contact
-                </Text>
-              </Link>
-            </Box>
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"/about"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  About
-                </Text>
-              </Link>
-            </Box>
-
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"/schedule"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  Schedule
-                </Text>
-              </Link>
-            </Box>
-
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"/partner"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  Partner
-                </Text>
-              </Link>
-            </Box>
-
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"https://newsblog.yookatale.com"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  News Blog
-                </Text>
-              </Link>
-            </Box>
-
-            <Box margin={"0.5rem 0"}>
-              <Link
-                href={"https://newsblog.yookatale.com/careers"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <Text
-                  color={ThemeColors.lightColor}
-                  fontSize={"lg"}
-                  _hover={{ color: ThemeColors.darkColor }}
-                >
-                  Careers
-                </Text>
-              </Link>
-            </Box>
-            <Box margin={"1rem 0"}>
-              <Link
-                href={"https://wa.me/256754615840"}
-                onClick={() =>
-                  setMobileNavOpen((prevState) => (prevState ? false : true))
-                }
-              >
-                <ButtonComponent
-                  text={"Quick Order"}
-                  size={"regular"}
-                  type={"button"}
-                  icon={
-                    <FaWhatsapp
-                      size={20}
-                      color={ThemeColors.lightColor}
-                      style={{ margin: "0 0.3rem" }}
-                    />
-                  }
-                />
-                {/* <Button
-                  color={ThemeColors.lightColor}
-                  background={"whatsapp.600"}
-                  border={"1.7px solid " + "whatsapp.600"}
-                  borderRadius={"0.3rem"}
-                  padding={"0.3rem 0.5rem"}
-                  _hover={{
-                    border: "none",
-                  }}
-                >
-                  <FaWhatsapp
-                    size={20}
-                    color={ThemeColors.lightColor}
-                    style={{ margin: "0 0.3rem" }}
-                  />{" "}
-                  Quick Order
-                </Button> */}
-              </Link>
-            </Box>
-            <Box margin={"1rem 0"}>
-              {userInfo ? (
-                <Box padding={"0"}>
-                  <Button
-                    background={ThemeColors.darkColor}
-                    onClick={logoutHandler}
-                    fontWeight={"light"}
-                  >
-                    <Flex>
-                      {isLoading.status && isLoading.operation === "logout" ? (
-                        <Spinner />
-                      ) : (
-                        <FaSignOutAlt
-                          size={20}
-                          style={{ color: ThemeColors.lightColor }}
-                        />
-                      )}{" "}
-                      <Text
-                        fontSize={"md"}
-                        margin={"0 0.3rem"}
-                        color={ThemeColors.lightColor}
-                      >
-                        Logout
-                      </Text>
-                    </Flex>
-                  </Button>
-                  .
-                </Box>
-              ) : (
-                <Box padding={"0"}>
-                  <Link
-                    href={"/signin"}
-                    onClick={() =>
-                      setMobileNavOpen((prevState) =>
-                        prevState ? false : true
-                      )
-                    }
-                  >
-                    <Button
-                      color={ThemeColors.lightColor}
-                      background={ThemeColors.darkColor}
-                      border={"1.7px solid " + ThemeColors.darkColor}
-                      borderRadius={"0.3rem"}
-                      padding={"0.5rem 1rem"}
-                      _hover={{
-                        border: "none",
-                      }}
-                    >
-                      <FaSignInAlt
-                        size={20}
-                        color={ThemeColors.lightColor}
-                        style={{ margin: "0 0.3rem" }}
-                      />{" "}
-                      Sign In
-                    </Button>
-                  </Link>
+                        Log Out
+                      </a>
+                    </li>
+                  </ul>
                 </Box>
               )}
             </Box>
-          </Stack>
-        </Box>
-      </Box>
-    </>
+          ) : (
+            <Box ml={4} display={{ base: "none", lg: "block" }}>
+              <ButtonComponent
+                variant="icon"
+                icon={<FaSignInAlt size="20px" />}
+                onClick={() => push("/login")}
+              />
+            </Box>
+          )}
+
+          {/* Cart mobile */}
+          <Box display={{ base: "block", lg: "none" }}>
+            <ButtonComponent
+              variant="icon"
+              icon={<AiOutlineShoppingCart size="24px" />}
+              onClick={() => push("/cart")}
+            />
+          </Box>
+        </Flex>
+      </Flex>
+    </Box>
   );
 };
 
 export default Header;
+

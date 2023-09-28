@@ -1,11 +1,10 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { ThemeProvider } from "next-themes";
+import { Box, Button, Input, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 
 const VendorForm = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     // Send the vendor form data to the server.
@@ -15,16 +14,25 @@ const VendorForm = () => {
   };
 
   return (
-    <ChakraProvider>
-      <ThemeProvider>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="text" name="name" placeholder="Vendor name" {...register("name")} />
-          <input type="email" name="email" placeholder="Vendor email address" {...register("email")} />
-          <input type="tel" name="phone" placeholder="Vendor phone number" {...register("phone")} />
-          <input type="submit" value="Submit" />
-        </form>
-      </ThemeProvider>
-    </ChakraProvider>
+    <Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl id="name" isInvalid={errors.name}>
+          <FormLabel>Vendor Name</FormLabel>
+          <Input type="text" {...register("name")} />
+          <FormErrorMessage>{errors.name && "Vendor name is required"}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="email" isInvalid={errors.email}>
+          <FormLabel>Vendor Email Address</FormLabel>
+          <Input type="email" {...register("email")} />
+          <FormErrorMessage>{errors.email && "Valid email address is required"}</FormErrorMessage>
+        </FormControl>
+
+        {/* Include other form fields in a similar way as above */}
+        
+        <Button type="submit">Become a Vendor</Button>
+      </form>
+    </Box>
   );
 };
 
