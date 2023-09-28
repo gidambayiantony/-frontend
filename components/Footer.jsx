@@ -24,7 +24,8 @@ import {
   FaLinkedin,
   FaPhone,
   FaTwitter,
-  FaWhatsapp,
+  FaGooglePlay, // New Google Play icon
+  FaAppStore,  // New App Store icon
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ButtonComponent from "./Button";
@@ -46,7 +47,6 @@ import {
 import axios from "axios";
 import { Loader } from "lucide-react";
 import NewsletterForm from "./NewsletterForm";
-// import nodemailer from "nodemailer";
 
 const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -71,10 +71,6 @@ const Footer = () => {
         // Clear email value
         setNewsletterEmail("");
 
-        // // make call to api to send mail
-        // const res = await axios.post("/api/mail", { email: NewsletterEmail });
-
-        // if (res.statusText == "OK")
         return chakraToast({
           title: "Success",
           description: "Successfully subscribed to the newsletter",
@@ -233,8 +229,8 @@ const Footer = () => {
                       </Box>
                       <Box padding={"1rem 0"}>
                         <Input
-                          type="text"
-                          name={"NewsletterEmail"}
+                          type="text
+name={"NewsletterEmail"}
                           placeholder="Enter your email"
                           value={NewsletterEmail}
                           onChange={(e) => setNewsletterEmail(e.target.value)}
@@ -268,16 +264,6 @@ const Footer = () => {
 
                 <Box padding={"1rem 0"}>
                   <Stack padding={"1rem"}>
-                    {/* <Box margin={"0.3rem 0"}>
-                      <Link href={"/products"}>
-                        <Text
-                          color={ThemeColors.lightColor}
-                          _hover={{ color: ThemeColors.darkColor }}
-                        >
-                          Products
-                        </Text>
-                      </Link>
-                    </Box> */}
                     {userInfo && (
                       <Box margin={"0.3rem 0"}>
                         <Link href={"/subscription"}>
@@ -310,18 +296,6 @@ const Footer = () => {
                         </Text>
                       </Link>
                     </Box>
-                    {/* <Box margin={"0.5rem 0"}>
-                          <Link href={"/schedule"} onClick={() =>
-                            setMobileNavOpen((prevState) => (prevState ? false : true))
-                            }>
-                            <Text
-                            color={ThemeColors.lightColor}}}
-                              _hover={{ color: ThemeColors.darkColor }}
-                            >
-                              Schedule Delivery
-                            </Text>
-                          </Link>
-                        </Box> */}
                     <Box margin={"0.3rem 0"}>
                       <Link href={"https://newsblog.yookatale.com"}>
                         <Text
@@ -342,42 +316,8 @@ const Footer = () => {
                         </Text>
                       </Link>
                     </Box>
-                    <Box margin={"0.3rem 0"}>
-                      <Link href={"https://wa.me/256754615840"}>
-                        <ButtonComponent
-                          text={"Quick Order"}
-                          type={"button"}
-                          size={"regular"}
-                          icon={
-                            <FaWhatsapp
-                              size={20}
-                              color={ThemeColors.lightColor}
-                              style={{ margin: "0 0.3rem" }}
-                            />
-                          }
-                        />
-                      </Link>
-                    </Box>
                   </Stack>
                 </Box>
-
-                {/* <Box padding={"1rem 0"}>
-                  <Stack padding={"1rem"}>
-                    {CategoriesJson.map((category, index) => (
-                      <Box margin={"0.3rem 0"} key={index}>
-                        <Link href={`/search?q=${category}`}>
-                          <Text
-                            color={ThemeColors.lightColor}
-                            textTransform={"capitalize"}
-                            _hover={{ color: ThemeColors.darkColor }}
-                          >
-                            {category}
-                          </Text>
-                        </Link>
-                      </Box>
-                    ))}
-                  </Stack>
-                </Box> */}
 
                 <Box
                   padding={"1rem 0"}
@@ -569,3 +509,13 @@ const Footer = () => {
 };
 
 export default Footer;
+
+<Box as="footer" textAlign="center" padding="4rem">
+  <Text>Copyright © 2023 YooKatale</Text>
+  <Link href="https://play.google.com/store/apps/details?id=com.yookatale">
+    <FaGooglePlay size={32} color="green" />
+  </Link>
+  <Link href="https://apps.apple.com/app/yookatale/id1234567890">
+    <FaAppStore size={32} color="blue" />
+  </Link>
+</Box>
