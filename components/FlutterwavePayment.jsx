@@ -10,10 +10,12 @@ const FlutterwavePayment = ({ data, callback, closeComponent }) => {
 
   const router = useRouter();
 
+  console.log({ data });
+
   const flwConfig = {
     public_key: process.env.FLW_PUBLIC_KEY,
     tx_ref: Date.now(),
-    amount: data.amount,
+    amount: data.total,
     currency: "UGX",
     payment_options:
       data?.paymentMethod == "card" ? "card" : "mobilemoneyuganda",
