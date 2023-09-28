@@ -2,6 +2,7 @@ import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import { ThemeColors } from "@constants/constants";
 import Link from "next/link";
 import React from "react";
+import { FaGooglePlay, FaAppStore } from "react-icons/fa"; // Import the Google Play and App Store icons
 
 const Footer2 = () => {
   return (
@@ -49,6 +50,23 @@ const Footer2 = () => {
                   <Text fontSize={"md"}>Usage Policy</Text>
                 </Box>
               </Link>
+              {/* Add Google Play and App Store icons with links */}
+              <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
+                <Link
+                  href="https://play.google.com/store/apps/details?id=com.yookatale"
+                  isExternal
+                >
+                  <FaGooglePlay size={32} color="green" />
+                </Link>
+              </Box>
+              <Box padding={{ base: "1rem", md: "1rem", xl: "0 1rem" }}>
+                <Link
+                  href="https://apps.apple.com/app/yookatale/id1234567890"
+                  isExternal
+                >
+                  <FaAppStore size={32} color="blue" />
+                </Link>
+              </Box>
             </Flex>
           </Box>
         </Flex>
@@ -58,3 +76,4 @@ const Footer2 = () => {
 };
 
 export default Footer2;
+
