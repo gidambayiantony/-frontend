@@ -47,6 +47,7 @@ import {
 import axios from "axios";
 import { Loader } from "lucide-react";
 import NewsletterForm from "./NewsletterForm";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -229,7 +230,7 @@ const Footer = () => {
                       </Box>
                       <Box padding={"1rem 0"}>
                         <Input
-                          type="text
+                          type="text"
                           name={"NewsletterEmail"}
                           placeholder="Enter your email"
                           value={NewsletterEmail}
