@@ -187,21 +187,19 @@ const Header = () => {
         align="center"
         justify="space-between"
         maxW={{ xl: "1920px" }}
-        py={4}
         px={4}
         mx="auto"
       >
         {/* Logo */}
         <Link href="/">
-          <p>
+          <div className="relative h-24 w-24 mr-4">
             <Image
-              src={Images.Logo}
+              src={"/assets/icons/logo2.png"}
               alt="Logo"
-              width={160}
-              height={40}
-              loading="lazy"
+              fill={true}
+              className="object-contain h-full w-auto"
             />
-          </p>
+          </div>
         </Link>
 
         {/* Mobile navigation */}
@@ -235,23 +233,17 @@ const Header = () => {
         >
           {/* Home */}
           <Box as="li">
-            <Link href="/">
-              Home
-            </Link>
+            <Link href="/">Home</Link>
           </Box>
 
           {/* Products */}
           <Box as="li">
-            <Link href="/products">
-              Products
-            </Link>
+            <Link href="/products">Products</Link>
           </Box>
 
           {/* Contact */}
           <Box as="li">
-            <Link href="/contact">
-              Contact
-            </Link>
+            <Link href="/contact">Contact</Link>
           </Box>
 
           {/* Search */}
@@ -314,12 +306,12 @@ const Header = () => {
                     {DropdownLinks.map((item, index) => (
                       <li key={index}>
                         <Link href={item.link}>
-                          <a
+                          <p
                             onClick={() => setDropdownMenu(false)}
                             className="dropdown-link"
                           >
                             {item.name}
-                          </a>
+                          </p>
                         </Link>
                       </li>
                     ))}
@@ -361,4 +353,3 @@ const Header = () => {
 };
 
 export default Header;
-
