@@ -269,12 +269,19 @@ const Header = () => {
         <Flex align="center">
           {/* Cart */}
           <Box display={{ base: "none", lg: "block" }}>
+          <Link href="/cart">
+            <p>
+            <AiOutlineShoppingCart size="24px" />
+            </p>
+          </Link>
+          </Box>
+          {/* <Box display={{ base: "none", lg: "block" }}>
             <ButtonComponent
               variant="icon"
               icon={<AiOutlineShoppingCart size="24px" />}
               onClick={() => push("/cart")}
             />
-          </Box>
+          </Box> */}
 
           {/* User dropdown */}
           {userInfo ? (
