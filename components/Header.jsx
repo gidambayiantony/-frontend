@@ -193,7 +193,7 @@ const Header = () => {
       >
         {/* Logo */}
         <Link href="/">
-          <a>
+          <p>
             <Image
               src={Images.Logo}
               alt="Logo"
@@ -201,7 +201,7 @@ const Header = () => {
               height={40}
               loading="lazy"
             />
-          </a>
+          </p>
         </Link>
 
         {/* Mobile navigation */}
@@ -236,21 +236,21 @@ const Header = () => {
           {/* Home */}
           <Box as="li">
             <Link href="/">
-              <a>Home</a>
+              Home
             </Link>
           </Box>
 
           {/* Products */}
           <Box as="li">
             <Link href="/products">
-              <a>Products</a>
+              Products
             </Link>
           </Box>
 
           {/* Contact */}
           <Box as="li">
             <Link href="/contact">
-              <a>Contact</a>
+              Contact
             </Link>
           </Box>
 
@@ -277,12 +277,19 @@ const Header = () => {
         <Flex align="center">
           {/* Cart */}
           <Box display={{ base: "none", lg: "block" }}>
+          <Link href="/cart">
+            <p>
+            <AiOutlineShoppingCart size="24px" />
+            </p>
+          </Link>
+          </Box>
+          {/* <Box display={{ base: "none", lg: "block" }}>
             <ButtonComponent
               variant="icon"
               icon={<AiOutlineShoppingCart size="24px" />}
               onClick={() => push("/cart")}
             />
-          </Box>
+          </Box> */}
 
           {/* User dropdown */}
           {userInfo ? (
