@@ -276,7 +276,9 @@ const Header = () => {
         {/* Right section */}
         <Flex align="center">
           {/* Cart */}
-          <Box display={{ base: "none", lg: "block" }}>
+          <Box display={{ base: "none", lg: "block" }}  _hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
+          className="p-2 rounded " color="white" bg="green.700"   borderWidth="2px"
+          >
           <Link href="/cart">
             <p>
             <AiOutlineShoppingCart size="24px" />
@@ -347,12 +349,11 @@ const Header = () => {
           )}
 
           {/* Cart mobile */}
-          <Box display={{ base: "block", lg: "none" }}>
-            <ButtonComponent
-              variant="icon"
-              icon={<AiOutlineShoppingCart size="24px" />}
-              onClick={() => push("/cart")}
-            />
+          <Box display={{ base: "block", lg: "none" }} hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
+          className="p-2 rounded " color="white" bg="green.700"   borderWidth="2px">
+          <Link href="/cart">
+             <AiOutlineShoppingCart size="24px" />
+          </Link>
           </Box>
         </Flex>
       </Flex>

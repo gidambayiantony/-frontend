@@ -23,6 +23,7 @@ import { useToast } from "@chakra-ui/react";
 import { redirect, useRouter } from "next/navigation";
 import TabOne from "@components/modals/tabs/TabOne";
 import TabTwo from "@components/modals/tabs/TabTwo";
+import Header from "@components/Header";
 
 import {
   useCartDeleteMutation,
