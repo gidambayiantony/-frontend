@@ -1,10 +1,8 @@
 "use client";
 
-import { useToast } from "@chakra-ui/react";
-
+import { useToast, Badge } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCartCreateMutation } from "@slices/productsApiSlice";
 import { FormatCurr } from "@utils/utils";
 import { Button } from "./ui/button";
@@ -14,34 +12,53 @@ import SignIn from "@app/signin/page";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
+
 const ProductCard = ({ product, userInfo }) => {
   const [addCartApi] = useCartCreateMutation();
   const [SignInStateModal, setSignInStateModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
-  const router = useRouter();
-
   const chakraToast = useToast();
 
-  // function to handle adding product to cart
+  const productone = {
+    originalPrice: 90000,
+    discountPercentage: 3,
+  };
+
+
+  // Function to calculate the discounted price
+  const calculateDiscountedPrice = (originalPrice, discountPercentage) => {
+    const discount = (originalPrice * discountPercentage) / 100;
+    return originalPrice - discount;
+  };
+
+  // Function to handle adding product to cart
   const handleAddCart = async (ID, user) => {
     try {
-      // set loading to be true
-      setLoading((prevState) => (prevState ? false : true));
+      // Set loading to true
+      setLoading(true);
+
+      // Calculate the discounted price based on the product's discount percentage
+      const discountedPrice = calculateDiscountedPrice(
+        productone.price,
+        productone.discountPercentage
+      );
 
       const res = await addCartApi({
         productId: ID,
         userId: user,
+        discountedPrice: discountedPrice,
       }).unwrap();
 
-      if (res?.message)
-        return chakraToast({
+      if (res?.message) {
+        chakraToast({
           title: "Success",
           description: res.message,
           status: "success",
           duration: 5000,
           isClosable: false,
         });
+      }
     } catch (err) {
       chakraToast({
         description:
@@ -51,14 +68,14 @@ const ProductCard = ({ product, userInfo }) => {
         isClosable: false,
       });
     } finally {
-      // set loading to be false
-      setLoading((prevState) => (prevState ? false : true));
+      // Set loading to false
+      setLoading(false);
     }
   };
 
-  // function to listen to add to cart button click
+  // Function to listen to add to cart button click
   const handleAddToCartBtnClick = (ID) => {
-    // check if user has not logged in
+    // Check if user has not logged in
     if (!userInfo) {
       chakraToast({
         title: "Sign In is required",
@@ -68,10 +85,10 @@ const ProductCard = ({ product, userInfo }) => {
         isClosable: false,
       });
 
-      setSignInStateModal((prev) => (prev ? false : true));
+      setSignInStateModal((prev) => !prev);
 
-      // set loading to be false
-      setLoading((prevState) => (prevState ? false : true));
+      // Set loading to false
+      setLoading(false);
 
       return;
     }
@@ -79,12 +96,12 @@ const ProductCard = ({ product, userInfo }) => {
     handleAddCart(ID, userInfo?._id);
   };
 
-  // function to listen to user successfull login
+  // Function to listen to user successful login
   const handleListeningToSignIn = (param) => {
-    setLoading((prev) => (prev ? false : true));
+    setLoading(true);
 
     if (param.loggedIn) {
-      setSignInStateModal((prev) => (prev ? false : true));
+      setSignInStateModal((prev) => !prev);
       handleAddCart(product._id, param?.user);
     }
   };
@@ -94,7 +111,25 @@ const ProductCard = ({ product, userInfo }) => {
       <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0">
         <div className="h-[120px] p-[0.3rem]">
           <Link href={`/product/${product._id}`}>
+          {productone.discountPercentage && (
+            <Badge 
+              colorScheme="red"
+              position="absolute"
+              size="sm"
+              zIndex="1"
+              style={{ width: "2rem",
+               height: "2rem",
+               display: "flex",
+               alignItems: "center",
+               justifyContent: "center",
+               }}
+              
+            >
+               -37{product.discountPercentage}%
+            </Badge>
+            )}
             <div className="flex justify-center items-center h-full relative">
+               {/* Display the discount information as a badge */}
               <img
                 src={`${product.images[0]}` || `/${product.images[0]}`}
                 className="w-auto object-contain h-full"
@@ -136,7 +171,7 @@ const ProductCard = ({ product, userInfo }) => {
         </div>
       </div>
 
-      {/* // signin / signup form */}
+      {/* Sign-in / Sign-up form */}
       <div
         className={`fixed top-[10%] lg:left-[30%] left-[5%] lg:right-[30%] right-[5%] bottom-[10%] z-[990] bg-light py-6 rounded-md shadow-md ${
           SignInStateModal
@@ -146,7 +181,7 @@ const ProductCard = ({ product, userInfo }) => {
       >
         <div
           className="absolute top-4 right-4"
-          onClick={() => setSignInStateModal((prev) => (prev ? false : true))}
+          onClick={() => setSignInStateModal((prev) => !prev)}
         >
           <AiOutlineClose size={30} style={{ cursor: "pointer" }} />
         </div>
