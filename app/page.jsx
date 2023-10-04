@@ -415,7 +415,6 @@ const Home = () => {
 
       {/* ------------- section 
       ----------------------------------- */}
-      <RecommendedProducts Products={Products} />
     </>
   );
 };
