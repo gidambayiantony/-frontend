@@ -12,7 +12,6 @@ import SignIn from "@app/signin/page";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
-
 const ProductCard = ({ product, userInfo }) => {
   const [addCartApi] = useCartCreateMutation();
   const [SignInStateModal, setSignInStateModal] = useState(false);
@@ -24,7 +23,6 @@ const ProductCard = ({ product, userInfo }) => {
     originalPrice: 90000,
     discountPercentage: 3,
   };
-
 
   // Function to calculate the discounted price
   const calculateDiscountedPrice = (originalPrice, discountPercentage) => {
@@ -108,31 +106,33 @@ const ProductCard = ({ product, userInfo }) => {
 
   return (
     <>
-      <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0">
+      <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0 relative">
         <div className="h-[120px] p-[0.3rem]">
           <Link href={`/product/${product._id}`}>
-          {productone.discountPercentage && (
-            <Badge 
-              colorScheme="red"
-              position="absolute"
-              size="sm"
-              zIndex="1"
-              style={{ width: "2rem",
-               height: "2rem",
-               display: "flex",
-               alignItems: "center",
-               justifyContent: "center",
-               }}
-              
-            >
-               -37{product.discountPercentage}%
-            </Badge>
+            {productone.discountPercentage && (
+              <Badge
+                colorScheme="red"
+                position="absolute"
+                size="sm"
+                zIndex="1"
+                style={{
+                  width: "2rem",
+                  height: "2rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                -37{product.discountPercentage}%
+              </Badge>
             )}
+
             <div className="flex justify-center items-center h-full relative">
-               {/* Display the discount information as a badge */}
-              <img
+              {/* Display the discount information as a badge */}
+              <Image
                 src={`${product.images[0]}` || `/${product.images[0]}`}
                 className="w-auto object-contain h-full"
+                fill
                 alt={product.images}
               />
             </div>
