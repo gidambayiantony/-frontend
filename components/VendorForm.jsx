@@ -8,6 +8,7 @@ const VendorForm = ({ onSubmit }) => {
   const [fullname, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [location, setLocation] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [businessAddress, setBusinessAddress] = useState('');
   const [businessHours, setBusinessHours] = useState('');
@@ -21,6 +22,7 @@ const VendorForm = ({ onSubmit }) => {
         fullname,
         phone,
         email,
+        location,
         businessName,
         businessAddress,
         businessHours,
@@ -31,6 +33,7 @@ const VendorForm = ({ onSubmit }) => {
       setBusinessName('');
       setBusinessAddress('');
       setBusinessHours('');
+      setLocation('');
       setTransport('bike');
       setSucessMessage('Form submitted successfully!');
       setTimeout(() => {
@@ -66,6 +69,16 @@ const VendorForm = ({ onSubmit }) => {
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
                 placeholder="0712378472"
+                required
+              />
+            </FormControl>
+            <FormControl className="mb-4">
+              <FormLabel>Location*</FormLabel>
+              <Input
+                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
+                value={location}
+                onChange={(event) => setLocation(event.target.value)}
+                placeholder="Please enter your location"
                 required
               />
             </FormControl>
