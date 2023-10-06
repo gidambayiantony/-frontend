@@ -23,6 +23,9 @@ module.exports = {
       dark: "#185f2d",
       light: "#f0f0f0",
       white: "#ffffff",
+      red: "#ff0000",
+      black: "#000",
+      green: "#008000"
     },
     extend: {
       keyframes: {

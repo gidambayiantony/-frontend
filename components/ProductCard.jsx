@@ -19,11 +19,6 @@ const ProductCard = ({ product, userInfo }) => {
 
   const chakraToast = useToast();
 
-  const productone = {
-    originalPrice: 90000,
-    discountPercentage: 3,
-  };
-
   // Function to calculate the discounted price
   const calculateDiscountedPrice = (originalPrice, discountPercentage) => {
     const discount = (originalPrice * discountPercentage) / 100;
@@ -38,8 +33,8 @@ const ProductCard = ({ product, userInfo }) => {
 
       // Calculate the discounted price based on the product's discount percentage
       const discountedPrice = calculateDiscountedPrice(
-        productone.price,
-        productone.discountPercentage
+        product.price,
+        product.discountPercentage
       );
 
       const res = await addCartApi({
@@ -109,7 +104,7 @@ const ProductCard = ({ product, userInfo }) => {
       <div className="lg:p-4 py-2 px-4 bg-white hover:shadow-md w-[200px] rounded-md shrink-0 relative">
         <div className="h-[120px] p-[0.3rem]">
           <Link href={`/product/${product._id}`}>
-            {productone.discountPercentage && (
+            {product.discountPercentage && (
               <Badge
                 colorScheme="red"
                 position="absolute"
@@ -123,7 +118,7 @@ const ProductCard = ({ product, userInfo }) => {
                   justifyContent: "center",
                 }}
               >
-                -37{product.discountPercentage}%
+                {product.discountPercentage}
               </Badge>
             )}
 
