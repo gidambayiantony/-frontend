@@ -123,7 +123,7 @@ const ProductCard = ({ product, userInfo }) => {
                   justifyContent: "center",
                 }}
               >
-                -37{product.discountPercentage}%
+                {product.discountPercentage}
               </Badge>
             )}
 

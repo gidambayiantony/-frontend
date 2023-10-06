@@ -1,10 +1,11 @@
 "use client"
 import { Box, FormControl, FormLabel, Input, Button, Select } from '@chakra-ui/react';
 import { useState } from 'react';
+import { DB_URL } from '@config/config';
 import axios from 'axios';
 
 const VendorForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
+  const [fullname, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [businessName, setBusinessName] = useState('');
@@ -16,8 +17,8 @@ const VendorForm = ({ onSubmit }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:4400/api/partner/new', {
-        name,
+      await axios.post(`${DB_URL}/partner/new`, {
+        fullname,
         phone,
         email,
         businessName,
@@ -52,7 +53,7 @@ const VendorForm = ({ onSubmit }) => {
               <FormLabel>Name*</FormLabel>
               <Input
                 className="border-b border-dark italic hover:border-red focus:border-red px-2 py-1"
-                value={name}
+                value={fullname}
                 onChange={(event) => setName(event.target.value)}
                 placeholder="Name Lastname"
                 required
