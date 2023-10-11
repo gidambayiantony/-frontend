@@ -355,7 +355,7 @@ const Header = () => {
               onClick={() => push("/cart")}
             />
           </Box>
-          <Box ml={4} display={{ base: "block", lg: "sm" }}>
+          <Box ml={4} display={{ base: "block", lg: "none" }}>
               <ButtonComponent
                 variant="icon"
                 icon={<FaSignInAlt size="20px" />}
