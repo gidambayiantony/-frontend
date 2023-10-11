@@ -1,17 +1,17 @@
 "use client";
 import { Box, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { createVendor } from "../redux/actions/vendor";
+import axios from 'axios';
+import { DB_URL } from '@config/config';
 
 const VendorForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(createVendor(data));
-      // You can redirect or display a success message here
+      // Use Axios to send data to the server
+      await axios.post(`${DB_URL}/partner/new`, data);
+      // You can handle success or any other logic here
     } catch (error) {
       console.error('Error creating vendor', error);
       // Handle the error as needed
