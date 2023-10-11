@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 
-const ButtonComponent = ({ text, type, size, icon }) => {
+const ButtonComponent = ({ text, type, size, icon, onClick }) => {
   return (
     <>
       <Button
@@ -12,6 +12,7 @@ const ButtonComponent = ({ text, type, size, icon }) => {
             ? "text-white bg-dark hover:bg-transparent hover:text-dark gap-2 rounded-md border-[1.7px] border-dark text-lg p-4"
             : "text-white bg-dark hover:bg-transparent hover:text-dark text-base gap-2 rounded-md border-[1.7px] border-dark"
         }
+        onClick={onClick}
       >
         {icon && icon}
         {text}
