@@ -53,6 +53,7 @@ const Header = () => {
   const [isLoading, setLoading] = useState({ operation: "", status: false });
   const [dropdownMenu, setDropdownMenu] = useState(false);
   const [scrollDownState, setScrollDownState] = useState(false);
+  const [isLoginMode, setLoginMode] = useState(true);
 
   IsAccountValid();
 
@@ -74,12 +75,14 @@ const Header = () => {
     try {
       const res = await logoutApiCall().unwrap();
 
+      console.log("Logout API response:", res);
+
       // set loading to be false
       setLoading({ ...isLoading, operation: "", status: false });
 
       dispatch(logout());
 
-      push("/");
+      push("/signin");
     } catch (err) {
       // set loading to be false
       setLoading({ ...isLoading, operation: "", status: false });
@@ -171,6 +174,10 @@ const Header = () => {
     { name: "Invoices & Receipts", link: "/" },
   ];
 
+  if (userInfo) {
+    DropdownLinks.push({ name: "Logout", link: "#" });
+  }
+
   return (
     <Box
       as="header"
@@ -246,6 +253,30 @@ const Header = () => {
             <Link href="/contact">Contact</Link>
           </Box>
 
+          {
+            userInfo ? (
+              <li>
+            <a
+              className="dropdown-link"
+              onClick={() => logoutHandler()}
+              style={{cursor: "pointer"}}
+              >
+              Log Out
+           </a>
+          </li>
+            ) : (
+              <li>
+                <a
+                className="dropdown-link"
+                onClick={() => push("/signin")}
+                style={{cursor: "pointer"}}
+                >
+                  Login
+                </a>
+              </li>
+            )
+          }
+
           {/* Search */}
           <Box as="li">
             <form onSubmit={handleSearchFormSubmit}>
@@ -267,6 +298,7 @@ const Header = () => {
 
         {/* Right section */}
         <Flex align="center">
+
           {/* Cart */}
           <Box display={{ base: "none", lg: "block" }}  _hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
           className="p-2 rounded " color="white" bg="green.700"   borderWidth="2px"
