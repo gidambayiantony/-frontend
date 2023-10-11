@@ -6,15 +6,24 @@ import {
   FormLabel,
   Input,
   Stack,
+  Select, // Added Select for capturing transport
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 
 const Partner = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
+    // Vendor Information
+    name: "",
+    address: "",
+    phoneNumber: "",
+    emailAddress: "",
+
+    // Delivery Information
     motorcycle: "",
     bicycle: "",
     van: "",
+    transport: "", // Added transport option
   });
 
   const handleSubmit = async (e) => {
@@ -50,6 +59,53 @@ const Partner = ({ onSubmit }) => {
     <Box p={4} borderWidth={1} borderRadius="lg">
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
+          {/* Vendor Information */}
+          <FormControl id="name">
+            <FormLabel>Vendor's Name*</FormLabel>
+            <Input
+              type="text"
+              name="name"
+              placeholder="Vendor's Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl id="address">
+            <FormLabel>Address*</FormLabel>
+            <Input
+              type="text"
+              name="address"
+              placeholder="Address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl id="phoneNumber">
+            <FormLabel>Phone Number*</FormLabel>
+            <Input
+              type="number"
+              name="phoneNumber"
+              placeholder="Phone Number"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl id="emailAddress">
+            <FormLabel>Email Address*</FormLabel>
+            <Input
+              type="email"
+              name="emailAddress"
+              placeholder="Email Address"
+              value={formData.emailAddress}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+
+          {/* Delivery Information */}
           <FormControl id="motorcycle">
             <FormLabel>Motorcycle Information</FormLabel>
             <Input
@@ -80,6 +136,20 @@ const Partner = ({ onSubmit }) => {
               onChange={handleChange}
             />
           </FormControl>
+          <FormControl id="transport">
+            <FormLabel>Transport*</FormLabel>
+            <Select
+              name="transport"
+              value={formData.transport}
+              onChange={handleChange}
+              required
+            >
+              <option value="bike">Bike</option>
+              <option value="vehicle">Vehicle</option>
+              <option value="motorcycle">Motorcycle</option>
+            </Select>
+          </FormControl>
+
           <Button type="submit" colorScheme="teal" className="bg-green-500">
             Submit
           </Button>
@@ -90,3 +160,4 @@ const Partner = ({ onSubmit }) => {
 };
 
 export default Partner;
+

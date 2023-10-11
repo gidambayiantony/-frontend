@@ -1,162 +1,71 @@
-"use client"
-import { Box, FormControl, FormLabel, Input, Button, Select } from '@chakra-ui/react';
-import { useState } from 'react';
-import { DB_URL } from '@config/config';
+"use client";
+import { Box, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 import axios from 'axios';
+import { DB_URL } from '@config/config';
 
-const VendorForm = ({ onSubmit }) => {
-  const [fullname, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState('');
-  const [businessName, setBusinessName] = useState('');
-  const [businessAddress, setBusinessAddress] = useState('');
-  const [businessHours, setBusinessHours] = useState('');
-  const [transport, setTransport] = useState("bike");
-  const [successMessage, setSucessMessage] = useState('');
+const VendorForm = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     try {
-      await axios.post(`${DB_URL}/partner/new`, {
-        fullname,
-        phone,
-        email,
-        location,
-        businessName,
-        businessAddress,
-        businessHours,
-        transport,
-      });
-      setName('');
-      setPhone('');
-      setBusinessName('');
-      setBusinessAddress('');
-      setBusinessHours('');
-      setLocation('');
-      setTransport('bike');
-      setSucessMessage('Form submitted successfully!');
-      setTimeout(() => {
-        setSucessMessage('');
-      }, 5000);
-    
-
+      // Use Axios to send data to the server
+      await axios.post(`${DB_URL}/partner/new`, data);
+      // You can handle success or any other logic here
     } catch (error) {
-      console.error('Error creating partner', error);
+      console.error('Error creating vendor', error);
+      // Handle the error as needed
     }
   };
 
   return (
     <Box className="mx-auto p-4 bg-black mb-20 mt-20">
-      <div className="flex flex-col lg:flex-row">
-        <div className="p-4 rounded-xl bg-white">
-          <p className="text-3xl text-left mb-4 text-dark">Fill out the form to start delivering</p>
-          <form onSubmit={handleSubmit}>
-            <FormControl className="mb-4">
-              <FormLabel>Name*</FormLabel>
-              <Input
-                className="border-b border-dark italic hover:border-red focus:border-red px-2 py-1"
-                value={fullname}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Name Lastname"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Phone number*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                placeholder="0712378472"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Location*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={location}
-                onChange={(event) => setLocation(event.target.value)}
-                placeholder="Please enter your location"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Email address*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="example@gmail.com"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business name*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessName}
-                onChange={(event) => setBusinessName(event.target.value)}
-                placeholder="Please enter your business name"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business address*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessAddress}
-                onChange={(event) => setBusinessAddress(event.target.value)}
-                placeholder="Please enter business address"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business hours*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessHours}
-                onChange={(event) => setBusinessHours(event.target.value)}
-                placeholder="Please enter business hours"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Transport*</FormLabel>
-              <Select
-                className="border border-dark rounded hover:border-red focus:border-red px-2 py-1 italic"
-                value={transport}
-                onChange={(event) => setTransport(event.target.value)}
-                required
-              >
-                <option value="bike">Bike</option>
-                <option value="vehicle">Vehicle</option>
-                <option value="motorcycle">Motorcycle</option>
-              </Select>
-            </FormControl>
-             <div className="text-center md:text-left">
-               <Button className="mt-4 bg-dark text-white rounded-full pl-10 pr-10 hover:bg-green mx-auto" type="submit">
-                 Sign up
-               </Button>
-             </div>
-             {successMessage && (
-              <div className="text-dark text-center mt-4">{successMessage}</div>
-            )}
-          </form>
-        </div>
-        <div className="p-4 w-full md:w-1/2 md:ml-5">
-          <div className="mt-10">
-            <h2 className="text-3xl text-white">Hello</h2>
-            <p className="text-white mt-5">
-              Do you want to set your own schedule and connect when it suits you? Get paid for delivering orders with the yookatale Courier App.
-            </p>
-            <h4 className="text-white font-bold mt-5">Sign up today!</h4>
-          </div>
-        </div>
-      </div>
+      <p className="text-3xl text-left mb-4 text-dark">Vendor's Information</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl className="mb-4">
+          <FormLabel>Name*</FormLabel>
+          <Input
+            {...register("name", { required: true })}
+            type="text"
+            placeholder="Vendor's Name"
+          />
+          {errors.name && <span className="text-red-500">Name is required</span>}
+        </FormControl>
+        <FormControl className="mb-4">
+          <FormLabel>Address</FormLabel>
+          <Input
+            {...register("address")}
+            type="text"
+            placeholder="Vendor's Address"
+          />
+        </FormControl>
+        <FormControl className="mb-4">
+          <FormLabel>Phone Number</FormLabel>
+          <Input
+            {...register("phoneNumber")}
+            type="text"
+            placeholder="Vendor's Phone Number"
+          />
+        </FormControl>
+        <FormControl className="mb-4">
+          <FormLabel>Email Address</FormLabel>
+          <Input
+            {...register("emailAddress")}
+            type="email"
+            placeholder="Vendor's Email Address"
+          />
+        </FormControl>
+        <Button
+          type="submit"
+          colorScheme="teal"
+          className="bg-green-500 mt-4"
+        >
+          Submit
+        </Button>
+      </form>
     </Box>
   );
 };
 
 export default VendorForm;
+
