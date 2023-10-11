@@ -252,31 +252,6 @@ const Header = () => {
           <Box as="li">
             <Link href="/contact">Contact</Link>
           </Box>
-
-          {
-            userInfo ? (
-              <li>
-            <a
-              className="dropdown-link"
-              onClick={() => logoutHandler()}
-              style={{cursor: "pointer"}}
-              >
-              Logout
-           </a>
-          </li>
-            ) : (
-              <li>
-                <a
-                className="dropdown-link"
-                onClick={() => push("/signin")}
-                style={{cursor: "pointer"}}
-                >
-                  Login
-                </a>
-              </li>
-            )
-          }
-
           {/* Search */}
           <Box as="li">
             <form onSubmit={handleSearchFormSubmit}>
@@ -300,7 +275,7 @@ const Header = () => {
         <Flex align="center">
 
           {/* Cart */}
-          <Box display={{ base: "none", lg: "block" }}  _hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
+          {/* <Box display={{ base: "none", lg: "block" }}  _hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
           className="p-2 rounded " color="white" bg="green.700"   borderWidth="2px"
           >
           <Link href="/cart">
@@ -308,14 +283,14 @@ const Header = () => {
             <AiOutlineShoppingCart size="24px" />
             </p>
           </Link>
-          </Box>
-          {/* <Box display={{ base: "none", lg: "block" }}>
+          </Box> */}
+          <Box display={{ base: "none", lg: "block" }}>
             <ButtonComponent
               variant="icon"
               icon={<AiOutlineShoppingCart size="24px" />}
               onClick={() => push("/cart")}
             />
-          </Box> */}
+          </Box>
 
           {/* User dropdown */}
           {userInfo ? (
@@ -367,18 +342,26 @@ const Header = () => {
               <ButtonComponent
                 variant="icon"
                 icon={<FaSignInAlt size="20px" />}
-                onClick={() => push("/login")}
+                onClick={() => push("/signin")}
               />
             </Box>
           )}
 
           {/* Cart mobile */}
-          <Box display={{ base: "block", lg: "none" }} hover={{ bg: "white", borderColor: "green.500", color:"green.500"}}
-          className="p-2 rounded " color="white" bg="green.700"   borderWidth="2px">
-          <Link href="/cart">
-             <AiOutlineShoppingCart size="24px" />
-          </Link>
+          <Box display={{ base: "block", lg: "none" }}>
+          <ButtonComponent
+              variant="icon"
+              icon={<AiOutlineShoppingCart size="24px" />}
+              onClick={() => push("/cart")}
+            />
           </Box>
+          <Box ml={4} display={{ base: "block", lg: "sm" }}>
+              <ButtonComponent
+                variant="icon"
+                icon={<FaSignInAlt size="20px" />}
+                onClick={() => push("/signin")}
+              />
+            </Box>
         </Flex>
       </Flex>
     </Box>
