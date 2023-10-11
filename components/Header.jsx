@@ -261,7 +261,7 @@ const Header = () => {
               onClick={() => logoutHandler()}
               style={{cursor: "pointer"}}
               >
-              Log Out
+              Logout
            </a>
           </li>
             ) : (
