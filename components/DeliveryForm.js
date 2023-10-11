@@ -1,3 +1,4 @@
+"use client";
 import { Box, FormControl, FormLabel, Input, Button, Select } from '@chakra-ui/react';
 import { useState } from 'react';
 import { DB_URL } from '@config/config';

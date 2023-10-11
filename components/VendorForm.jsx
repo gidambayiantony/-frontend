@@ -1,3 +1,4 @@
+"use client";
 import { Box, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -8,8 +9,13 @@ const VendorForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    dispatch(createVendor(data));
-    // You can redirect or display a success message here
+    try {
+      await dispatch(createVendor(data));
+      // You can redirect or display a success message here
+    } catch (error) {
+      console.error('Error creating vendor', error);
+      // Handle the error as needed
+    }
   };
 
   return (
@@ -25,7 +31,30 @@ const VendorForm = () => {
           />
           {errors.name && <span className="text-red-500">Name is required</span>}
         </FormControl>
-        {/* Add similar fields for Address, Phone Number, Email Address */}
+        <FormControl className="mb-4">
+          <FormLabel>Address</FormLabel>
+          <Input
+            {...register("address")}
+            type="text"
+            placeholder="Vendor's Address"
+          />
+        </FormControl>
+        <FormControl className="mb-4">
+          <FormLabel>Phone Number</FormLabel>
+          <Input
+            {...register("phoneNumber")}
+            type="text"
+            placeholder="Vendor's Phone Number"
+          />
+        </FormControl>
+        <FormControl className="mb-4">
+          <FormLabel>Email Address</FormLabel>
+          <Input
+            {...register("emailAddress")}
+            type="email"
+            placeholder="Vendor's Email Address"
+          />
+        </FormControl>
         <Button
           type="submit"
           colorScheme="teal"
