@@ -252,6 +252,16 @@ const Header = () => {
           <Box as="li">
             <Link href="/contact">Contact</Link>
           </Box>
+          {
+            userInfo && (
+              <a
+                style={{cursor: "pointer"}}
+                onClick={() => logoutHandler()}
+                >
+                Logout
+              </a>
+            )
+          }
           {/* Search */}
           <Box as="li">
             <form onSubmit={handleSearchFormSubmit}>
@@ -300,7 +310,6 @@ const Header = () => {
                 icon={<FaUser size="20px" />}
                 onClick={() => setDropdownMenu(!dropdownMenu)}
               />
-
               {dropdownMenu && (
                 <Box
                   bg="white"
@@ -325,9 +334,8 @@ const Header = () => {
                       </li>
                     ))}
 
-                    <li>
+                    <li className="border">
                       <a
-                        className="dropdown-link"
                         onClick={() => logoutHandler()}
                       >
                         Log Out
@@ -361,7 +369,7 @@ const Header = () => {
                 icon={<FaSignInAlt size="20px" />}
                 onClick={() => push("/signin")}
               />
-            </Box>
+          </Box>
         </Flex>
       </Flex>
     </Box>

@@ -282,7 +282,7 @@ const Home = () => {
                 <Link href={"/subscription"}>
                   <DynamicButton
                     type={"button"}
-                    text={"Go Premium"}
+                    text={"Subscribe Now "}
                     size={"lg"}
                   />
                 </Link>
