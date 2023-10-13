@@ -1,6 +1,6 @@
 import { Box, List, ListItem, Link } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
-import Categories from './Categories'; // Import the Categories component
+import Categories from './Categories';
 
 function Homepage() {
   const { data: categories } = useQuery('homepageCategories', fetchHomepageCategories);
