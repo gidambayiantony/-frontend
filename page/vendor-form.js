@@ -1,5 +1,3 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { ThemeProvider } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -15,16 +13,12 @@ const VendorForm = () => {
   };
 
   return (
-    <ChakraProvider>
-      <ThemeProvider>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input type="text" name="name" placeholder="Vendor name" {...register("name")} />
           <input type="email" name="email" placeholder="Vendor email address" {...register("email")} />
           <input type="tel" name="phone" placeholder="Vendor phone number" {...register("phone")} />
           <input type="submit" value="Submit" />
         </form>
-      </ThemeProvider>
-    </ChakraProvider>
   );
 };
 
