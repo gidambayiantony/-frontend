@@ -96,6 +96,7 @@ const Payment = ({ params }) => {
       }
     } else {
       // Handle other payment methods here
+      setPaymentDisplay((prev) => true);
     }    
   };  
   
