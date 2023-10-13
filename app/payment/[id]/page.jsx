@@ -54,21 +54,52 @@ const Payment = ({ params }) => {
   // function to display payment component
   const handlePayment = async () => {
     setIsLoading((prev) => (prev ? false : true));
-
-    if (paymentMethod == "") {
-      setIsLoading((prev) => (prev ? false : true));
-
-      return chakraToast({
-        description: "Please choose a payment option",
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-    }
-
-    setPaymentDisplay((prev) => true);
-  };
-
+  
+    if (paymentMethod === "cash_on_delivery") {
+      try {
+        // Make sure you have server-side logic to support "Cash on Delivery"
+        // Update the order status to "Cash on Delivery"
+        const res = await updateOrder({
+          data: {
+            payment: { paymentMethod: paymentMethod },
+            order: params.id,
+            schema: "schedule",
+            user: userInfo,
+          },
+        }).unwrap();
+    
+        setIsLoading((prev) => (prev ? false : true));
+    
+        if (res?.status === "Success") {
+          chakraToast({
+            description: "Order successfully placed for Cash on Delivery.",
+            status: "success",
+            duration: 5000,
+            isClosable: false,
+          });
+    
+          router.push("/");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        setIsLoading((prev) => (prev ? false : true));
+    
+        chakraToast({
+          title: "Error",
+          description: err.data?.message
+            ? err.data?.message
+            : err.data || err.error,
+          status: "error",
+          duration: 5000,
+          isClosable: false,
+        });
+      }
+    } else {
+      // Handle other payment methods here
+      setPaymentDisplay((prev) => true);
+    }    
+  };  
+  
   // callback function that will be called when payment is successfully or failed and will update database
   const handleCallback = async (param) => {
     setPaymentDisplay((prev) => false);
@@ -245,11 +276,12 @@ const Payment = ({ params }) => {
                     <option value="">Select payment method</option>
                     <option value="mobileMoney">Mobile Money</option>
                     <option value="card">Debit/Credit Card</option>
-                    {Order?.paymentFor !== "subscription" ? (
+                    <option value="cash_on_delivery">Cash on Delivery</option>
+                    {/* {Order?.paymentFor !== "subscription" ? (
                       <option value="cash">Cash on delivery</option>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </select>
                 </div>
               </div>

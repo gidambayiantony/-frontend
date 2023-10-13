@@ -81,7 +81,9 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
         <div className="py-4">
           <h3 className="text-lg text-center">Checkout summary</h3>
         </div>
-
+         <div>
+            Customer Name: {userInfo.firstname} {userInfo.lastname}
+         </div>
         <div className="py-4 max-h-[300px] overflow-y-auto">
           <h3 className="text-lg">Products</h3>
 
