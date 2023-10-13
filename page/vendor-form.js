@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { ThemeProvider } from "next-themes";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const VendorForm = () => {

@@ -1,4 +1,5 @@
-import VendorForm from '@components/VendorForm';
+"use client"
+import VendorForm from "@page/vendor-form";
 
 const PartnerPage = () => {
   return (
