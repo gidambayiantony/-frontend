@@ -55,18 +55,7 @@ const Payment = ({ params }) => {
   const handlePayment = async () => {
     setIsLoading((prev) => (prev ? false : true));
   
-    if (paymentMethod === "") {
-      setIsLoading((prev) => (prev ? false : true));
-  
-      return chakraToast({
-        description: "Please choose a payment option",
-        status: "error",
-        duration: 5000,
-        isClosable: false,
-      });
-    }
-      
-    if (paymentMethod === "cash") {
+    if (paymentMethod === "cash_on_delivery") {
       try {
         // Make sure you have server-side logic to support "Cash on Delivery"
         // Update the order status to "Cash on Delivery"
@@ -78,9 +67,9 @@ const Payment = ({ params }) => {
             user: userInfo,
           },
         }).unwrap();
-  
+    
         setIsLoading((prev) => (prev ? false : true));
-  
+    
         if (res?.status === "Success") {
           chakraToast({
             description: "Order successfully placed for Cash on Delivery.",
@@ -88,13 +77,13 @@ const Payment = ({ params }) => {
             duration: 5000,
             isClosable: false,
           });
-  
+    
           router.push("/");
         }
       } catch (err) {
         console.error("Error:", err);
         setIsLoading((prev) => (prev ? false : true));
-  
+    
         chakraToast({
           title: "Error",
           description: err.data?.message
@@ -106,9 +95,8 @@ const Payment = ({ params }) => {
         });
       }
     } else {
-      // For other payment methods, display the payment component
-      setPaymentDisplay((prev) => true);
-    }
+      // Handle other payment methods here
+    }    
   };  
   
   // callback function that will be called when payment is successfully or failed and will update database
@@ -287,7 +275,7 @@ const Payment = ({ params }) => {
                     <option value="">Select payment method</option>
                     <option value="mobileMoney">Mobile Money</option>
                     <option value="card">Debit/Credit Card</option>
-                    <option value="cash">Cash on delivery</option>
+                    <option value="cash_on_delivery">Cash on Delivery</option>
                     {/* {Order?.paymentFor !== "subscription" ? (
                       <option value="cash">Cash on delivery</option>
                     ) : (
