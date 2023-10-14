@@ -137,51 +137,40 @@ const Cart = () => {
     }
   };
 
-  // function to handle increasing and reducing product quantity
   const IncreaseProductQuantity = (id) => {
-    // find the index of the product in the cart array
     const currentProductIndex = Cart.findIndex((cart) => cart.cartId === id);
-
-    // Increase product quantity
-    let updatedProduct = {
+  
+    const updatedProduct = {
       ...Cart[currentProductIndex],
       quantity: Cart[currentProductIndex].quantity + 1,
     };
-
-    // update the CartProduct array
-    setCart([
-      ...Cart.slice(0, currentProductIndex),
-      updatedProduct,
-      ...Cart.slice(currentProductIndex + 1),
-    ]);
-
-    calcCartTotal();
+  
+    const updatedCart = [...Cart];
+    updatedCart[currentProductIndex] = updatedProduct;
+  
+    setCart(updatedCart);
+  
+    calcCartTotal(updatedCart);
   };
-
+  
   const ReduceProductQuantity = (id) => {
-    // check if the current product quantity is 1. If true don't reduce else reduce
-    // find the index of the product in the cart array
     const currentProductIndex = Cart.findIndex((cart) => cart.cartId === id);
-
-    // Reduce product quantity
-    let updatedProduct = {
-      ...Cart[currentProductIndex],
-      quantity:
-        Cart[currentProductIndex].quantity === 1
-          ? Cart[currentProductIndex].quantity
-          : Cart[currentProductIndex].quantity - 1,
-    };
-
-    // update the CartProduct array
-    setCart([
-      ...Cart.slice(0, currentProductIndex),
-      updatedProduct,
-      ...Cart.slice(currentProductIndex + 1),
-    ]);
-
-    calcCartTotal();
+  
+    if (Cart[currentProductIndex].quantity > 1) {
+      const updatedProduct = {
+        ...Cart[currentProductIndex],
+        quantity: Cart[currentProductIndex].quantity - 1,
+      };
+  
+      const updatedCart = [...Cart];
+      updatedCart[currentProductIndex] = updatedProduct;
+  
+      setCart(updatedCart);
+  
+      calcCartTotal(updatedCart);
+    }
   };
-
+  
   useEffect(() => {
     handleDataFetch();
     calcCartTotal();
