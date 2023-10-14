@@ -334,13 +334,6 @@ const Header = () => {
                       </li>
                     ))}
 
-                    <li className="border">
-                      <a
-                        onClick={() => logoutHandler()}
-                      >
-                        Log Out
-                      </a>
-                    </li>
                   </ul>
                 </Box>
               )}
