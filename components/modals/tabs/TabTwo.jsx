@@ -15,7 +15,7 @@ import { useCartCheckoutMutation } from "@slices/productsApiSlice";
 import { FormatCurr } from "@utils/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
@@ -26,6 +26,7 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
   const router = useRouter();
   const chakraToast = useToast();
   const { userInfo } = useSelector((state) => state.auth);
+  const [currentDateTime, setCurrentDateTime] = useState("");
 
   // function to calculate the cart total
   const calcCartTotal = () => {
@@ -36,8 +37,16 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
     setCartTotal((prevState) => newCartTotal);
   };
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toDateString();
+    const time = now.toLocaleTimeString();
+    return `${date}, ${time}`;
+  }
+
   useEffect(() => {
     calcCartTotal();
+    setCurrentDateTime(getCurrentDateTime());
   }, []);
 
   const handleSubmit = async () => {
@@ -46,12 +55,14 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
     try {
       const res = await createCartCheckout({
         user: userInfo,
+        customerName: `${userInfo.firstname} ${userInfo.lastname}`,
         Carts: Cart,
         order: {
           orderTotal: CartTotal + 1000,
           deliveryAddress: tabOneData.deliveryAddress,
           specialRequests: tabOneData.specialRequests,
           payment: { paymentMethod: "", transactionId: "" },
+          orderDate: currentDateTime,
         },
       });
 
@@ -78,15 +89,18 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
   return (
     <>
       <div>
+        <h2>Yookatale</h2>
         <div className="py-4">
           <h3 className="text-lg text-center">Checkout summary</h3>
         </div>
          <div>
             Customer Name: {userInfo.firstname} {userInfo.lastname}
          </div>
+         <div>
+          Date and Time: {currentDateTime}
+         </div>
         <div className="py-4 max-h-[300px] overflow-y-auto">
           <h3 className="text-lg">Products</h3>
-
           {Cart.length > 0
             ? Cart.map((cart, index) => (
                 <div
@@ -193,7 +207,7 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
               className="secondary-light-font"
               margin={"0 0.3rem"}
             >
-              UGX 1000
+              UGX 3500
             </Text>
           </Heading>
         </Box>
@@ -205,7 +219,7 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
             Cart SubTotal: UGX {FormatCurr(CartTotal)}
           </Text>
           <Heading as={"h3"} size={"md"}>
-            Cart Total: UGX {FormatCurr(CartTotal + 1000)}
+            Cart Total: UGX {FormatCurr(CartTotal + 3500)}
           </Heading>
         </Box>
         <Box padding={"1rem 0"}>
