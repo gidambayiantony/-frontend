@@ -110,6 +110,7 @@ const ProductCard = ({ product, userInfo }) => {
                 position="absolute"
                 size="sm"
                 zIndex="1"
+                paddingX={"0.5rem"}
                 style={{
                   width: "2rem",
                   height: "2rem",
@@ -118,14 +119,21 @@ const ProductCard = ({ product, userInfo }) => {
                   justifyContent: "center",
                 }}
               >
-                {product.discountPercentage}
+                {product?.type == "bulk" && product?.type}
+                {product.discountPercentage !== 0 ||
+                  (product.discountPercentage !== "0" &&
+                    product.discountPercentage)}
               </Badge>
             )}
 
             <div className="flex justify-center items-center h-full relative">
               {/* Display the discount information as a badge */}
               <Image
-                src={`${product.images[0]}` || `/${product.images[0]}`}
+                src={
+                  process.env.NODE_ENV == "development"
+                    ? `/images/img1.png`
+                    : product.images[0]
+                }
                 className="w-auto object-contain h-full"
                 fill
                 alt={product.images}
@@ -146,6 +154,12 @@ const ProductCard = ({ product, userInfo }) => {
             {product.category == "grains and flour" && (
               <p className="secondary-light-font text-center text-base">
                 per {product.unit}
+              </p>
+            )}
+
+            {product?.type == "bulk" && (
+              <p className="secondary-light-font text-center text-base">
+                {product?.description}
               </p>
             )}
           </div>

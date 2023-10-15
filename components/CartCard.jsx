@@ -32,7 +32,10 @@ const CartCard = ({
 
               <div className="">
                 <h3 className="text-base font-bold text-[#7c7c7c]">
-                  {cart?.category}
+                  {cart?.category} -{" "}
+                  <span className="text-black">
+                    {cart?.type == "bulk" && cart?.type}
+                  </span>
                 </h3>
               </div>
             </div>

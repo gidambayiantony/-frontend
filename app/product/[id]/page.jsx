@@ -92,11 +92,11 @@ const Product = ({ params }) => {
   // Function to start editing the price
   const handleEditPrice = () => {
     setIsEditingPrice(true);
-  }
+  };
 
   const handleSavePrice = () => {
     setIsEditingPrice(false);
-  }
+  };
 
   // fetch product categories
   useEffect(() => {
@@ -198,8 +198,6 @@ const Product = ({ params }) => {
     }
   };
 
-  console.log({ SimilarProducts });
-
   return (
     <>
       <Box>
@@ -279,6 +277,16 @@ const Product = ({ params }) => {
                 padding={{ base: "2rem 0", md: "2rem 0", xl: "2rem" }}
               >
                 <Box padding={"1rem 0"}>
+                  {ProductData?.type == "bulk" && (
+                    <Heading
+                      as={"h2"}
+                      size={"md"}
+                      color={ThemeColors.secondaryColor}
+                    >
+                      {ProductData?.type ? ProductData?.type : "__"}
+                    </Heading>
+                  )}
+
                   <Heading as={"h2"} size={"2xl"}>
                     {ProductData?.name ? ProductData?.name : "__"}
                   </Heading>
@@ -290,19 +298,21 @@ const Product = ({ params }) => {
                   >
                     UGX{" "}
                     {isEditingPrice ? (
-                      <input 
+                      <input
                         type="number"
                         value={editablePrice}
                         onChange={(e) => setEditedPrice(e.target.value)}
                         className="border"
-                       />
+                      />
                     ) : (
                       FormatCurr(ProductData?.price ? ProductData?.price : 0)
                     )}
-                    <span className="mx-2 text-lg font-bold text-[#000]">
-                      Per {ProductData?.unit}
-                    </span>
-                    {
+                    {ProductData?.type !== "bulk" && (
+                      <span className="mx-2 text-lg font-bold text-[#000]">
+                        Per {ProductData?.unit}
+                      </span>
+                    )}
+                    {/* {
                       isEditingPrice ? (
                         <>
                         <button onClick={handleSavePrice}>Save</button>
@@ -311,7 +321,7 @@ const Product = ({ params }) => {
                       ) : (
                         <button onClick={handleEditPrice}>Edit</button>
                       )
-                    }
+                    } */}
                   </Text>
 
                   <Text

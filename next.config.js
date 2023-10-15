@@ -13,6 +13,12 @@ const nextConfig = {
         hostname: "yookatale.s3.eu-north-1.amazonaws.com",
         port: "",
       },
+      {
+        protocol: "http",
+        // hostname: "bwanamatayo.s3.ap-south-1.amazonaws.com",
+        hostname: "localhost",
+        port: "",
+      },
     ],
   },
 };
