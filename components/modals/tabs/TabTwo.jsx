@@ -55,11 +55,9 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
         },
       });
 
-      console.log(res.data);
-
       setIsLoading((prevState) => (prevState ? false : true));
 
-        router.push(`/payment/${res.data.data.Order}`);
+      router.push(`/payment/${res.data.data.Order}`);
     } catch (err) {
       console.log({ err });
       setIsLoading((prevState) => (prevState ? false : true));
@@ -74,16 +72,16 @@ const TabTwo = ({ Cart, updateTabIndex, tabOneData }) => {
       });
     }
   };
-  
+
   return (
     <>
       <div>
         <div className="py-4">
           <h3 className="text-lg text-center">Checkout summary</h3>
         </div>
-         <div>
-            Customer Name: {userInfo.firstname} {userInfo.lastname}
-         </div>
+        <div>
+          Customer Name: {userInfo.firstname} {userInfo.lastname}
+        </div>
         <div className="py-4 max-h-[300px] overflow-y-auto">
           <h3 className="text-lg">Products</h3>
 
