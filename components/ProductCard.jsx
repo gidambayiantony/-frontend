@@ -137,6 +137,7 @@ const ProductCard = ({ product, userInfo }) => {
                 className="w-auto object-contain h-full"
                 fill
                 alt={product.images}
+                unoptimized={true}
               />
             </div>
           </Link>
