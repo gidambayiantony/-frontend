@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
+import VendorForm from "@components/DeliveryForm";
 
 const Partner = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -18,12 +19,7 @@ const Partner = ({ onSubmit }) => {
     address: "",
     phoneNumber: "",
     emailAddress: "",
-
-    // Delivery Information
-    motorcycle: "",
-    bicycle: "",
-    van: "",
-    transport: "", // Added transport option
+    transport: "",
   });
 
   const handleSubmit = async (e) => {
@@ -57,6 +53,7 @@ const Partner = ({ onSubmit }) => {
 
   return (
     <Box p={4} borderWidth={1} borderRadius="lg">
+      <VendorForm />
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
           {/* Vendor Information */}
