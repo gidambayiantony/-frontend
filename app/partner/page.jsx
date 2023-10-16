@@ -13,6 +13,7 @@ import axios from "axios";
 import VendorForm from "@components/DeliveryForm";
 import ButtonComponent from "@components/Button";
 import { DB_URL } from "@config/config";
+import { Loader2 } from "lucide-react";
 
 const Partner = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -55,7 +56,6 @@ const Partner = ({ onSubmit }) => {
       <form onSubmit={handleSubmit}>
        <p className="text-3xl text-left mb-4 text-dark">Fill out the vendor form</p>
        <Stack spacing={4}>
-            {/* Vendor Information */}
             <FormControl id="name">
               <FormLabel>Vendor's Name*</FormLabel>
               <Input
