@@ -24,8 +24,8 @@ import {
   FaLinkedin,
   FaPhone,
   FaTwitter,
-  FaGooglePlay, 
-  FaAppStore,  
+  FaGooglePlay, // New Google Play icon
+  FaAppStore,  // New App Store icon
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ButtonComponent from "./Button";
@@ -499,8 +499,9 @@ const Footer = () => {
                   }}
                 >
                    <p className="text-md">Usage Policy</p>
-                  <Box as="footer" textAlign="center" padding="4rem">
+                  <Box as="footer" display="flex" justifyContent="center" padding="4rem">
                     <Text>Copyright © 2023 YooKatale</Text>
+                    <Box as="flex" justifyContent="center" margin="0 auto"></Box>
                     <Link href="https://play.google.com/store/apps/details?id=com.yookatale">
                       <FaGooglePlay size={32} color="green" />
                     </Link>
@@ -519,3 +520,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
