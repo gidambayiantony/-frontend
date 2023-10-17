@@ -120,9 +120,8 @@ const ProductCard = ({ product, userInfo }) => {
                 }}
               >
                 {product?.type == "bulk" && product?.type}
-                {product.discountPercentage !== 0 ||
-                  (product.discountPercentage !== "0" &&
-                    product.discountPercentage)}
+                {product.discountPercentage != "0" &&
+                  product.discountPercentage}
               </Badge>
             )}
 
