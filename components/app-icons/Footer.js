@@ -1,11 +1,10 @@
 import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { FaGooglePlay, FaAppStore } from "react-icons/fa"; // Import icons from a popular icon library
+import { FaGooglePlay, FaAppStore } from "react-icons/fa";
 
-function Footer() {
+function FooterIcon() {
   return (
-    <Box as="footer" textAlign="center" padding="4rem">
-      <Text>Copyright © 2023 YooKatale</Text>
+    <Box as="footer" textAlign="center" padding="4rem" className="border">
       <Link href="https://play.google.com/store/apps/details?id=com.yookatale">
         <FaGooglePlay size={32} color="green" />
       </Link>
@@ -16,4 +15,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default FooterIcon;

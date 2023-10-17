@@ -48,6 +48,7 @@ import axios from "axios";
 import { Loader } from "lucide-react";
 import NewsletterForm from "./NewsletterForm";
 import { FaWhatsapp } from "react-icons/fa";
+import FooterIcon from "./app-icons/Footer";
 
 const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -444,6 +445,15 @@ const Footer = () => {
             </Flex>
           </Box>
           <Spacer display={{ base: "none", md: "none", xl: "block" }} />
+          <div class="mx-auto md:w-20 flex text-center mt-5">
+             <Link href="/subscription" class="mr-1">
+              <FaGooglePlay size={25} color="green" />
+             </Link>
+             <Link href="/subscription">
+               <FaAppStore size={25} color="blue" />
+             </Link>
+             </div>
+          <Spacer display={{ base: "none", md: "none", xl: "block" }} />
           <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>
             <Flex justifyContent={{ base: "center", md: "center", xl: "none" }}>
               <Link href={"/news"}>
@@ -499,16 +509,6 @@ const Footer = () => {
                   }}
                 >
                    <p className="text-md">Usage Policy</p>
-                  <Box as="footer" display="flex" justifyContent="center" padding="4rem">
-                    <Text>Copyright © 2023 YooKatale</Text>
-                    <Box as="flex" justifyContent="center" margin="0 auto"></Box>
-                    <Link href="https://play.google.com/store/apps/details?id=com.yookatale">
-                      <FaGooglePlay size={32} color="green" />
-                    </Link>
-                    <Link href="https://apps.apple.com/app/yookatale/id1234567890">
-                      <FaAppStore size={32} color="blue" />
-                    </Link>
-                  </Box>
                 </Box>
               </Link>
             </Flex>
