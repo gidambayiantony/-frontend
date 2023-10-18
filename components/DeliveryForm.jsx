@@ -5,6 +5,10 @@ import { DB_URL } from '@config/config';
 import axios from 'axios';
 import ButtonComponent from './Button';
 import { Loader2 } from 'lucide-react';
+import Link from "next/link";
+import { ThemeColors } from "@constants/constants";
+import { Loader } from "lucide-react";
+import { useToast } from "@chakra-ui/react";
 
 const VendorForm = ({ onSubmit }) => {
   const [fullname, setName] = useState('');
@@ -15,38 +19,67 @@ const VendorForm = ({ onSubmit }) => {
   const [businessAddress, setBusinessAddress] = useState('');
   const [businessHours, setBusinessHours] = useState('');
   const [transport, setTransport] = useState("bike");
-  const [successMessage, setSucessMessage] = useState('');
+  const [vegan, setVegan] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  const chakraToast = useToast();
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      await axios.post(`${DB_URL}/partner/new`, {
-        fullname,
-        phone,
-        email,
-        location,
-        businessName,
-        businessAddress,
-        businessHours,
-        transport,
-      });
-      setName('');
-      setPhone('');
-      setBusinessName('');
-      setBusinessAddress('');
-      setBusinessHours('');
-      setLocation('');
-      setTransport('bike');
-      setSucessMessage('Form submitted successfully!');
-      setTimeout(() => {
-        setSucessMessage('');
-      }, 5000);
-    
 
+    // Set loading to be true
+    setLoading(true);
+
+    try {
+      if (!event.target.terms.checked) {
+        chakraToast({
+          title: "Notice",
+          description: "Please agree to the terms and conditions to proceed",
+          status: "error",
+          duration: 5000,
+          isClosable: false,
+        });
+      } else {
+        await axios.post(`${DB_URL}/partner/new`, {
+          fullname,
+          phone,
+          email,
+          location,
+          businessName,
+          businessAddress,
+          businessHours,
+          transport,
+          vegan
+        });
+        chakraToast({
+          title: "Delivery form",
+          description: "Successfully Submitted delivery form",
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+
+        setName('');
+        setPhone('');
+        setBusinessName('');
+        setBusinessAddress('');
+        setBusinessHours('');
+        setLocation('');
+        setTransport('bike');
+      }
     } catch (error) {
-      console.error('Error creating partner', error);
+      chakraToast({
+        title: "Error",
+        description: error.data?.message
+          ? error.data?.message
+          : error.data || error.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -139,17 +172,37 @@ const VendorForm = ({ onSubmit }) => {
                 <option value="motorcycle">Motorcycle</option>
               </Select>
             </FormControl>
-             <div className="text-center md:text-left">
+             <Box padding={"0.5rem 0"}>
+                  <div className="flex">
+                    <input
+                      type="checkbox"
+                      name="vegan"
+                      checked={vegan}
+                      onChange={(e) => setVegan(e.target.value)}
+                      className="mr-4"
+                    />
+                    <p className="">Are you vegetarian ?</p>
+                  </div>
+                </Box>
+
+                <Box padding={"0.5rem 0"}>
+                  <input type="checkbox" name="terms" className="mr-4" />I agree
+                  to the{" "}
+                  <Link href={"/privacy"}>
+                    <span style={{ color: ThemeColors.darkColor }}>
+                      terms and conditions
+                    </span>
+                  </Link>
+                </Box>
+
+                <Box padding={"0.5rem 0"}>
                   <ButtonComponent
+                    type={"submit"}
                     text={"Sign Up"}
-                    size={"lg"}
-                    type={"button"}
-                    icon={isLoading && <Loader2 size={20} />}
+                    icon={isLoading && <Loader />}
+                    size={"regular"}
                   />
-             </div>
-             {successMessage && (
-              <div className="text-dark text-center mt-4">{successMessage}</div>
-            )}
+                </Box>
           </form>
         </div>
         <div className="p-4 w-full md:w-1/2 md:ml-5">
