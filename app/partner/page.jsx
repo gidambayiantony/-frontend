@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   Input,
@@ -26,6 +25,7 @@ const Partner = ({ onSubmit }) => {
     email: "",
     transport: "bike",
     vegan: false,
+    terms: false, // Added a 'terms' field to track the checkbox state
   });
   const [isLoading, setLoading] = useState(false);
   const chakraToast = useToast();
@@ -34,7 +34,8 @@ const Partner = ({ onSubmit }) => {
     e.preventDefault();
 
     try {
-      setLoading((prevState) => (prevState ? false : true));
+      setLoading(true);
+
       if (!formData.terms) {
         chakraToast({
           title: "Notice",
@@ -49,14 +50,25 @@ const Partner = ({ onSubmit }) => {
 
       await axios.post(`${DB_URL}/vendor/new`, formData);
       chakraToast({
-        title: "Driver form",
-        description: "Successfully Submitted driver form ",
+        title: "Vendor form",
+        description: "Successfully Submitted vendor form",
         status: "success",
         duration: 5000,
         isClosable: false,
       });
+
+      // Clear the form data after successful submission
+      setFormData({
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
+        transport: "bike",
+        vegan: false,
+        terms: false,
+      });
     } catch (error) {
-      setLoading((prevState) => (prevState ? false : true));
+      setLoading(false);
 
       chakraToast({
         title: "Error",
@@ -67,8 +79,6 @@ const Partner = ({ onSubmit }) => {
         duration: 5000,
         isClosable: false,
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -171,12 +181,18 @@ const Partner = ({ onSubmit }) => {
                   onChange={handleChange}
                   className="mr-4"
                 />
-                <p className="">Are you vegetarian ?</p>
+                <p className="">Are you vegetarian?</p>
               </div>
             </Box>
 
             <Box padding={"0.5rem 0"}>
-              <input type="checkbox" name="terms" className="mr-4" />
+              <input
+                type="checkbox"
+                name="terms"
+                checked={formData.terms}
+                onChange={handleChange}
+                className="mr-4"
+              />
               I agree to the{" "}
               <Link href={"/privacy"}>
                 <span style={{ color: ThemeColors.darkColor }}>
