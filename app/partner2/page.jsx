@@ -12,10 +12,10 @@ import {
 import axios from "axios";
 import { Loader } from "lucide-react";
 import { useToast } from "@chakra-ui/react";
+import VendorForm from "@components/DeliveryForm";
 import ButtonComponent from "@components/Button";
 import { DB_URL } from "@config/config";
 import { ThemeColors } from "@constants/constants";
-import VendorForm from "@components/DeliveryForm";
 
 const Partner = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const Partner = ({ onSubmit }) => {
     email: "",
     transport: "bike",
     vegan: false,
-    terms: false,
+    terms: false, // Added a 'terms' field to track the checkbox state
   });
   const [isLoading, setLoading] = useState(false);
   const chakraToast = useToast();
@@ -94,7 +94,7 @@ const Partner = ({ onSubmit }) => {
 
   return (
     <div className="mb-10">
-      <VendorForm />
+      {/* <VendorForm /> */}
       <Box
         p={4}
         borderWidth={1}
