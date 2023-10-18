@@ -1,169 +1,221 @@
 "use client"
-import { Box, FormControl, FormLabel, Input, Button, Select } from '@chakra-ui/react';
-import { useState } from 'react';
-import { DB_URL } from '@config/config';
-import axios from 'axios';
-import ButtonComponent from './Button';
-import { Loader2 } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Select,
+  Link,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { Loader } from "lucide-react";
+import { useToast } from "@chakra-ui/react";
+import VendorForm from "@components/DeliveryForm";
+import ButtonComponent from "@components/Button";
+import { DB_URL } from "@config/config";
+import { ThemeColors } from "@constants/constants";
 
-const VendorForm = ({ onSubmit }) => {
-  const [fullname, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState('');
-  const [businessName, setBusinessName] = useState('');
-  const [businessAddress, setBusinessAddress] = useState('');
-  const [businessHours, setBusinessHours] = useState('');
-  const [transport, setTransport] = useState("bike");
-  const [successMessage, setSucessMessage] = useState('');
+const Partner = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    email: "",
+    transport: "bike",
+    vegan: false,
+    terms: false,
+  });
   const [isLoading, setLoading] = useState(false);
+  const chakraToast = useToast();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
     try {
-      await axios.post(`${DB_URL}/partner/new`, {
-        fullname,
-        phone,
-        email,
-        location,
-        businessName,
-        businessAddress,
-        businessHours,
-        transport,
-      });
-      setName('');
-      setPhone('');
-      setBusinessName('');
-      setBusinessAddress('');
-      setBusinessHours('');
-      setLocation('');
-      setTransport('bike');
-      setSucessMessage('Form submitted successfully!');
-      setTimeout(() => {
-        setSucessMessage('');
-      }, 5000);
-    
+      setLoading(true);
 
+      if (!formData.terms) {
+        chakraToast({
+          title: "Notice",
+          description: "Please agree to the terms and conditions to proceed",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        setLoading(false);
+        return;
+      }
+
+      await axios.post(`${DB_URL}/vendor/new`, formData);
+      chakraToast({
+        title: "Vendor form",
+        description: "Successfully Submitted vendor form",
+        status: "success",
+        duration: 5000,
+        isClosable: false,
+      });
+
+      // Clear the form data after successful submission
+      setFormData({
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
+        transport: "bike",
+        vegan: false,
+        terms: false,
+      });
     } catch (error) {
-      console.error('Error creating partner', error);
+      setLoading(false);
+
+      chakraToast({
+        title: "Error",
+        description: error.data?.message
+          ? error.data?.message
+          : error.data || error.error,
+        status: "error",
+        duration: 5000,
+        isClosable: false,
+      });
+    } finally {
+      setLoading(false); // Set loading to false after submission
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
+    setFormData({
+      ...formData,
+      [name]: newValue,
+    });
+  };
+
   return (
-    <Box className="mx-auto p-4 bg-black mb-20 mt-20">
-      <div className="flex flex-col lg:flex-row">
-        <div className="p-4 rounded-xl bg-white">
-          <p className="text-3xl text-left mb-4 text-dark">Fill out the form to start delivering</p>
-          <form onSubmit={handleSubmit}>
-            <FormControl className="mb-4">
-              <FormLabel>Name*</FormLabel>
+    <div className="mb-10">
+      <VendorForm />
+      <Box
+        p={4}
+        borderWidth={1}
+        borderRadius="lg"
+        w={{ base: "100%", md: "md" }}
+        mx="auto"
+      >
+        <form onSubmit={handleSubmit}>
+          <p className="text-3xl text-left mb-4 text-dark">
+            Fill out the vendor form
+          </p>
+          <Stack spacing={4}>
+            <FormControl id="name">
+              <FormLabel>Vendor's Name*</FormLabel>
               <Input
-                className="border-b border-dark italic hover:border-red focus:border-red px-2 py-1"
-                value={fullname}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Name Lastname"
+                type="text"
+                name="name"
+                placeholder="Vendor's Name"
+                value={formData.name}
+                onChange={handleChange}
                 required
+                className="border border-dark rounded hover:border-red focus:border-red px-2 py-1 italic"
               />
             </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Phone number*</FormLabel>
+            <FormControl id="address">
+              <FormLabel>Address*</FormLabel>
               <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                placeholder="0712378472"
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={formData.address}
+                onChange={handleChange}
                 required
+                className="border border-dark rounded hover:border-red focus:border-red px-2 py-1 italic"
               />
             </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Location*</FormLabel>
+            <FormControl id="phoneNumber">
+              <FormLabel>Phone Number*</FormLabel>
               <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={location}
-                onChange={(event) => setLocation(event.target.value)}
-                placeholder="Please enter your location"
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={handleChange}
                 required
+                className="border border-dark rounded hover:border-red focus-border-red px-2 py-1 italic"
               />
             </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Email address*</FormLabel>
+            <FormControl id="emailAddress">
+              <FormLabel>Email Address*</FormLabel>
               <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="example@gmail.com"
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
                 required
+                className="border border-dark rounded hover-border-red focus-border-red px-2 py-1 italic"
               />
             </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business name*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessName}
-                onChange={(event) => setBusinessName(event.target.value)}
-                placeholder="Please enter your business name"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business address*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessAddress}
-                onChange={(event) => setBusinessAddress(event.target.value)}
-                placeholder="Please enter business address"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
-              <FormLabel>Business hours*</FormLabel>
-              <Input
-                className="border border-dark italic hover:border-red focus:border-red rounded px-2 py-1"
-                value={businessHours}
-                onChange={(event) => setBusinessHours(event.target.value)}
-                placeholder="Please enter business hours"
-                required
-              />
-            </FormControl>
-            <FormControl className="mb-4">
+
+            {/* Delivery Information */}
+            <FormControl id="transport">
               <FormLabel>Transport*</FormLabel>
               <Select
-                className="border border-dark rounded hover:border-red focus:border-red px-2 py-1 italic"
-                value={transport}
-                onChange={(event) => setTransport(event.target.value)}
+                name="transport"
+                value={formData.transport}
+                onChange={handleChange}
                 required
+                className="border border-dark rounded hover-border-red focus-border-red px-2 py-1 italic"
               >
                 <option value="bike">Bike</option>
                 <option value="vehicle">Vehicle</option>
                 <option value="motorcycle">Motorcycle</option>
               </Select>
             </FormControl>
-             <div className="text-center md:text-left">
-                  <ButtonComponent
-                    text={"Sign Up"}
-                    size={"lg"}
-                    type={"button"}
-                    icon={isLoading && <Loader2 size={20} />}
-                  />
-             </div>
-             {successMessage && (
-              <div className="text-dark text-center mt-4">{successMessage}</div>
-            )}
-          </form>
-        </div>
-        <div className="p-4 w-full md:w-1/2 md:ml-5">
-          <div className="mt-10">
-            <h2 className="text-3xl text-white">Hello</h2>
-            <p className="text-white mt-5">
-              Do you want to set your own schedule and connect when it suits you? Get paid for delivering orders with the yookatale Courier App.
-            </p>
-            <h4 className="text-white font-bold mt-5">Sign up today!</h4>
-          </div>
-        </div>
-      </div>
-    </Box>
+
+            <Box padding={"0.5rem 0"}>
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  name="vegan"
+                  checked={formData.vegan}
+                  onChange={handleChange}
+                  className="mr-4"
+                />
+                <p className="">Are you vegetarian?</p>
+              </div>
+            </Box>
+
+            <Box padding={"0.5rem 0"}>
+              <input
+                type="checkbox"
+                name="terms"
+                checked={formData.terms}
+                onChange={handleChange}
+                className="mr-4"
+              />
+              I agree to the{" "}
+              <Link href={"/privacy"}>
+                <span style={{ color: ThemeColors.darkColor }}>
+                  terms and conditions
+                </span>
+              </Link>
+            </Box>
+
+            <div className="text-center md:text-left">
+              <ButtonComponent
+                text={"Sign Up"}
+                size={"lg"}
+                type={"submit"}
+                icon={isLoading && <Loader size={20} />}
+              />
+            </div>
+          </Stack>
+        </form>
+      </Box>
+    </div>
   );
 };
 
-export default VendorForm;
+export default Partner;
