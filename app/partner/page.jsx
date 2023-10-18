@@ -195,7 +195,7 @@ const Partner = ({ onSubmit }) => {
                 className="mr-4"
               />
               I agree to the{" "}
-              <Link href={"/privacy"}>
+              <Link href={"/usage"}>
                 <span style={{ color: ThemeColors.darkColor }}>
                   terms and conditions
                 </span>
