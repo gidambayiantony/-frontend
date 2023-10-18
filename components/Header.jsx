@@ -164,14 +164,15 @@ const Header = () => {
   }, []);
 
   const DropdownLinks = [
-    { name: "Account", link: "/account" },
+    { name: "Profile", link: "/account" },
     { name: "Schedule a meal", link: "/schedule" },
     { name: "Loyalty Points", link: "/loyalty" },
     { name: "Subscription", link: "/subscription" },
     { name: "Support", link: "/" },
-    { name: "Invoices & Receipts", link: "/" },
-    { name: "Support", link: "/" },
-    { name: "Invoices & Receipts", link: "/" },
+    { name: "Invoices", link: "/" },
+    { name: "Receipts", link: "/" },
+    { name: "Help Center", link: "/" },
+    { name: "Invite a friend", link: "/" },
   ];
 
   if (userInfo) {
@@ -319,8 +320,9 @@ const Header = () => {
                   position="absolute"
                   right={0}
                   zIndex={3}
+                  width="200px"
                 >
-                  <ul>
+                  <ul className="md:ml-10 pb-5">
                     {DropdownLinks.map((item, index) => (
                       <li key={index}>
                         <Link href={item.link}>
