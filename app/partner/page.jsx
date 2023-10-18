@@ -67,6 +67,7 @@ const Partner = ({ onSubmit }) => {
         vegan: false,
         terms: false,
       });
+      setLoading(false);
     } catch (error) {
       setLoading(false);
 
