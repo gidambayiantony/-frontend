@@ -257,6 +257,38 @@ const Home = () => {
         </Flex>
       </Box>
 
+      {/* // product?.category == "popular" && */}
+      <Box
+        padding={"3rem 0"}
+        borderBottom={"1.7px solid " + ThemeColors.lightColor}
+      >
+        <Flex>
+          <Box margin={"auto"} width={{ base: "95%", md: "90%", xl: "90%" }}>
+            {Products?.length > 0 ? (
+              Products.map(
+                (product, index) =>
+                  product.category === "popular" && (
+                    <SpecialProducts
+                      key={index}
+                      Products={product?.products}
+                      userInfo={userInfo}
+                      category={product?.category}
+                      text={product?.category}
+                    />
+                  )
+              )
+            ) : (
+              <SpecialProducts
+                Products={[]}
+                userInfo={{}}
+                category={""}
+                text={""}
+              />
+            )}
+          </Box>
+        </Flex>
+      </Box>
+
       {/* ------------- section 
       ------------------------------- */}
       <Box padding={"3rem 0"} background={"#000"}>
