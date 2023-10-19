@@ -13,6 +13,7 @@ import {
   StackDivider,
   Text,
   useToast,
+  Heading
 } from "@chakra-ui/react";
 import { CategoriesJson, ThemeColors } from "@constants/constants";
 import Link from "next/link";
@@ -48,7 +49,7 @@ import axios from "axios";
 import { Loader } from "lucide-react";
 import NewsletterForm from "./NewsletterForm";
 import { FaWhatsapp } from "react-icons/fa";
-import FooterIcon from "./app-icons/Footer";
+import Image from "next/image";
 
 const Footer = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -320,7 +321,6 @@ const Footer = () => {
                     </Box>
                   </Stack>
                 </Box>
-
                 <Box
                   padding={"1rem 0"}
                   display={{ base: "none", md: "none", xl: "block" }}
@@ -378,8 +378,34 @@ const Footer = () => {
               </Grid>
             </Box>
           </Flex>
-        </Box>
-
+          <Flex justifyContent="center">
+            <Box className="mt-3 text-center md:flex mx-auto">
+              <Link
+                href="/subscription"
+                className="md:mr-1 flex items-center p-2 border border-gray-300 border-opacity-50 rounded-md shadow-md"
+              >
+                <Image src="/assets/images/apple.svg" width={30} height={30} />
+                <div className="ml-1">
+                  <Text color="white" fontSize="sm">
+                    App Store
+                  </Text>
+                </div>
+              </Link>
+              <Link
+                 href="/subscription"
+                 className="mt-4 md:mt-0 md:ml-4 flex items-center p-2 border border-gray-300 border-opacity-50 rounded-md shadow-md"
+              >
+                 <Image src="/assets/images/google.svg" width={30} height={30} />
+                <div className="ml-1">
+                   <Text color="white" fontSize="sm">
+                    Google Play
+                    </Text>
+                </div>
+               </Link>
+              </Box>
+            </Flex> 
+          </Box>
+          
         <Flex
           direction={{ base: "column", md: "column", xl: "row" }}
           justifyContent={{ base: "center", md: "center", xl: "none" }}
@@ -444,15 +470,6 @@ const Footer = () => {
               </Flex>
             </Flex>
           </Box>
-          <Spacer display={{ base: "none", md: "none", xl: "block" }} />
-          <div class="mx-auto md:w-20 flex text-center mt-5">
-             <Link href="/subscription" class="mr-1">
-              <FaGooglePlay size={25} color="green" />
-             </Link>
-             <Link href="/subscription">
-               <FaAppStore size={25} color="blue" />
-             </Link>
-             </div>
           <Spacer display={{ base: "none", md: "none", xl: "block" }} />
           <Box padding={{ base: "0", md: "0", xl: "1rem 0" }}>
             <Flex justifyContent={{ base: "center", md: "center", xl: "none" }}>
